@@ -27,6 +27,6 @@ public class TurretSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         io.updateInputs(inputs);
-        Logger.processInputs("Drive",inputs);
+        Logger.processInputs("Turret",inputs);
     }
 }

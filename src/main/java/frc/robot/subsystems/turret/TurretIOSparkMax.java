@@ -7,11 +7,11 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import edu.wpi.first.math.util.Units;
 
-import frc.robot.Constants.turretConstants;
+import frc.robot.Constants.TurretConstants;
 
 /* IO for a Spark Max operating in brushless mode */
 public class TurretIOSparkMax implements TurretIOBase {
-    private final CANSparkMax m_motor0 = new CANSparkMax(turretConstants.kMotorPort0,MotorType.kBrushless);
+    private final CANSparkMax m_motor0 = new CANSparkMax(TurretConstants.kMotorPort0,MotorType.kBrushless);
     private final RelativeEncoder m_encoder0 = m_motor0.getEncoder();
     private final SparkPIDController m_controller = m_motor0.getPIDController();
     //TODO: Tune PID

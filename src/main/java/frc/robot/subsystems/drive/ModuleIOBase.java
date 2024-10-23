@@ -1,9 +1,10 @@
 package frc.robot.subsystems.drive;
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import org.littletonrobotics.junction.AutoLog;
 
-public interface ModuleIO {
+public interface ModuleIOBase{
   @AutoLog
   public static class ModuleIOInputs {
     public double drivePositionRad = 0.0;
@@ -20,6 +21,11 @@ public interface ModuleIO {
 
   /** Updates the set of loggable inputs. */
   public default void updateInputs(ModuleIOInputs inputs) {}
+
+  public default void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {}
+
+  
+  // ABOVE IS DYLAN'S WORK ON TRANSFERRING OVER REV SWERVE, BELOW IS FROM BEFORE
 
   /** Run the drive motor at the specified voltage. */
   public default void setDriveVoltage(double volts) {}

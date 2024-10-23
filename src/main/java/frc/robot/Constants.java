@@ -33,7 +33,7 @@ public final class Constants {
         public static final int currentMode = 0;
     }
 
-    public static class turretConstants {
+    public static class TurretConstants {
         public static final int kMotorPort0 = 3; //PLACEHOLDER
         public static class Control {
             public static class PIDCoefs {
@@ -49,7 +49,7 @@ public final class Constants {
         }
     }
 
-    public static class driveConstants {
+    public static class DriveConstants {
         
     }
 }
