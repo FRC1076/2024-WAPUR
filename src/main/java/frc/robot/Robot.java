@@ -4,31 +4,89 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
+import org.littletonrobotics.junction.LogFileUtil;
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGReader;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-
+import frc.robot.Constants.Akit;
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
  * each mode, as described in the TimedRobot documentation. If you change the name of this class or
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimedRobot {
-  private Command m_autonomousCommand;
+public class Robot extends LoggedRobot {
+    private Command m_autonomousCommand;
 
-  private RobotContainer m_robotContainer;
+    private RobotContainer m_robotContainer;
 
-  /**
-   * This function is run when the robot is first started up and should be used for any
-   * initialization code.
-   */
-  @Override
-  public void robotInit() {
+    /**
+    * This function is run when the robot is first started up and should be used for any
+    * initialization code.
+    */
+    @Override
+    public void robotInit() {
+
+     /*
+    if your IDE is giving you shit about BuildConstants, ignore it.
+    The BuildConstants.java file is automatically generated at
+    compile time, so if you haven't deployed from this machine at least once,
+    the file won't exist yet. Building the code should fix it.
+    If building the code doesn't solve the issue, check if there's anything
+    wrong with the build.gradle file 
+    */
+    Logger.recordMetadata("ProjectName", BuildConstants.MAVEN_NAME);
+    Logger.recordMetadata("BuildDate", BuildConstants.BUILD_DATE);
+    Logger.recordMetadata("GitSHA", BuildConstants.GIT_SHA);
+    Logger.recordMetadata("GitDate", BuildConstants.GIT_DATE);
+    Logger.recordMetadata("GitBranch", BuildConstants.GIT_BRANCH);
+    switch (BuildConstants.DIRTY) {
+        case 0:
+            Logger.recordMetadata("GitDirty", "All changes committed");
+            break;
+      case 1:
+        Logger.recordMetadata("GitDirty", "Uncomitted changes");
+        break;
+      default:
+        Logger.recordMetadata("GitDirty", "Unknown");
+        break;
+    }
+
+    // Akit.currentMode can be modified in the Constants.java file before compilation.
+    // Please make sure you have Akit.currentMode set to REAL before pushing any changes to Github
+    switch (Akit.currentMode){
+        case 0 -> {
+            // Running on a real robot, log to a USB stick ("/U/logs")
+            Logger.addDataReceiver(new WPILOGWriter());
+            Logger.addDataReceiver(new NT4Publisher());
+        }
+        case 1 -> {
+            // Running on a simulator, log to NetworkTables
+            Logger.addDataReceiver(new NT4Publisher());
+        }
+        case 2 -> {
+            // Replaying a log, set up replay source
+            setUseTiming(false); // Run as fast as possible
+            String logPath = LogFileUtil.findReplayLog();
+            Logger.setReplaySource(new WPILOGReader(logPath));
+            Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim")));
+        }
+    }
+
+    Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may be added.
+
+    // Enable LiveWindow in test mode. This will help with diagnostics and troubleshooting
+    enableLiveWindowInTest(true);
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-  }
+}
+
 
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
