@@ -70,6 +70,7 @@ public final class Constants {
 
     public static class ModuleConstants {
         public static final double kWheelDiameterMeters = 0.1016; // Four Inch Wheels
+
         public static class Drive {
             public static final double kDriveRatio = 6.75; // The ratio of a L2 SDS MK4 Module is 6.75 : 1
             // Also accounts for the gear ratio of the Swerve Module, L2 as of writing
@@ -81,14 +82,18 @@ public final class Constants {
             public static final double kDriveEncoderVelocityConversionFactor =
                 kDriveEncoderPositionConversionFactor / 60;
 
-            public static final double kPModuleDriveController = 0;
-            public static final double kIModuleDriveController = 0;
-            public static final double kDModuleDriveController = 0;
+            public static class Control{
+                //PID Constants
+                public static final double kP = 0;
+                public static final double kI = 0;
+                public static final double kD = 0;
 
-            public static final double ksDriveVolts = 0;
-            public static final double kvDriveVoltSecondsPerMeter = 2.78;
-            public static final double kaDriveVoltSecondsSquaredPerMeter = 0;
-
+                //Simple Motor FeedForward Constants
+                public static final double kS = 0;
+                public static final double kV = 2.78;
+                public static final double kA = 0;
+            }
+            public static final double kMaxModuleDriveSpeedMetersPerSecond = 3;
         }
 
         public static class Turning {
@@ -97,10 +102,8 @@ public final class Constants {
             // Assumes the encoders are on a 1:1 reduction with the module shaft.
             (2 * Math.PI) / (double) kEncoderCPR;
             public static final double kPModuleTurningController = 0.4;
+            public static final double kMaxModuleAngularSpeedRadiansPerSecond = 20 * Math.PI;
+            public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 20 * Math.PI;
         }
-     
-        public static final double kMaxModuleAngularSpeedRadiansPerSecond = 20 * Math.PI;
-        public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 20 * Math.PI;
-        public static final double kMaxModuleSpeedMetersPerSecond = 3;
     }
 }

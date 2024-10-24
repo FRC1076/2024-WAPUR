@@ -34,20 +34,20 @@ public class ModuleIOSparkMax implements ModuleIOBase {
     
     private final SimpleMotorFeedforward m_driveFFController = 
         new SimpleMotorFeedforward(
-            ModuleConstants.ksDriveVolts,
-            ModuleConstants.kvDriveVoltSecondsPerMeter,
-            ModuleConstants.kaDriveVoltSecondsSquaredPerMeter);
+            ModuleConstants.Drive.Control.kS,
+            ModuleConstants.Drive.Control.kV,
+            ModuleConstants.Drive.Control.kA);
 
     // Using a TrapezoidProfile PIDController to allow for smooth turning
     private final ProfiledPIDController m_turningPIDController = // new PIDController(ModuleConstants.kPModuleTurningController, 0, 0);
     
         new ProfiledPIDController(
-            ModuleConstants.kPModuleTurningController,
+            ModuleConstants.Turning.kPModuleTurningController,
             0,
             0,
             new TrapezoidProfile.Constraints(
-                ModuleConstants.kMaxModuleAngularSpeedRadiansPerSecond,
-                ModuleConstants.kMaxModuleAngularAccelerationRadiansPerSecondSquared));
+                ModuleConstants.Turning.kMaxModuleAngularSpeedRadiansPerSecond,
+                ModuleConstants.Turning.kMaxModuleAngularAccelerationRadiansPerSecondSquared));
 
     // Take in parameters to specify exact module
     public ModuleIOSparkMax(int driveMotorChannel, int turningMotorChannel, int turningEncoderChannel){
@@ -86,7 +86,7 @@ public class ModuleIOSparkMax implements ModuleIOBase {
         }
         else{
             // Divide the drive output by the max speed to scale it from -1 to 1 and make it open loop
-            m_driveMotor.set(state.speedMetersPerSecond / ModuleConstants.kMaxModuleSpeedMetersPerSecond);
+            m_driveMotor.set(state.speedMetersPerSecond / ModuleConstants.Drive.kMaxModuleDriveSpeedMetersPerSecond);
         }
 
         // Calculate the turning motor output from the turning PID controller.
