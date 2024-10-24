@@ -60,16 +60,16 @@ public class Robot extends LoggedRobot {
     // Akit.currentMode can be modified in the Constants.java file before compilation.
     // Please make sure you have Akit.currentMode set to REAL before pushing any changes to Github
     switch (Akit.currentMode){
-        case 0 -> {
+        case REAL -> {
             // Running on a real robot, log to a USB stick ("/U/logs")
             Logger.addDataReceiver(new WPILOGWriter());
             Logger.addDataReceiver(new NT4Publisher());
         }
-        case 1 -> {
+        case SIM -> {
             // Running on a simulator, log to NetworkTables
             Logger.addDataReceiver(new NT4Publisher());
         }
-        case 2 -> {
+        case REPLAY -> {
             // Replaying a log, set up replay source
             setUseTiming(false); // Run as fast as possible
             String logPath = LogFileUtil.findReplayLog();
