@@ -10,22 +10,17 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 import frc.robot.subsystems.drive.ModuleIOBase;
 
-public class ModuleSubsystem extends SubsystemBase {
+public class Module {
 
   ModuleIOBase io;
 
   /** Creates a new ExampleSubsystem. */
-  public ModuleSubsystem(ModuleIOBase io) {
+  public Module(ModuleIOBase io) {
     this.io = io;
   }
 
   public void setDesiredState(SwerveModuleState state, boolean isOpenLoop){
     io.setDesiredState(state, isOpenLoop);
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
 
 }
