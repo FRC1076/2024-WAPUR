@@ -2,7 +2,7 @@ package frc.robot.subsystems.turret;
 
 import org.littletonrobotics.junction.AutoLog;
 
-public interface TurretIOBase {
+public interface TurretIO {
     @AutoLog
     public static class TurretIOInputs {
         public double turretPositionRad = 0.0;

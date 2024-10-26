@@ -8,14 +8,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 
-import frc.robot.subsystems.drive.ModuleIOBase;
+import frc.robot.subsystems.drive.ModuleIO;
 
 public class Module {
 
-  ModuleIOBase io;
+  ModuleIO io;
 
   /** Creates a new ExampleSubsystem. */
-  public Module(ModuleIOBase io) {
+  public Module(ModuleIO io) {
     this.io = io;
   }
 

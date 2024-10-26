@@ -16,13 +16,13 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
 
-import frc.robot.subsystems.drive.ModuleIOBase;
-import frc.robot.subsystems.drive.ModuleIOBase.ModuleIOInputs;
+import frc.robot.subsystems.drive.ModuleIO;
+import frc.robot.subsystems.drive.ModuleIO.ModuleIOInputs;
 import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.DriveConstants;
 
 /* IO for a Spark Max operating in brushless mode */
-public class ModuleIOSparkMax implements ModuleIOBase {
+public class ModuleIOHardware implements ModuleIO {
     
     private final CANSparkMax m_driveMotor;
     private final CANSparkMax m_turningMotor;
@@ -50,7 +50,7 @@ public class ModuleIOSparkMax implements ModuleIOBase {
                 ModuleConstants.Turning.kMaxModuleAngularAccelerationRadiansPerSecondSquared));
 
     // Take in parameters to specify exact module
-    public ModuleIOSparkMax(int driveMotorChannel, int turningMotorChannel, int turningEncoderChannel){
+    public ModuleIOHardware(int driveMotorChannel, int turningMotorChannel, int turningEncoderChannel){
         m_driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
         m_drivePIDController = m_driveMotor.getPIDController();
         m_driveEncoder = m_driveMotor.getEncoder();

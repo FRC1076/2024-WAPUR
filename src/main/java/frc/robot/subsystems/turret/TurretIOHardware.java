@@ -10,7 +10,7 @@ import edu.wpi.first.math.util.Units;
 import frc.robot.Constants.TurretConstants;
 
 /* IO for a Spark Max operating in brushless mode */
-public class TurretIOSparkMax implements TurretIOBase {
+public class TurretIOHardware implements TurretIO {
     private final CANSparkMax m_motor0 = new CANSparkMax(TurretConstants.kMotorPort0,MotorType.kBrushless);
     private final RelativeEncoder m_encoder0 = m_motor0.getEncoder();
     private final SparkPIDController m_controller = m_motor0.getPIDController();
@@ -19,7 +19,7 @@ public class TurretIOSparkMax implements TurretIOBase {
     private final double kI = 0.0;
     private final double kD = 0.0;
 
-    public TurretIOSparkMax(){
+    public TurretIOHardware(){
         m_motor0.enableVoltageCompensation(12.0);
 
         m_controller.setP(kP);
