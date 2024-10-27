@@ -16,12 +16,12 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
-import frc.robot.Constants.ModuleConstants;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.DriveConstants.ModuleConstants.module0;
-import frc.robot.Constants.DriveConstants.ModuleConstants.module1;
-import frc.robot.Constants.DriveConstants.ModuleConstants.module2;
-import frc.robot.Constants.DriveConstants.ModuleConstants.module3;
+import frc.robot.Constants.DriveConstants.ModuleConstants.FrontLeftModule;
+import frc.robot.Constants.DriveConstants.ModuleConstants.FrontRightModule;
+import frc.robot.Constants.DriveConstants.ModuleConstants.RearRightModule;
+import frc.robot.Constants.DriveConstants.ModuleConstants.RearLeftModule;
+import frc.robot.Constants.DriveConstants.ModuleConstants;
 import frc.robot.Constants.DriveConstants.ModuleConstants.Common;
 
 
@@ -58,31 +58,31 @@ public class ModuleIOHardware implements ModuleIO {
     
 
     // Take in parameters to specify exact module
-    public ModuleIOHardware(int index){
-        switch (index) {
-            case 0 -> {
-                m_driveMotor = new CANSparkMax(module0.kDriveMotorPort,CANSparkMax.MotorType.kBrushless);
-                m_turnMotor = new CANSparkMax(module0.kTurnMotorPort,CANSparkMax.MotorType.kBrushless);
-                m_turnAbsoluteEncoder = new CANcoder(module0.kAbsoluteEncoderPort);
-                absoluteEncoderOffset = module0.kAbsoluteEncoderOffset;
+    public ModuleIOHardware(ModuleConstants.Corner corner){
+        switch (corner) {
+            case FrontLeft -> {
+                m_driveMotor = new CANSparkMax(FrontLeftModule.kDriveMotorPort,CANSparkMax.MotorType.kBrushless);
+                m_turnMotor = new CANSparkMax(FrontLeftModule.kTurnMotorPort,CANSparkMax.MotorType.kBrushless);
+                m_turnAbsoluteEncoder = new CANcoder(FrontLeftModule.kAbsoluteEncoderPort);
+                absoluteEncoderOffset = FrontLeftModule.kAbsoluteEncoderOffset;
             }
-            case 1 -> {
-                m_driveMotor = new CANSparkMax(module1.kDriveMotorPort,CANSparkMax.MotorType.kBrushless);
-                m_turnMotor = new CANSparkMax(module1.kTurnMotorPort,CANSparkMax.MotorType.kBrushless);
-                m_turnAbsoluteEncoder = new CANcoder(module1.kAbsoluteEncoderPort);
-                absoluteEncoderOffset = module1.kAbsoluteEncoderOffset;
+            case FrontRight -> {
+                m_driveMotor = new CANSparkMax(FrontRightModule.kDriveMotorPort,CANSparkMax.MotorType.kBrushless);
+                m_turnMotor = new CANSparkMax(FrontRightModule.kTurnMotorPort,CANSparkMax.MotorType.kBrushless);
+                m_turnAbsoluteEncoder = new CANcoder(FrontRightModule.kAbsoluteEncoderPort);
+                absoluteEncoderOffset = FrontRightModule.kAbsoluteEncoderOffset;
             }
-            case 2 -> {
-                m_driveMotor = new CANSparkMax(module2.kDriveMotorPort,CANSparkMax.MotorType.kBrushless);
-                m_turnMotor = new CANSparkMax(module2.kTurnMotorPort,CANSparkMax.MotorType.kBrushless);
-                m_turnAbsoluteEncoder = new CANcoder(module2.kAbsoluteEncoderPort);
-                absoluteEncoderOffset = module2.kAbsoluteEncoderOffset;
+            case RearRight -> {
+                m_driveMotor = new CANSparkMax(RearRightModule.kDriveMotorPort,CANSparkMax.MotorType.kBrushless);
+                m_turnMotor = new CANSparkMax(RearRightModule.kTurnMotorPort,CANSparkMax.MotorType.kBrushless);
+                m_turnAbsoluteEncoder = new CANcoder(RearRightModule.kAbsoluteEncoderPort);
+                absoluteEncoderOffset = RearRightModule.kAbsoluteEncoderOffset;
             }
-            case 3 -> {
-                m_driveMotor = new CANSparkMax(module3.kDriveMotorPort,CANSparkMax.MotorType.kBrushless);
-                m_turnMotor = new CANSparkMax(module3.kTurnMotorPort,CANSparkMax.MotorType.kBrushless);
-                m_turnAbsoluteEncoder = new CANcoder(module3.kAbsoluteEncoderPort);
-                absoluteEncoderOffset = module3.kAbsoluteEncoderOffset;
+            case RearLeft -> {
+                m_driveMotor = new CANSparkMax(RearLeftModule.kDriveMotorPort,CANSparkMax.MotorType.kBrushless);
+                m_turnMotor = new CANSparkMax(RearLeftModule.kTurnMotorPort,CANSparkMax.MotorType.kBrushless);
+                m_turnAbsoluteEncoder = new CANcoder(RearLeftModule.kAbsoluteEncoderPort);
+                absoluteEncoderOffset = RearLeftModule.kAbsoluteEncoderOffset;
             }
             default -> throw new RuntimeException("Invalid module index");
         }
