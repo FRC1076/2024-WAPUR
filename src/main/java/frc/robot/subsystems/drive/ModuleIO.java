@@ -28,9 +28,8 @@ public interface ModuleIO {
     /** Updates the set of loggable inputs. */
     public default void updateInputs(ModuleIOInputs inputs) {}
 
-    public default void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {}
-
-    // ABOVE IS DYLAN'S WORK ON TRANSFERRING OVER REV SWERVE, BELOW IS FROM BEFORE
+    /** Any miscellaneous periodic routines that need to be run */
+    public default void periodic() {}
 
     /** Run the drive motor open-loop at the specified voltage. */
     public default void setDriveVoltage(double volts) {}
@@ -58,6 +57,10 @@ public interface ModuleIO {
 
     public default void setTurnPosition(Measure<Angle> position) {
         setTurnPosition(position.in(Radians));
+    }
+
+    public default void setTurnPosition(Rotation2d rot) {
+        setTurnPosition(rot.getRadians());
     }
 
     /** Enable or disable brake mode on the drive motor. */

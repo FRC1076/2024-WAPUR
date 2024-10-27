@@ -78,18 +78,25 @@ public final class Constants {
         public static class ModuleConstants {
 
             public static enum Corner {
-                FrontLeft,
-                FrontRight,
-                RearRight,
-                RearLeft
+                FrontLeft("FrontLeftModule"),
+                FrontRight("FrontRightModule"),
+                RearRight("RearRightModule"),
+                RearLeft("RearLeftModule");
+
+                public final String label;
+
+                private Corner(String label){
+                    this.label = label;
+                }
             }
             
             /** Constants that are common to all swerve modules */
             public static class Common {
 
                 public static final Measure<Distance> kWheelDiameter = Inches.of(4);
-                public static final Measure<Velocity<Distance>> maxSpeed = FeetPerSecond.of(3);
+                public static final Measure<Velocity<Distance>> kMaxSpeed = FeetPerSecond.of(3);
                 public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
+                public static final Measure<Voltage> kMaxDriveVolts = Volts.of(12); // Maximum applied voltage in openloop driving
 
                 public static class Drive {
 

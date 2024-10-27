@@ -4,23 +4,62 @@
 
 package frc.robot.subsystems.drive;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.DriveConstants.ModuleConstants;
+import frc.robot.Constants.DriveConstants.ModuleConstants.Corner;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-
-import frc.robot.subsystems.drive.ModuleIO;
+import static edu.wpi.first.units.Units.*;
+import frc.robot.utils.units.UnitConversion;
+import org.littletonrobotics.junction.Logger;
 
 public class Module {
 
-  ModuleIO io;
+    ModuleIO io;
+    Corner ModuleID;
+    ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
 
-  /** Creates a new ExampleSubsystem. */
-  public Module(ModuleIO io) {
-    this.io = io;
-  }
+    /** Creates a new Module. */
+    public Module(ModuleIO io,Corner ModuleID) {
+        this.io = io;
+        this.ModuleID = ModuleID;
+    }
 
-  public void setDesiredState(SwerveModuleState state, boolean isOpenLoop){
-    io.setDesiredState(state, isOpenLoop);
-  }
+    public void setDesiredState(SwerveModuleState state, boolean isOpenLoop){
+
+        io.updateInputs(inputs); // Gets latest values from the IO layer
+
+        Rotation2d encoderRotation = inputs.turnAbsolutePosition;
+
+        // Optimize the reference state to avoid spinning further than 90 degrees
+        SwerveModuleState optState = SwerveModuleState.optimize(state, encoderRotation);
+
+        // Scale speed by cosine of angle error. This scales down movement perpendicular to the desired
+        // direction of travel that can occur when modules change directions. This results in smoother
+        // driving.
+        optState.speedMetersPerSecond *= optState.angle.minus(encoderRotation).getCos();
+
+        if(!isOpenLoop){
+            //In closed loop drive, use on board pid controller for drive motor
+            io.setDriveVelocity(
+                UnitConversion.LinearVelocityToAngularVelocity(MetersPerSecond.of(optState.speedMetersPerSecond))
+            );
+        }
+        else{
+            // Divide the drive output by the max speed to scale it from -1 to 1 and make it open loop
+            io.setDriveVoltage(
+                (optState.speedMetersPerSecond / ModuleConstants.Common.kMaxSpeed.in(MetersPerSecond)) * ModuleConstants.Common.kMaxDriveVolts.in(Volts)
+            );
+        }
+
+        io.setTurnPosition(
+            optState.angle
+        );
+    }
+
+    public void periodic(){
+        io.updateInputs(inputs);
+        Logger.processInputs("Drive/" + ModuleID.label,inputs);
+        io.periodic();
+    }
 
 }

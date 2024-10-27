@@ -163,8 +163,13 @@ public class ModuleIOHardware implements ModuleIO {
 
     }
 
-    /** Ensures the turnMotor's encoder reading is consistent with the CANcoder */
-    public void correctTurnRelativeEncoder(){
+    /** 
+     * Periodic Tasks:
+     * 
+     * - Correct Turn Encoder: Ensures the turnMotor's encoder reading is consistent with the CANcoder.
+     * */
+    @Override
+    public void periodic(){
         m_turnRelativeEncoder.setPosition(turnAbsolutePosition.getValueAsDouble());
     }
 
@@ -208,36 +213,4 @@ public class ModuleIOHardware implements ModuleIO {
         m_turnMotor.setIdleMode(enable ? CANSparkMax.IdleMode.kBrake : CANSparkMax.IdleMode.kCoast);
     }
 
-
-    @Override
-    public void setDesiredState(SwerveModuleState desiredState, boolean isOpenLoop) {
-        Rotation2d encoderRotation = new Rotation2d(turnAbsolutePosition.getValueAsDouble());
-
-        // Optimize the reference state to avoid spinning further than 90 degrees
-        SwerveModuleState state = SwerveModuleState.optimize(desiredState, encoderRotation);
-
-        // Scale speed by cosine of angle error. This scales down movement perpendicular to the desired
-        // direction of travel that can occur when modules change directions. This results in smoother
-        // driving.
-        state.speedMetersPerSecond *= state.angle.minus(encoderRotation).getCos();
-
-        if(!isOpenLoop){
-        //In closed loop drive, use on board pid controller for drive motor
-        m_drivePIDController.setReference(
-            state.speedMetersPerSecond,
-            ControlType.kVelocity,
-            0,
-            m_driveFFController.calculate(state.speedMetersPerSecond),
-            ArbFFUnits.kVoltage);
-        }
-        else{
-            // Divide the drive output by the max speed to scale it from -1 to 1 and make it open loop
-            m_driveMotor.set(state.speedMetersPerSecond / ModuleConstants.Drive.kMaxModuleDriveSpeedMetersPerSecond);
-        }
-
-        // Calculate the turning motor output from the turning PID controller.
-        m_turnMotor.set(
-            m_turnPIDController.calculate(m_turnRelativeEncoder.getAbsolutePosition(), state.angle.getRadians())
-        );
-    }
 }
