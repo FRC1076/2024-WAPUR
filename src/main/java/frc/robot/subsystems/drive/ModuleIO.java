@@ -6,11 +6,11 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
-import static edu.wpi.first.units.Units.Radians;
-import static edu.wpi.first.units.Units.RadiansPerSecond;
+import edu.wpi.first.units.Voltage;
+import static edu.wpi.first.units.Units.*;
 import edu.wpi.first.units.Velocity;
 
-public interface ModuleIO{
+public interface ModuleIO {
     @AutoLog
     public static class ModuleIOInputs{
         public double drivePositionRad = 0.0;
@@ -37,6 +37,14 @@ public interface ModuleIO{
 
     /** Run the turn motor open-loop at the specified voltage. */
     public default void setTurnVoltage(double volts) {}
+
+    public default void setDriveVoltage(Measure<Voltage> voltage) {
+        setDriveVoltage(voltage.in(Volts));
+    }
+
+    public default void setTurnVoltage(Measure<Voltage> voltage) {
+        setTurnVoltage(voltage.in(Volts));
+    }
 
     /** Run the drive motor closed-loop at the specified velocity */
     public default void setDriveVelocity(double velocityRadiansPerSecond) {}

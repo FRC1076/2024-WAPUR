@@ -8,6 +8,7 @@ import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.robot.utils.units.Units.*;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.StatusSignal;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -97,9 +98,25 @@ public class ModuleIOHardware implements ModuleIO {
 
         m_driveEncoder = m_driveMotor.getEncoder();
         m_turnRelativeEncoder = m_turnMotor.getEncoder();
+        m_turnRelativeEncoder.setPosition(turnAbsolutePosition.getValueAsDouble());
 
         m_drivePIDController = m_driveMotor.getPIDController();
         m_turnPIDController = m_turnMotor.getPIDController();
+
+        m_drivePIDController.setP(Common.Drive.Control.kP);
+        m_drivePIDController.setI(Common.Drive.Control.kI);
+        m_drivePIDController.setD(Common.Drive.Control.kD);
+
+        m_turnPIDController.setP(Common.Turn.Control.kP);
+        m_turnPIDController.setI(Common.Turn.Control.kI);
+        m_turnPIDController.setD(Common.Turn.Control.kD);
+
+        m_turnPIDController.setSmartMotionMaxVelocity(
+            Common.Turn.Control.kMaxAngularSpeed.in(RPM),
+            0);
+        m_turnPIDController.setSmartMotionMaxAccel(
+            Common.Turn.Control.kMaxAngularAccel.in(RPMPerSecond),
+            0);
 
         m_turnMotor.setInverted(Common.Turn.turnMotorInverted);
         m_driveMotor.setSmartCurrentLimit((int) Common.Drive.kCurrentLimit.in(Amps));
@@ -146,6 +163,11 @@ public class ModuleIOHardware implements ModuleIO {
 
     }
 
+    /** Ensures the turnMotor's encoder reading is consistent with the CANcoder */
+    public void correctTurnRelativeEncoder(){
+        m_turnRelativeEncoder.setPosition(turnAbsolutePosition.getValueAsDouble());
+    }
+
     @Override
     public void setDriveVoltage(double volts) {
         m_driveMotor.setVoltage(volts);
@@ -170,7 +192,7 @@ public class ModuleIOHardware implements ModuleIO {
     public void setTurnPosition(double positionRadians) {
         m_turnPIDController.setReference(
             Units.radiansPerSecondToRotationsPerMinute(positionRadians),
-            ControlType.kPosition,
+            ControlType.kSmartMotion,
             0,
             m_turnFFController.calculate(positionRadians),
             ArbFFUnits.kVoltage);

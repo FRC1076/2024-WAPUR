@@ -8,12 +8,9 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.units.Current;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
-import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.FeetPerSecond;
-import static edu.wpi.first.units.Units.Inches;
-import static edu.wpi.first.units.Units.Meters;
-import static edu.wpi.first.units.Units.Volts;
+import edu.wpi.first.units.Angle;
+import static edu.wpi.first.units.Units.*;
+import static frc.robot.utils.units.Units.*;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
 /**
@@ -133,8 +130,8 @@ public final class Constants {
                         public static final double kV = 0;
                         public static final double kA = 0;
                         //Trapezoid Profile Constants
-                        public static final double kMaxModuleAngularSpeedRadiansPerSecond = 20 * Math.PI;
-                        public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 20 * Math.PI;
+                        public static final Measure<Velocity<Angle>> kMaxAngularSpeed = RadiansPerSecond.of(20 * Math.PI);
+                        public static final Measure<Velocity<Velocity<Angle>>> kMaxAngularAccel = RadiansPerSecondSquared.of(20 * Math.PI);
                     }
                 }
             }
