@@ -56,6 +56,7 @@ public class Module {
         );
     }
 
+    // Module is not a subsystem so this won't be default called
     public void periodic(){
         io.updateInputs(inputs);
         Logger.processInputs("Drive/" + ModuleID.label,inputs);
