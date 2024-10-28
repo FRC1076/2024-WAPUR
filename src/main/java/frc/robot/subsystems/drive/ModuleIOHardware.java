@@ -10,6 +10,10 @@ import com.revrobotics.SparkPIDController.ArbFFUnits;
 import static edu.wpi.first.units.Units.*;
 import static frc.robot.utils.units.Units.*;
 import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.configs.MagnetSensorConfigs;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.ctre.phoenix6.StatusSignal;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -88,6 +92,13 @@ public class ModuleIOHardware implements ModuleIO {
             default -> throw new RuntimeException("Invalid module index");
         }
 
+        CANcoderConfiguration configs = new CANcoderConfiguration();
+        configs.FutureProofConfigs = false;
+        configs.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
+        configs.MagnetSensor.MagnetOffset = absoluteEncoderOffset.getRotations();
+        configs.MagnetSensor.SensorDirection = SensorDirectionValue.CounterClockwise_Positive;
+        m_turnAbsoluteEncoder.getConfigurator().apply(configs);
+        
         turnAbsolutePosition = m_turnAbsoluteEncoder.getAbsolutePosition();
 
         m_driveMotor.restoreFactoryDefaults();
@@ -98,7 +109,6 @@ public class ModuleIOHardware implements ModuleIO {
 
         m_driveEncoder = m_driveMotor.getEncoder();
         m_turnRelativeEncoder = m_turnMotor.getEncoder();
-        m_turnRelativeEncoder.setPosition(turnAbsolutePosition.getValueAsDouble());
 
         m_drivePIDController = m_driveMotor.getPIDController();
         m_turnPIDController = m_turnMotor.getPIDController();
@@ -111,24 +121,15 @@ public class ModuleIOHardware implements ModuleIO {
         m_turnPIDController.setI(Common.Turn.Control.kI);
         m_turnPIDController.setD(Common.Turn.Control.kD);
 
-        m_turnPIDController.setSmartMotionMaxVelocity(
-            Common.Turn.Control.kMaxAngularSpeed.in(RPM),
-            0);
-        m_turnPIDController.setSmartMotionMaxAccel(
-            Common.Turn.Control.kMaxAngularAccel.in(RPMPerSecond),
-            0);
-
         m_turnMotor.setInverted(Common.Turn.turnMotorInverted);
         m_driveMotor.setSmartCurrentLimit((int) Common.Drive.kCurrentLimit.in(Amps));
         m_turnMotor.setSmartCurrentLimit((int) Common.Turn.kCurrentLimit.in(Amps));
-        m_driveMotor.enableVoltageCompensation(Common.kVoltageCompensation.in(Volts));
-        m_turnMotor.enableVoltageCompensation(Common.kVoltageCompensation.in(Volts));
 
         m_driveEncoder.setPosition(0.0);
         m_driveEncoder.setMeasurementPeriod(10);
         m_driveEncoder.setAverageDepth(2);
 
-        m_turnRelativeEncoder.setPosition(0.0);
+        m_turnRelativeEncoder.setPosition(turnAbsolutePosition.getValueAsDouble());
         m_turnRelativeEncoder.setMeasurementPeriod(10);
         m_turnRelativeEncoder.setAverageDepth(2);
 
@@ -152,8 +153,7 @@ public class ModuleIOHardware implements ModuleIO {
         inputs.turnVelocityRadPerSec = 
             Units.rotationsPerMinuteToRadiansPerSecond(m_turnRelativeEncoder.getVelocity()/Common.Drive.gearRatio);
         inputs.turnAbsolutePosition =
-            Rotation2d.fromRotations(turnAbsolutePosition.getValueAsDouble())
-                .minus(absoluteEncoderOffset);
+            Rotation2d.fromRotations(turnAbsolutePosition.getValueAsDouble());
     
         inputs.driveAppliedVolts = m_driveMotor.getAppliedOutput() * m_driveMotor.getBusVoltage();
         inputs.turnAppliedVolts = m_turnMotor.getAppliedOutput() * m_turnMotor.getBusVoltage();
@@ -166,12 +166,10 @@ public class ModuleIOHardware implements ModuleIO {
     /** 
      * Periodic Tasks:
      * 
-     * - Correct Turn Encoder: Ensures the turnMotor's encoder reading is consistent with the CANcoder.
+     * -
      * */
     @Override
-    public void periodic(){
-        m_turnRelativeEncoder.setPosition(turnAbsolutePosition.getValueAsDouble());
-    }
+    public void periodic(){}
 
     @Override
     public void setDriveVoltage(double volts) {
@@ -196,8 +194,8 @@ public class ModuleIOHardware implements ModuleIO {
     @Override
     public void setTurnPosition(double positionRadians) {
         m_turnPIDController.setReference(
-            Units.radiansPerSecondToRotationsPerMinute(positionRadians),
-            ControlType.kSmartMotion,
+            Units.radiansToRotations(positionRadians),
+            ControlType.kPosition,
             0,
             m_turnFFController.calculate(positionRadians),
             ArbFFUnits.kVoltage);
