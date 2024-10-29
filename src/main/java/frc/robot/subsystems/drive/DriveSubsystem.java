@@ -12,7 +12,7 @@ public class DriveSubsystem extends SubsystemBase {
         Module RearLeftModule,
         Module RearRightModule
     ) {
-        this.
+        this.gyroIO = gyroIO;
         this.modules = {FrontLeftModule,FrontRightModule,RearLeftModule,RearRightModule};
     }
 }
