@@ -3,12 +3,13 @@ package frc.robot.subsystems.drive;
 import org.littletonrobotics.junction.AutoLog;
 
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.Voltage;
-import static edu.wpi.first.units.Units.*;
+import static edu.wpi.first.units.Units.Radians;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.Volts;
 import edu.wpi.first.units.Velocity;
+import edu.wpi.first.units.Voltage;
 
 public interface ModuleIO {
     @AutoLog
