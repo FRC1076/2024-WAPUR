@@ -14,4 +14,6 @@ public interface GyroIO {
         public Rotation2d yawPosition = new Rotation2d();
         public Measure<Velocity<Angle>> yawVelocity = RadiansPerSecond.of(0);
     }
+
+    public default void updateInputs(GyroIOInputs inputs) {}
 }
