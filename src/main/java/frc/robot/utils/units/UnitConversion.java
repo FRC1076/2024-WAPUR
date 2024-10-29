@@ -14,15 +14,15 @@ import static frc.robot.Constants.DriveConstants.ModuleConstants.Common.kWheelDi
 public final class UnitConversion {
     private UnitConversion() {} // Private constructor prevents instantiation
     public static Measure<Distance> EncoderPositionToLinearDistance(Measure<Angle> encoderPosition) {
-        return Meters.of((encoderPosition.in(Radians) * kWheelDiameter.in(Meters))/gearRatio);
+        return Meters.of((encoderPosition.in(Radians) * kWheelDiameter.in(Meters) * 0.5)/gearRatio);
     }
 
     public static Measure<Velocity<Distance>> EncoderVelocityToLinearVelocity(Measure<Velocity<Angle>> encoderVelocity) {
-        return MetersPerSecond.of((encoderVelocity.in(RadiansPerSecond) * kWheelDiameter.in(Meters))/gearRatio);
+        return MetersPerSecond.of((encoderVelocity.in(RadiansPerSecond) * kWheelDiameter.in(Meters) * 0.5)/gearRatio);
     }
 
     public static Measure<Velocity<Angle>> LinearVelocityToAngularVelocity(Measure<Velocity<Distance>> linearVelocity) {
-        return RadiansPerSecond.of((linearVelocity.in(MetersPerSecond)/kWheelDiameter.in(Meters)) * gearRatio);
+        return RadiansPerSecond.of((linearVelocity.in(MetersPerSecond)/kWheelDiameter.in(Meters) * 0.5) * gearRatio);
     }
 
 }
