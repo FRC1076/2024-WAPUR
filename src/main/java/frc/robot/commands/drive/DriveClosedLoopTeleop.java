@@ -38,5 +38,10 @@ public class DriveClosedLoopTeleop extends Command {
         );
     }
 
+    @Override
+    public void end(boolean interrupted) {
+        m_subsystem.stop();
+    }
+
 
 }
