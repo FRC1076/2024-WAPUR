@@ -49,12 +49,12 @@ public class Robot extends LoggedRobot {
         case 0:
             Logger.recordMetadata("GitDirty", "All changes committed");
             break;
-      case 1:
-        Logger.recordMetadata("GitDirty", "Uncomitted changes");
-        break;
-      default:
-        Logger.recordMetadata("GitDirty", "Unknown");
-        break;
+        case 1:
+            Logger.recordMetadata("GitDirty", "Uncomitted changes");
+            break;
+        default:
+            Logger.recordMetadata("GitDirty", "Unknown");
+            break;
     }
 
     // Akit.currentMode can be modified in the Constants.java file before compilation.

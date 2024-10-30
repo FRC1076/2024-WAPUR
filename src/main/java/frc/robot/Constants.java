@@ -75,6 +75,13 @@ public final class Constants {
 
     public static class DriveConstants {
 
+        public static Measure<Velocity<Distance>> kMaxTransSpeed = FeetPerSecond.of(3); // This is the maximum translational speed allowed by the rules
+
+        public static class Physical {
+            public static Measure<Distance> kWheelBase = Inches.of(27.5);
+            public static Measure<Distance> kTrackWidth= Inches.of(19.5);
+        }
+
         public static class ModuleConstants {
 
             public static enum Corner {
@@ -94,14 +101,13 @@ public final class Constants {
             public static class Common {
 
                 public static final Measure<Distance> kWheelDiameter = Inches.of(4);
-                public static final Measure<Velocity<Distance>> kMaxSpeed = FeetPerSecond.of(3);
+                public static final Measure<Velocity<Distance>> kMaxModuleSpeed = FeetPerSecond.of(14); // This is the top speed a module is physically capable of reaching
                 public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
                 public static final Measure<Voltage> kMaxDriveVolts = Volts.of(12); // Maximum applied voltage in openloop driving
 
                 public static class Drive {
 
                     public static final double gearRatio = 6.75;
-                    public static final Measure<Velocity<Distance>> maxSpeed = FeetPerSecond.of(3);
                     public static final Measure<Current> kCurrentLimit = Amps.of(60);
 
                     public static class Control {
@@ -177,7 +183,11 @@ public final class Constants {
         public static class GyroConstants {
             
             public static final int kGyroPort = -1;
-
+            
+            public static class Signal {
+                public static final double kYawUpdateFrequencyHz = 100;
+                public static final double kYawVelocityUpdateFrequencyHz = 100;
+            }
         }
     }
 }

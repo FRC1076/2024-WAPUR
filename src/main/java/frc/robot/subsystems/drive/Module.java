@@ -9,7 +9,6 @@ import frc.robot.Constants.DriveConstants.ModuleConstants.Corner;
 import frc.robot.utils.units.UnitConversion;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import static edu.wpi.first.units.Units.*;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Distance;
@@ -17,6 +16,7 @@ import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Velocity;
 import frc.robot.utils.units.UnitConversion;
 import org.littletonrobotics.junction.Logger;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 public class Module {
 
@@ -53,7 +53,7 @@ public class Module {
         else{
             // Divide the drive output by the max speed to scale it from -1 to 1 and make it open loop
             io.setDriveVoltage(
-                (optState.speedMetersPerSecond / ModuleConstants.Common.kMaxSpeed.in(MetersPerSecond)) * ModuleConstants.Common.kMaxDriveVolts.in(Volts)
+                (optState.speedMetersPerSecond / ModuleConstants.Common.kMaxModuleSpeed.in(MetersPerSecond)) * ModuleConstants.Common.kMaxDriveVolts.in(Volts)
             );
         }
 
@@ -98,7 +98,6 @@ public class Module {
         return inputs.driveVelocityRadPerSec;
     }
 
-    /**Returns swerve module state */
     public SwerveModuleState getState() {
         return new SwerveModuleState(getVelocity(),getAngle());
     }
