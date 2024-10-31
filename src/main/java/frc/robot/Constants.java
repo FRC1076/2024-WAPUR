@@ -4,6 +4,21 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.Angle;
+import edu.wpi.first.units.Current;
+import edu.wpi.first.units.Distance;
+import edu.wpi.first.units.Measure;
+import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.FeetPerSecond;
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.Volts;
+import edu.wpi.first.units.Velocity;
+import edu.wpi.first.units.Voltage;
+import static frc.robot.utils.units.Units.RadiansPerSecondSquared;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -65,45 +80,139 @@ public final class Constants {
     }
 
     public static class DriveConstants {
-        
+
+        public static Measure<Velocity<Distance>> kMaxTransSpeed = FeetPerSecond.of(3); // This is the maximum translational speed allowed by the rules
+        public static Measure<Velocity<Angle>> kMaxRotSpeed = RotationsPerSecond.of(1); // This is the maximum rotational speed allowed by the rules
+        public static class Physical {
+            public static Measure<Distance> kWheelBase = Inches.of(27.5);
+            public static Measure<Distance> kTrackWidth= Inches.of(19.5);
+            public static Measure<Distance> kDriveBaseRadius = Inches.of(Math.hypot(kWheelBase.in(Inches), kTrackWidth.in(Inches)));
+        }
+
+        public static class ModuleConstants {
+
+            public static enum Corner {
+                FrontLeft("FrontLeftModule"),
+                FrontRight("FrontRightModule"),
+                RearRight("RearRightModule"),
+                RearLeft("RearLeftModule");
+
+                public final String label;
+
+                private Corner(String label){
+                    this.label = label;
+                }
+            }
+            
+            /** Constants that are common to all swerve modules */
+            public static class Common {
+
+                public static final Measure<Distance> kWheelDiameter = Inches.of(4);
+                public static final Measure<Velocity<Distance>> kMaxModuleSpeed = FeetPerSecond.of(14); // This is the top speed a module is physically capable of reaching
+                public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
+                public static final Measure<Voltage> kMaxDriveVolts = Volts.of(12); // Maximum applied voltage in openloop driving
+
+                public static class Drive {
+
+                    public static final double gearRatio = 6.75;
+                    public static final Measure<Current> kCurrentLimit = Amps.of(60);
+
+                    public static class Control {
+                        //PID Constants
+                        public static final double kP = 0;
+                        public static final double kI = 0;
+                        public static final double kD = 0;
+
+                        //Simple Motor FeedForward Constants
+                        public static final double kS = 0;
+                        public static final double kV = 2.78;
+                        public static final double kA = 0;
+                    }
+                }
+
+                public static class Turn {
+                    public static final double gearRatio = 6.75;
+                    public static final Measure<Current> kCurrentLimit = Amps.of(60);
+                    public static final boolean turnMotorInverted = false;
+                    public static final int kEncoderCPR = 4096;
+                    public static final double kTurningEncoderDistancePerPulse =
+                        // Assumes the encoders are on a 1:1 reduction with the module shaft.
+                        (2 * Math.PI) / (double) kEncoderCPR;
+
+                    public static class Control {
+                        //PID Constants
+                        public static final double kP = 0.4;
+                        public static final double kI = 0;
+                        public static final double kD = 0;
+                        
+                        //Feedforward Constants
+                        public static final double kS = 0;
+                        public static final double kV = 0;
+                        public static final double kA = 0;
+                        //Trapezoid Profile Constants
+                        public static final Measure<Velocity<Angle>> kMaxAngularSpeed = RadiansPerSecond.of(20 * Math.PI);
+                        public static final Measure<Velocity<Velocity<Angle>>> kMaxAngularAccel = RadiansPerSecondSquared.of(20 * Math.PI);
+                    }
+                }
+            }
+
+            public static class FrontLeftModule {
+                public static final int kDriveMotorPort = 1;
+                public static final int kTurnMotorPort = 11;
+                public static final int kAbsoluteEncoderPort = 21;
+                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Degrees.of(77.9));
+            }
+
+            public static class FrontRightModule {
+                public static final int kDriveMotorPort = 2;
+                public static final int kTurnMotorPort = 12;
+                public static final int kAbsoluteEncoderPort = 22;
+                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Degrees.of(-61.2));
+            }
+
+            public static class RearRightModule {
+                public static final int kDriveMotorPort = 3;
+                public static final int kTurnMotorPort = 13;
+                public static final int kAbsoluteEncoderPort = 23;
+                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Degrees.of(113.5));
+            }
+
+            public static class RearLeftModule {
+                public static final int kDriveMotorPort = 4;
+                public static final int kTurnMotorPort = 14;
+                public static final int kAbsoluteEncoderPort = 24;
+                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Degrees.of(125.9));
+            }
+
+            
+        }
+
+        public static class GyroConstants {
+            
+            public static final int kGyroPort = -1;
+            
+            public static class Signal {
+                public static final double kYawUpdateFrequencyHz = 100;
+                public static final double kYawVelocityUpdateFrequencyHz = 100;
+            }
+        }
     }
 
-    public static class ModuleConstants {
-        public static final double kWheelDiameterMeters = 0.1016; // Four Inch Wheels
+    public static class AutoConstants {
 
-        public static class Drive {
-            public static final double kDriveRatio = 6.75; // The ratio of a L2 SDS MK4 Module is 6.75 : 1
-            // Also accounts for the gear ratio of the Swerve Module, L2 as of writing
-            //Convert rotation to meters
-            public static final double kDriveEncoderPositionConversionFactor = 
-                (kWheelDiameterMeters * Math.PI) / kDriveRatio;
-                
-            //Convert RPM to m/s
-            public static final double kDriveEncoderVelocityConversionFactor =
-                kDriveEncoderPositionConversionFactor / 60;
-
-            public static class Control{
-                //PID Constants
-                public static final double kP = 0;
+        public static class Control {
+            public static class Translation {
+                public static final double kP = 5;
                 public static final double kI = 0;
                 public static final double kD = 0;
-
-                //Simple Motor FeedForward Constants
-                public static final double kS = 0;
-                public static final double kV = 2.78;
-                public static final double kA = 0;
             }
-            public static final double kMaxModuleDriveSpeedMetersPerSecond = 3;
+            public static class Rotation {
+                public static final double kP = 5;
+                public static final double kI = 0;
+                public static final double kD = 0;
+            }
         }
 
-        public static class Turning {
-            public static final int kEncoderCPR = 4096;
-            public static final double kTurningEncoderDistancePerPulse =
-            // Assumes the encoders are on a 1:1 reduction with the module shaft.
-            (2 * Math.PI) / (double) kEncoderCPR;
-            public static final double kPModuleTurningController = 0.4;
-            public static final double kMaxModuleAngularSpeedRadiansPerSecond = 20 * Math.PI;
-            public static final double kMaxModuleAngularAccelerationRadiansPerSecondSquared = 20 * Math.PI;
-        }
+        
     }
 }
