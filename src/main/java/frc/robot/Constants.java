@@ -86,6 +86,7 @@ public final class Constants {
         public static class Physical {
             public static Measure<Distance> kWheelBase = Inches.of(27.5);
             public static Measure<Distance> kTrackWidth= Inches.of(19.5);
+            public static Measure<Distance> kDriveBaseRadius = Inches.of(Math.hypot(kWheelBase.in(Inches), kTrackWidth.in(Inches)));
         }
 
         public static class ModuleConstants {
@@ -195,5 +196,23 @@ public final class Constants {
                 public static final double kYawVelocityUpdateFrequencyHz = 100;
             }
         }
+    }
+
+    public static class AutoConstants {
+
+        public static class Control {
+            public static class Translation {
+                public static final double kP = 5;
+                public static final double kI = 0;
+                public static final double kD = 0;
+            }
+            public static class Rotation {
+                public static final double kP = 5;
+                public static final double kI = 0;
+                public static final double kD = 0;
+            }
+        }
+
+        
     }
 }
