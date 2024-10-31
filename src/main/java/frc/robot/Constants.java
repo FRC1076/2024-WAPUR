@@ -196,4 +196,12 @@ public final class Constants {
             }
         }
     }
+
+    public static class IntakeConstants {
+            public static final int kLeftMotorPort = -1;
+            public static final int kRightMotorPort = -1;
+
+            public static final double kLeftMotorIntakeSpeed = 0;
+            public static final double kRightMotorIntakeSpeed = 0;
+    }
 }
