@@ -1,11 +1,9 @@
 package frc.robot.subsystems.intake;
 
-import edu.wpi.first.units.Measure;
-import edu.wpi.first.units.Angle;
-import edu.wpi.first.units.Velocity;
-import static edu.wpi.first.units.Units.*;
-import edu.wpi.first.math.geometry.Rotation2d;
 import org.littletonrobotics.junction.AutoLog;
+import edu.wpi.first.units.Measure;
+import static edu.wpi.first.units.Units.Volts;
+import edu.wpi.first.units.Voltage;
 
 public interface IntakeIO {
     @AutoLog
@@ -21,11 +19,9 @@ public interface IntakeIO {
 
     public default void updateInputs(IntakeIOInputs inputs) {}
 
-    public default void intakeOn() {}
+    public default void runVolts(double volts) {}
 
-    public default void intakeOff() {}
-
-    public default void intakeReversed() {}
-
-    public default void setIntakeVelocity() {}
+    public default void runVolts(Measure<Voltage> voltage) {
+        runVolts(voltage.in(Volts));
+    }
 }
