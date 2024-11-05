@@ -16,6 +16,4 @@ public class IntakeIOHardware implements IntakeIO {
     public void runVolts(double volts) {
         m_Motor.setVoltage(volts);
     }
-
-
-
+}
