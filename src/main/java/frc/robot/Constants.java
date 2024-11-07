@@ -57,6 +57,10 @@ public final class Constants {
         }
     }
 
+    public static class ballIntakeConstants {
+        public static final kBallIntakeMotorPort = -1; //Placeholder
+    }
+
     public static class driveConstants {
 
         public static class physical {
