@@ -8,6 +8,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.DriveConstants.ModuleConstants.Corner;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.drive.DriveClosedLoopTeleop;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.GyroIOHardware;
@@ -53,13 +54,14 @@ public class RobotContainer {
     * joysticks}.
     */
     private void configureBindings() {
-        // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-        new Trigger(m_exampleSubsystem::exampleCondition)
-            .onTrue(new ExampleCommand(m_exampleSubsystem));
 
-        // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-        // cancelling on release.
-        m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+        m_DriveSubsystem.setDefaultCommand(
+            new DriveClosedLoopTeleop(
+                () -> m_driverController.getLeftX(), 
+                () -> m_driverController.getLeftY(), 
+                () -> m_driverController.getRightX(), 
+                m_DriveSubsystem)
+        );
     }
 
     /**

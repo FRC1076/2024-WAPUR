@@ -126,10 +126,14 @@ public class ModuleIOHardware implements ModuleIO {
         m_turnMotor.setSmartCurrentLimit((int) Common.Turn.kCurrentLimit.in(Amps));
 
         m_driveEncoder.setPosition(0.0);
+        m_driveEncoder.setPositionConversionFactor(Common.Drive.positionConversionFactor.in(Meter));
+        m_driveEncoder.setVelocityConversionFactor(Common.Drive.velocityConversionFactor.in(MetersPerSecond));
         m_driveEncoder.setMeasurementPeriod(10);
         m_driveEncoder.setAverageDepth(2);
 
         m_turnRelativeEncoder.setPosition(turnAbsolutePosition.getValueAsDouble());
+        m_turnRelativeEncoder.setPositionConversionFactor(Common.Turn.positionConversionFactor.in(Radian));
+        m_turnRelativeEncoder.setVelocityConversionFactor(Common.Turn.velocityConversionFactor.in(RadiansPerSecond));
         m_turnRelativeEncoder.setMeasurementPeriod(10);
         m_turnRelativeEncoder.setAverageDepth(2);
 
@@ -143,17 +147,14 @@ public class ModuleIOHardware implements ModuleIO {
     @Override
     public void updateInputs(ModuleIOInputs inputs){
 
-        inputs.drivePositionRad = 
-        Units.rotationsToRadians(m_driveEncoder.getPosition()/Common.Drive.gearRatio);
-        inputs.driveVelocityRadPerSec = 
-            Units.rotationsPerMinuteToRadiansPerSecond(m_driveEncoder.getVelocity()/Common.Drive.gearRatio);
+        inputs.drivePositionMeters = m_driveEncoder.getPosition();
+        inputs.driveVelocityMetersPerSec = m_driveEncoder.getVelocity();
 
         inputs.turnPosition = 
-            Rotation2d.fromRotations(m_turnRelativeEncoder.getPosition()/Common.Turn.gearRatio);
-        inputs.turnVelocityRadPerSec = 
-            Units.rotationsPerMinuteToRadiansPerSecond(m_turnRelativeEncoder.getVelocity()/Common.Drive.gearRatio);
-        inputs.turnAbsolutePosition =
-            Rotation2d.fromRotations(turnAbsolutePosition.getValueAsDouble());
+            Rotation2d.fromRadians(m_turnRelativeEncoder.getPosition());
+        inputs.turnVelocityRadPerSec = m_turnRelativeEncoder.getVelocity();
+        //inputs.turnAbsolutePosition =
+            //Rotation2d.fromRotations(turnAbsolutePosition.getValueAsDouble());
     
         inputs.driveAppliedVolts = m_driveMotor.getAppliedOutput() * m_driveMotor.getBusVoltage();
         inputs.turnAppliedVolts = m_turnMotor.getAppliedOutput() * m_turnMotor.getBusVoltage();

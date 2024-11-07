@@ -34,7 +34,7 @@ public class Module {
 
         io.updateInputs(inputs); // Gets latest values from the IO layer
 
-        Rotation2d encoderRotation = inputs.turnAbsolutePosition;
+        Rotation2d encoderRotation = inputs.turnPosition;
 
         // Optimize the reference state to avoid spinning further than 90 degrees
         SwerveModuleState optState = SwerveModuleState.optimize(state, encoderRotation);
@@ -64,17 +64,17 @@ public class Module {
 
     /**Returns the angle of this swerve module*/
     public Rotation2d getAngle(){
-        return inputs.turnAbsolutePosition;
+        return inputs.turnPosition;
     }
 
     /**Returns a double with the drive motor's characterization position, in radians */
     public double getCharacterizationPositionRads() {
-        return inputs.drivePositionRad;
+        return inputs.drivePositionMeters;
     }
 
     /**Returns a Measure object with the distance that this swerve module has driven*/
     public Measure<Distance> getPosition() {
-        return UnitConversion.EncoderPositionToLinearDistance(Radians.of(inputs.drivePositionRad));
+        return Meters.of(inputs.drivePositionMeters);
     }
 
     /**Returns a double with the distance that this swerve module has driven, in meters*/
@@ -84,7 +84,7 @@ public class Module {
 
     /**Returns a Measure object with the drive motor's current linear velocity */
     public Measure<Velocity<Distance>> getVelocity() {
-        return UnitConversion.EncoderVelocityToLinearVelocity(RadiansPerSecond.of(inputs.driveVelocityRadPerSec));
+        return MetersPerSecond.of(inputs.driveVelocityMetersPerSec);
     }
 
     /**Returns a double with the drive motor's current linear velocity, in meters per sec*/
@@ -95,7 +95,7 @@ public class Module {
 
     /**Returns a double with the angular velocity of this swerve module's wheel, in radians per second*/
     public double getCharacterizationVelocityRadsPerSec() {
-        return inputs.driveVelocityRadPerSec;
+        return inputs.driveVelocityMetersPerSec;
     }
 
     public SwerveModuleState getState() {

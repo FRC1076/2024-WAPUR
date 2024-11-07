@@ -32,7 +32,7 @@ public class DriveClosedLoopTeleop extends Command {
             FeetPerSecond.of(yTransSpeedSupplier.getAsDouble() * 3),
             kMaxRotSpeed.times(omegaSupplier.getAsDouble())
         );
-        m_subsystem.drive(
+        m_subsystem.driveFO(
             speeds,
             false
         );
