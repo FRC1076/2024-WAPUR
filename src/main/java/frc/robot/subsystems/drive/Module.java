@@ -47,7 +47,7 @@ public class Module {
         if(!isOpenLoop){
             //In closed loop drive, use on board pid controller for drive motor
             io.setDriveVelocity(
-                UnitConversion.LinearVelocityToAngularVelocity(MetersPerSecond.of(optState.speedMetersPerSecond))
+                MetersPerSecond.of(optState.speedMetersPerSecond).in(MetersPerSecond)
             );
         }
         else{

@@ -87,8 +87,8 @@ public final class Constants {
         public static Measure<Velocity<Distance>> kMaxTransSpeed = FeetPerSecond.of(3); // This is the maximum translational speed allowed by the rules
         public static Measure<Velocity<Angle>> kMaxRotSpeed = RotationsPerSecond.of(1); // This is the maximum rotational speed allowed by the rules
         public static class Physical {
-            public static Measure<Distance> kWheelBase = Inches.of(27.5);
-            public static Measure<Distance> kTrackWidth= Inches.of(19.5);
+            public static Measure<Distance> kWheelBase = Inches.of(23.5);
+            public static Measure<Distance> kTrackWidth= Inches.of(23.5);
             public static Measure<Distance> kDriveBaseRadius = Inches.of(Math.hypot(kWheelBase.in(Inches), kTrackWidth.in(Inches)));
         }
 
@@ -110,7 +110,7 @@ public final class Constants {
             /** Constants that are common to all swerve modules */
             public static class Common {
 
-                public static final Measure<Distance> kWheelDiameter = Inches.of(4);
+                public static final Measure<Distance> kWheelDiameter = Meter.of(0.1016);
                 public static final Measure<Velocity<Distance>> kMaxModuleSpeed = FeetPerSecond.of(14); // This is the top speed a module is physically capable of reaching
                 public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
                 public static final Measure<Voltage> kMaxDriveVolts = Volts.of(12); // Maximum applied voltage in openloop driving
@@ -164,31 +164,31 @@ public final class Constants {
             }
 
             public static class FrontLeftModule {
-                public static final int kDriveMotorPort = 3; // drive and turn motors may be flipped
-                public static final int kTurnMotorPort = 13;
-                public static final int kAbsoluteEncoderPort = 23;
-                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Degrees.of(113.5));
+                public static final int kDriveMotorPort = 1; // drive and turn motors may be flipped
+                public static final int kTurnMotorPort = 11;
+                public static final int kAbsoluteEncoderPort = 21;
+                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Degrees.of(-12.12890625));
             }
 
             public static class FrontRightModule {
-                public static final int kDriveMotorPort = 4;
-                public static final int kTurnMotorPort = 14;
-                public static final int kAbsoluteEncoderPort = 24;
-                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Degrees.of(125.9));
-            }
-
-            public static class RearRightModule {
-                public static final int kDriveMotorPort = 1;
-                public static final int kTurnMotorPort = 11;
-                public static final int kAbsoluteEncoderPort = 21;
-                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Degrees.of(77.9));
-            }
-
-            public static class RearLeftModule {
                 public static final int kDriveMotorPort = 2;
                 public static final int kTurnMotorPort = 12;
                 public static final int kAbsoluteEncoderPort = 22;
-                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Degrees.of(-61.2));
+                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Degrees.of(208.828124));
+            }
+
+            public static class RearRightModule {
+                public static final int kDriveMotorPort = 3;
+                public static final int kTurnMotorPort = 13;
+                public static final int kAbsoluteEncoderPort = 23;
+                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Degrees.of(383.466796875));
+            }
+
+            public static class RearLeftModule {
+                public static final int kDriveMotorPort = 4;
+                public static final int kTurnMotorPort = 14;
+                public static final int kAbsoluteEncoderPort = 24;
+                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Degrees.of(395.859375));
             }
 
             

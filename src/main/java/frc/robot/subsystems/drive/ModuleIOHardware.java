@@ -183,19 +183,19 @@ public class ModuleIOHardware implements ModuleIO {
     }
 
     @Override 
-    public void setDriveVelocity(double velocityRadiansPerSecond) {
+    public void setDriveVelocity(double velocityMetersPerSecond) {
         m_drivePIDController.setReference(
-            Units.radiansPerSecondToRotationsPerMinute(velocityRadiansPerSecond),
+            velocityMetersPerSecond,
             ControlType.kVelocity,
             0,
-            m_driveFFController.calculate(velocityRadiansPerSecond),
+            m_driveFFController.calculate(velocityMetersPerSecond),
             ArbFFUnits.kVoltage);
     }
 
     @Override
     public void setTurnPosition(double positionRadians) {
         m_turnPIDController.setReference(
-            Units.radiansToRotations(positionRadians),
+            positionRadians,
             ControlType.kPosition,
             0,
             m_turnFFController.calculate(positionRadians),
