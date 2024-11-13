@@ -64,30 +64,35 @@ public class ModuleIOHardware implements ModuleIO {
 
     // Take in parameters to specify exact module
     public ModuleIOHardware(ModuleConstants.Corner corner){
+        boolean invertDriveMotor = false;
         switch (corner) {
             case FrontLeft -> {
                 m_driveMotor = new CANSparkMax(FrontLeftModule.kDriveMotorPort,CANSparkMax.MotorType.kBrushless);
                 m_turnMotor = new CANSparkMax(FrontLeftModule.kTurnMotorPort,CANSparkMax.MotorType.kBrushless);
                 m_turnAbsoluteEncoder = new CANcoder(FrontLeftModule.kAbsoluteEncoderPort);
                 absoluteEncoderOffset = FrontLeftModule.kAbsoluteEncoderOffset;
+                invertDriveMotor = FrontLeftModule.invertDriveMotor;
             }
             case FrontRight -> {
                 m_driveMotor = new CANSparkMax(FrontRightModule.kDriveMotorPort,CANSparkMax.MotorType.kBrushless);
                 m_turnMotor = new CANSparkMax(FrontRightModule.kTurnMotorPort,CANSparkMax.MotorType.kBrushless);
                 m_turnAbsoluteEncoder = new CANcoder(FrontRightModule.kAbsoluteEncoderPort);
                 absoluteEncoderOffset = FrontRightModule.kAbsoluteEncoderOffset;
+                invertDriveMotor = FrontRightModule.invertDriveMotor;
             }
             case RearRight -> {
                 m_driveMotor = new CANSparkMax(RearRightModule.kDriveMotorPort,CANSparkMax.MotorType.kBrushless);
                 m_turnMotor = new CANSparkMax(RearRightModule.kTurnMotorPort,CANSparkMax.MotorType.kBrushless);
                 m_turnAbsoluteEncoder = new CANcoder(RearRightModule.kAbsoluteEncoderPort);
                 absoluteEncoderOffset = RearRightModule.kAbsoluteEncoderOffset;
+                invertDriveMotor = RearRightModule.invertDriveMotor;
             }
             case RearLeft -> {
                 m_driveMotor = new CANSparkMax(RearLeftModule.kDriveMotorPort,CANSparkMax.MotorType.kBrushless);
                 m_turnMotor = new CANSparkMax(RearLeftModule.kTurnMotorPort,CANSparkMax.MotorType.kBrushless);
                 m_turnAbsoluteEncoder = new CANcoder(RearLeftModule.kAbsoluteEncoderPort);
                 absoluteEncoderOffset = RearLeftModule.kAbsoluteEncoderOffset;
+                invertDriveMotor = RearLeftModule.invertDriveMotor;
             }
             default -> throw new RuntimeException("Invalid module index");
         }
@@ -122,6 +127,7 @@ public class ModuleIOHardware implements ModuleIO {
         m_turnPIDController.setD(Common.Turn.Control.kD);
 
         m_turnMotor.setInverted(Common.Turn.turnMotorInverted);
+        m_driveMotor.setInverted(invertDriveMotor);
         m_driveMotor.setSmartCurrentLimit((int) Common.Drive.kCurrentLimit.in(Amps));
         m_turnMotor.setSmartCurrentLimit((int) Common.Turn.kCurrentLimit.in(Amps));
 
@@ -151,7 +157,7 @@ public class ModuleIOHardware implements ModuleIO {
         inputs.driveVelocityMetersPerSec = m_driveEncoder.getVelocity();
 
         inputs.turnPosition = 
-            Rotation2d.fromRadians(m_turnRelativeEncoder.getPosition());
+            Rotation2d.fromRadians(m_turnRelativeEncoder.getPosition()); // does this need a % 2*Math.PI
         inputs.turnVelocityRadPerSec = m_turnRelativeEncoder.getVelocity();
         //inputs.turnAbsolutePosition =
             //Rotation2d.fromRotations(turnAbsolutePosition.getValueAsDouble());
