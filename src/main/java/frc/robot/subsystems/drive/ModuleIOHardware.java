@@ -14,6 +14,7 @@ import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
 import com.ctre.phoenix6.signals.SensorDirectionValue;
+import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
@@ -143,7 +144,7 @@ public class ModuleIOHardware implements ModuleIO {
         m_driveEncoder.setMeasurementPeriod(10);
         m_driveEncoder.setAverageDepth(2);
 
-        m_turnRelativeEncoder.setPosition(turnAbsolutePosition.getValueAsDouble());
+        m_turnRelativeEncoder.setPosition(Rotations.of(turnAbsolutePosition.getValueAsDouble()).in(Radians));
         m_turnRelativeEncoder.setPositionConversionFactor(Common.Turn.positionConversionFactor.in(Radian));
         m_turnRelativeEncoder.setVelocityConversionFactor(Common.Turn.velocityConversionFactor.in(RadiansPerSecond));
         m_turnRelativeEncoder.setMeasurementPeriod(10);
@@ -181,10 +182,12 @@ public class ModuleIOHardware implements ModuleIO {
     /** 
      * Periodic Tasks:
      * 
-     * -
+     * -Update Status Signal
      * */
     @Override
-    public void periodic(){}
+    public void periodic(){
+        BaseStatusSignal.refreshAll(turnAbsolutePosition);
+    }
 
     @Override
     public void setDriveVoltage(double volts) {
@@ -229,7 +232,7 @@ public class ModuleIOHardware implements ModuleIO {
 
     @Override
     public void updateTurnEncoder() {
-        m_turnRelativeEncoder.setPosition(turnAbsolutePosition.getValueAsDouble());
+        m_turnRelativeEncoder.setPosition(Rotations.of(turnAbsolutePosition.getValueAsDouble()).in(Radians));
     }
 
 }

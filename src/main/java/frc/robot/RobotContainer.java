@@ -62,8 +62,8 @@ public class RobotContainer {
 
         m_DriveSubsystem.setDefaultCommand(
             new DriveClosedLoopTeleop(
+                () -> m_driverController.getLeftY(),
                 () -> m_driverController.getLeftX(), 
-                () -> m_driverController.getLeftY(), 
                 () -> m_driverController.getRightX(), 
                 m_DriveSubsystem)
         );
