@@ -8,11 +8,13 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.DriveConstants.ModuleConstants.Corner;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.intake.RunIntake;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.GyroIOHardware;
 import frc.robot.subsystems.drive.ModuleIOHardware;
+import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake.IntakeIOHardware;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -35,7 +37,9 @@ public class RobotContainer {
         new ModuleIOHardware(Corner.RearRight)
     );
 
-    private final IntakeIOHardware m_intake = new IntakeIOHardware(); //Change later to actual subsystem
+    private final IntakeSubsystem m_intake = new IntakeSubsystem(
+        new IntakeIOHardware()
+    ); //Change later to actual subsystem
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController m_driverController =
@@ -63,13 +67,12 @@ public class RobotContainer {
         // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
         new Trigger(m_exampleSubsystem::exampleCondition)
             .onTrue(new ExampleCommand(m_exampleSubsystem));
+        
+        m_operatorController.leftTrigger(0.5).whileTrue(new RunIntake(m_intake));
 
         // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
         // cancelling on release.
-        m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-
-        m_operatorController.b().onTrue(new InstantCommand(() -> m_intake.intakeOn()));
-        m_operatorController.b().onFalse(new InstantCommand(() -> m_intake.intakeOff()));
+        
     }
 
     /**

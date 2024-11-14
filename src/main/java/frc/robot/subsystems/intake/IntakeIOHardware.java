@@ -16,4 +16,10 @@ public class IntakeIOHardware implements IntakeIO {
     public void runVolts(double volts) {
         m_Motor.setVoltage(volts);
     }
+
+    @Override
+    public void updateInputs(IntakeIOInputs inputs) {
+        inputs.motorAppliedVoltage = m_Motor.getAppliedOutput() * m_Motor.getBusVoltage();
+        inputs.motorCurrent = m_Motor.getOutputCurrent();
+    }
 }
