@@ -14,8 +14,10 @@ import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.GyroIOHardware;
 import frc.robot.subsystems.drive.ModuleIOHardware;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj.DriverStation;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -37,6 +39,9 @@ public class RobotContainer {
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController m_driverController =
         new CommandXboxController(OIConstants.Driver.kControllerPort);
+    
+    private final Trigger dsEnabledTrigger = 
+        new Trigger(() -> DriverStation.isEnabled());
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -62,6 +67,14 @@ public class RobotContainer {
                 () -> m_driverController.getRightX(), 
                 m_DriveSubsystem)
         );
+
+        dsEnabledTrigger.onTrue(
+            new InstantCommand(
+                m_DriveSubsystem::calibrateTurnEncoders,
+                m_DriveSubsystem
+            )
+        );
+        
     }
 
     /**

@@ -184,9 +184,7 @@ public class ModuleIOHardware implements ModuleIO {
      * -
      * */
     @Override
-    public void periodic(){
-        m_turnRelativeEncoder.setPosition(turnAbsolutePosition.getValueAsDouble());
-    }
+    public void periodic(){}
 
     @Override
     public void setDriveVoltage(double volts) {
@@ -227,6 +225,11 @@ public class ModuleIOHardware implements ModuleIO {
     @Override
     public void setTurnBrakeMode(boolean enable){
         m_turnMotor.setIdleMode(enable ? CANSparkMax.IdleMode.kBrake : CANSparkMax.IdleMode.kCoast);
+    }
+
+    @Override
+    public void updateTurnEncoder() {
+        m_turnRelativeEncoder.setPosition(turnAbsolutePosition.getValueAsDouble());
     }
 
 }

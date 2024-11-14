@@ -107,6 +107,11 @@ public class Module {
         return new SwerveModulePosition(getPosition(),getAngle());
     }
 
+    /**Updates relative turn encoder with value from absolute encoder */
+    public void updateTurnEncoder() {
+        io.updateTurnEncoder();
+    }
+    
     // Module is not a subsystem so this won't be default called
     public void periodic(){
         io.updateInputs(inputs);

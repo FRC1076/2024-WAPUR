@@ -173,7 +173,16 @@ public class DriveSubsystem extends SubsystemBase {
         return (speedMetersPerSecond/DriveConstants.ModuleConstants.Common.kMaxModuleSpeed.in(MetersPerSecond));
     }
 
+    /** Calibrates all relative turn encoders with values from absolute encoders */
+    public void calibrateTurnEncoders() {
+        for (Module module : modules){
+            module.updateTurnEncoder();
+        }
+    }
+
     public void resetPose(Pose2d pose){
         estimator.resetPosition(gyroRotation, getModulePositions(), pose);
     }
+
+    
 }

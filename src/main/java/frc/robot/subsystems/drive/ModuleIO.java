@@ -70,4 +70,7 @@ public interface ModuleIO {
 
     /** Enable or disable brake mode on the turn motor. */
     public default void setTurnBrakeMode(boolean enable) {}
+
+    /** Updates relative turn encoder with value from absolute encoder */
+    public default void updateTurnEncoder() {}
 }
