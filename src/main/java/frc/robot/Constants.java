@@ -20,7 +20,7 @@ import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.Volts;
-import edu.wpi.first.units.Velocity;;=
+import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
 import static frc.robot.utils.units.Units.RadiansPerSecondSquared;
 /**
@@ -168,7 +168,7 @@ public final class Constants {
                 public static final int kDriveMotorPort = 1; // drive and turn motors may be flipped
                 public static final int kTurnMotorPort = 11;
                 public static final int kAbsoluteEncoderPort = 21;
-                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(-0.79833984375)); //2.295 - Math.PI/2
+                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(-0.33935546875)); //2.295 - Math.PI/2
                 public static final boolean invertDriveMotor = true;
             }
 
@@ -176,7 +176,7 @@ public final class Constants {
                 public static final int kDriveMotorPort = 2;
                 public static final int kTurnMotorPort = 12;
                 public static final int kAbsoluteEncoderPort = 22;
-                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(0); //0.781
+                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(-0.79833984375)); //0.781
                 public static final boolean invertDriveMotor = true;
             }
 
@@ -184,7 +184,7 @@ public final class Constants {
                 public static final int kDriveMotorPort = 3;
                 public static final int kTurnMotorPort = 13;
                 public static final int kAbsoluteEncoderPort = 23; 
-                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(0); //5.134
+                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(-0.337158203125)); //5.134
                 public static final boolean invertDriveMotor = false;
             }
 
@@ -192,7 +192,7 @@ public final class Constants {
                 public static final int kDriveMotorPort = 4;
                 public static final int kTurnMotorPort = 14;
                 public static final int kAbsoluteEncoderPort = 24;
-                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(0); //3.863 - Math.PI/2
+                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(-0.26171875)); //3.863 - Math.PI/2
                 public static final boolean invertDriveMotor = false;
             }
 
