@@ -18,8 +18,9 @@ import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
+import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.Volts;
-import edu.wpi.first.units.Velocity;
+import edu.wpi.first.units.Velocity;;=
 import edu.wpi.first.units.Voltage;
 import static frc.robot.utils.units.Units.RadiansPerSecondSquared;
 /**
@@ -167,7 +168,7 @@ public final class Constants {
                 public static final int kDriveMotorPort = 1; // drive and turn motors may be flipped
                 public static final int kTurnMotorPort = 11;
                 public static final int kAbsoluteEncoderPort = 21;
-                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(0); //2.295 - Math.PI/2
+                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(-0.79833984375)); //2.295 - Math.PI/2
                 public static final boolean invertDriveMotor = true;
             }
 

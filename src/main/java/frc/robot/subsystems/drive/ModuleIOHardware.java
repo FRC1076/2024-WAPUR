@@ -47,6 +47,8 @@ public class ModuleIOHardware implements ModuleIO {
 
     private final Rotation2d absoluteEncoderOffset;
 
+    private double turnSetpoint = 0.0;
+
     // Units should be in radians/sec
     private final SimpleMotorFeedforward m_driveFFController = 
         new SimpleMotorFeedforward(
@@ -126,6 +128,10 @@ public class ModuleIOHardware implements ModuleIO {
         m_turnPIDController.setI(Common.Turn.Control.kI);
         m_turnPIDController.setD(Common.Turn.Control.kD);
 
+        m_turnPIDController.setPositionPIDWrappingEnabled(true);
+        m_turnPIDController.setPositionPIDWrappingMaxInput(Math.PI);
+        m_turnPIDController.setPositionPIDWrappingMinInput(-Math.PI);
+
         m_turnMotor.setInverted(Common.Turn.turnMotorInverted);
         m_driveMotor.setInverted(invertDriveMotor);
         m_driveMotor.setSmartCurrentLimit((int) Common.Drive.kCurrentLimit.in(Amps));
@@ -159,14 +165,16 @@ public class ModuleIOHardware implements ModuleIO {
         inputs.turnPosition = 
             Rotation2d.fromRadians(m_turnRelativeEncoder.getPosition()); // does this need a % 2*Math.PI
         inputs.turnVelocityRadPerSec = m_turnRelativeEncoder.getVelocity();
-        //inputs.turnAbsolutePosition =
-            //Rotation2d.fromRotations(turnAbsolutePosition.getValueAsDouble());
+        inputs.turnAbsolutePosition =
+            Rotation2d.fromRotations(turnAbsolutePosition.getValueAsDouble());
     
         inputs.driveAppliedVolts = m_driveMotor.getAppliedOutput() * m_driveMotor.getBusVoltage();
         inputs.turnAppliedVolts = m_turnMotor.getAppliedOutput() * m_turnMotor.getBusVoltage();
 
         inputs.driveCurrentAmps = m_driveMotor.getOutputCurrent();
         inputs.turnCurrentAmps = m_turnMotor.getOutputCurrent();
+
+        inputs.turnSetpoint = turnSetpoint;
 
     }
 
@@ -206,6 +214,7 @@ public class ModuleIOHardware implements ModuleIO {
             0,
             m_turnFFController.calculate(positionRadians),
             ArbFFUnits.kVoltage);
+        turnSetpoint = positionRadians;
     }
 
     @Override
