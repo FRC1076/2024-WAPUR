@@ -184,7 +184,9 @@ public class ModuleIOHardware implements ModuleIO {
      * -
      * */
     @Override
-    public void periodic(){}
+    public void periodic(){
+        m_turnRelativeEncoder.setPosition(turnAbsolutePosition.getValueAsDouble());
+    }
 
     @Override
     public void setDriveVoltage(double volts) {
