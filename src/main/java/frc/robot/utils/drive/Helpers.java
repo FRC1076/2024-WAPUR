@@ -13,7 +13,7 @@ public class Helpers {
      * @param yValue the speed input in the y direction, should be scaled between -1.0 and 1.0
      * @param omega the rotational speed input, should be scaled between -1.0 and 1,0
     */
-    public static ChassisSpeeds createSpeedVector(ChassisSpeeds speeds) {
-        
-    }
+    //public static ChassisSpeeds createSpeedVector(ChassisSpeeds speeds) {
+    //    
+    //}
 }
