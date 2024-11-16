@@ -12,7 +12,7 @@ public class RunIntake extends Command {
 
     @Override
     public void initialize() {
-        subsystem.runVolts(12);
+        subsystem.runVolts(-4.5);
     }
 
     @Override
