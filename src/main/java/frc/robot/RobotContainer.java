@@ -8,11 +8,15 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.DriveConstants.ModuleConstants.Corner;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.intake.RunIntake;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.drive.DriveClosedLoopTeleop;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.GyroIOHardware;
 import frc.robot.subsystems.drive.ModuleIOHardware;
+import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.intake.IntakeIOHardware;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -36,12 +40,19 @@ public class RobotContainer {
         new ModuleIOHardware(Corner.RearRight)
     );
 
+    private final IntakeSubsystem m_intake = new IntakeSubsystem(
+        new IntakeIOHardware()
+    ); //Change later to actual subsystem
+
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController m_driverController =
         new CommandXboxController(OIConstants.Driver.kControllerPort);
     
     private final Trigger dsEnabledTrigger = 
         new Trigger(() -> DriverStation.isEnabled());
+
+    private final CommandXboxController m_operatorController = 
+        new CommandXboxController(OIConstants.Operator.kControllerPort);
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -59,6 +70,11 @@ public class RobotContainer {
     * joysticks}.
     */
     private void configureBindings() {
+        
+        new Trigger(m_exampleSubsystem::exampleCondition)
+            .onTrue(new ExampleCommand(m_exampleSubsystem));
+        
+        m_operatorController.leftTrigger(0.5).whileTrue(new RunIntake(m_intake));
 
         m_DriveSubsystem.setDefaultCommand(
             new DriveClosedLoopTeleop(
