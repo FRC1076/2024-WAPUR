@@ -11,6 +11,7 @@ import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.FeetPerSecond;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meter;
@@ -77,8 +78,8 @@ public final class Constants {
             }
 
             public static class PIDTolerance {
-                public static final Measure<Angle> kPosition = Units.Degrees.of(5);
-                public static final Measure<Velocity<Angle>> kVelocity = Units.DegreesPerSecond.of(3);
+                public static final Measure<Angle> kPosition = Degrees.of(5);
+                public static final Measure<Velocity<Angle>> kVelocity = DegreesPerSecond.of(3);
             }
         }
     }
