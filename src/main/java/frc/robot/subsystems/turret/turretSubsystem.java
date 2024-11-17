@@ -5,10 +5,10 @@ import org.littletonrobotics.junction.Logger;
 import edu.wpi.first.math.util.Units;
 
 public class TurretSubsystem extends SubsystemBase {
-    private final TurretIOBase io;
+    private final TurretIO io;
     private final TurretIOInputsAutoLogged inputs = new TurretIOInputsAutoLogged();
     
-    public TurretSubsystem(TurretIOBase io){
+    public TurretSubsystem(TurretIO io){
         this.io = io;
     }
 
@@ -27,6 +27,6 @@ public class TurretSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         io.updateInputs(inputs);
-        Logger.processInputs("Drive",inputs);
+        Logger.processInputs("Turret",inputs);
     }
 }

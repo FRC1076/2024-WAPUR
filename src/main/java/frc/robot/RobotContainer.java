@@ -8,9 +8,24 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.DriveConstants.ModuleConstants.Corner;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.intake.RunIntake;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.robot.commands.drive.DriveClosedLoopTeleop;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.drive.DriveSubsystem;
+import frc.robot.subsystems.drive.GyroIOHardware;
+import frc.robot.subsystems.drive.ModuleIOHardware;
+import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.intake.IntakeIOHardware;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj.DriverStation;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -21,10 +36,27 @@ import frc.robot.subsystems.ExampleSubsystem;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+    private final DriveSubsystem m_DriveSubsystem = new DriveSubsystem(
+        new GyroIOHardware(),
+        new ModuleIOHardware(Corner.FrontLeft),
+        new ModuleIOHardware(Corner.FrontRight),
+        new ModuleIOHardware(Corner.RearLeft),
+        new ModuleIOHardware(Corner.RearRight)
+    );
+
+    private final IntakeSubsystem m_intake = new IntakeSubsystem(
+        new IntakeIOHardware()
+    ); //Change later to actual subsystem
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController m_driverController =
-        new CommandXboxController(OIConstants.kDriverControllerPort);
+        new CommandXboxController(OIConstants.Driver.kControllerPort);
+    
+    private final Trigger dsEnabledTrigger = 
+        new Trigger(() -> DriverStation.isEnabled());
+
+    private final CommandXboxController m_operatorController = 
+        new CommandXboxController(OIConstants.Operator.kControllerPort);
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
@@ -33,7 +65,8 @@ public class RobotContainer {
     }
 
     /**
-    * Use this method to define your trigger->command mappings. Triggers can be created via the
+     * Use this method to define your trigger->command mappings. Triggers can be created via the
+
     * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
     * predicate, or via the named factories in {@link
     * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
@@ -42,22 +75,36 @@ public class RobotContainer {
     * joysticks}.
     */
     private void configureBindings() {
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
+        
+        new Trigger(m_exampleSubsystem::exampleCondition)
+            .onTrue(new ExampleCommand(m_exampleSubsystem));
+        
+        m_operatorController.leftTrigger(0.5).whileTrue(new RunIntake(m_intake));
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-  }
+        m_DriveSubsystem.setDefaultCommand(
+            new DriveClosedLoopTeleop(
+                () -> m_driverController.getLeftY(),
+                () -> m_driverController.getLeftX(), 
+                () -> m_driverController.getRightX(), 
+                m_DriveSubsystem)
+        );
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
-  }
+        dsEnabledTrigger.onTrue(
+            new InstantCommand(
+                m_DriveSubsystem::calibrateTurnEncoders,
+                m_DriveSubsystem
+            )
+        );
+        
+    }
+
+    /**
+    * Use this to pass the autonomous command to the main {@link Robot} class.
+    *
+    * @return the command to run in autonomous
+    */
+    public Command getAutonomousCommand() {
+        // An example command will be run in autonomous
+        return Autos.exampleAuto(m_exampleSubsystem);
+    }
 }
