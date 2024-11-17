@@ -68,22 +68,6 @@ public final class Constants {
         }
     }
 
-    public static class TurretConstants {
-        public static final int kMotorPort0 = -1; //PLACEHOLDER
-        public static class Control {
-            public static class PIDCoefs {
-                public static final double kP = 0.0;
-                public static final double kI = 0.0;
-                public static final double kD = 0.0;
-            }
-
-            public static class PIDTolerance {
-                public static final Measure<Angle> kPosition = Degrees.of(5);
-                public static final Measure<Velocity<Angle>> kVelocity = DegreesPerSecond.of(3);
-            }
-        }
-    }
-
     public static class DriveConstants {
 
         public static Measure<Velocity<Distance>> kMaxTransSpeed = FeetPerSecond.of(3); // This is the maximum translational speed allowed by the rules
@@ -219,7 +203,6 @@ public final class Constants {
     }
 
     public static class AutoConstants {
-
         public static class Control {
             public static class Translation {
                 public static final double kP = 5;

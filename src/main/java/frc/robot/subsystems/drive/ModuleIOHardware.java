@@ -230,9 +230,10 @@ public class ModuleIOHardware implements ModuleIO {
         m_turnMotor.setIdleMode(enable ? CANSparkMax.IdleMode.kBrake : CANSparkMax.IdleMode.kCoast);
     }
 
+    
     @Override
     public void updateTurnEncoder() {
         m_turnRelativeEncoder.setPosition(Rotations.of(turnAbsolutePosition.getValueAsDouble()).in(Radians));
     }
-
+    
 }

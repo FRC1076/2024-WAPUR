@@ -28,6 +28,7 @@ public class Module {
     public Module(ModuleIO io,Corner ModuleID) {
         this.io = io;
         this.ModuleID = ModuleID;
+        updateTurnEncoder();
     }
 
     public void setDesiredState(SwerveModuleState state, boolean isOpenLoop){
