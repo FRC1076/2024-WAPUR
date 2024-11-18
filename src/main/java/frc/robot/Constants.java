@@ -10,6 +10,11 @@ import edu.wpi.first.units.Current;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
 import static edu.wpi.first.units.Units.Amps;
+<<<<<<< HEAD
+=======
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
+>>>>>>> main
 import static edu.wpi.first.units.Units.FeetPerSecond;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meter;
@@ -66,22 +71,6 @@ public final class Constants {
             REAL,
             SIM,
             REPLAY,
-        }
-    }
-
-    public static class TurretConstants {
-        public static final int kMotorPort0 = -1; //PLACEHOLDER
-        public static class Control {
-            public static class PIDCoefs {
-                public static final double kP = 0.0;
-                public static final double kI = 0.0;
-                public static final double kD = 0.0;
-            }
-
-            public static class PIDTolerance {
-                public static final double kPosition = 0.0;
-                public static final double kVelocity = 0.0;
-            }
         }
     }
 
@@ -255,7 +244,6 @@ public final class Constants {
     }
 
     public static class AutoConstants {
-
         public static class Control {
             public static class Translation {
                 public static final double kP = 5;
@@ -268,7 +256,5 @@ public final class Constants {
                 public static final double kD = 0;
             }
         }
-
-        
     }
 }

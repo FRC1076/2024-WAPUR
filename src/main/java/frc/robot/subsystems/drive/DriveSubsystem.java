@@ -185,5 +185,7 @@ public class DriveSubsystem extends SubsystemBase {
         estimator.resetPosition(gyroRotation, getModulePositions(), pose);
     }
 
-    
+    public void resetHeading(){
+        this.gyroIO.resetHeading();
+    }
 }

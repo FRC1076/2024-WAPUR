@@ -4,7 +4,12 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.OIConstants.Driver;
+import frc.robot.Constants.OIConstants.Operator;
 import frc.robot.Constants.DriveConstants.ModuleConstants.Corner;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
@@ -22,6 +27,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.math.MathUtil;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -62,6 +69,7 @@ public class RobotContainer {
 
     /**
      * Use this method to define your trigger->command mappings. Triggers can be created via the
+
     * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
     * predicate, or via the named factories in {@link
     * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
@@ -74,22 +82,24 @@ public class RobotContainer {
         new Trigger(m_exampleSubsystem::exampleCondition)
             .onTrue(new ExampleCommand(m_exampleSubsystem));
         
-        m_operatorController.leftTrigger(0.5).whileTrue(new RunIntake(m_intake));
+        m_operatorController.leftTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunIntake(m_intake));
 
         m_DriveSubsystem.setDefaultCommand(
             new DriveClosedLoopTeleop(
-                () -> m_driverController.getLeftY(),
-                () -> m_driverController.getLeftX(), 
-                () -> m_driverController.getRightX(), 
+                () -> MathUtil.applyDeadband(m_driverController.getLeftY(), Driver.kControllerDeadband),
+                () -> MathUtil.applyDeadband(m_driverController.getLeftX(), Driver.kControllerDeadband), 
+                () -> MathUtil.applyDeadband(m_driverController.getRightX(), Driver.kControllerDeadband), 
                 m_DriveSubsystem)
         );
 
-        dsEnabledTrigger.onTrue(
-            new InstantCommand(
-                m_DriveSubsystem::calibrateTurnEncoders,
-                m_DriveSubsystem
+        // Reset Heading of swerve
+        m_driverController.leftTrigger(Driver.kControllerTriggerThreshold).and(
+            m_driverController.rightTrigger(Driver.kControllerTriggerThreshold).and(
+                m_driverController.x()
             )
-        );
+        ).onTrue(new InstantCommand(
+            () -> m_DriveSubsystem.resetHeading()
+        ));
         
     }
 

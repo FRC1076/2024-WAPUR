@@ -28,4 +28,9 @@ public class GyroIOHardware implements GyroIO {
         inputs.yawPosition = pigeon.getRotation2d();
         inputs.yawVelocity = RadiansPerSecond.of(pigeon.getAngularVelocityZWorld().getValueAsDouble());
     }
+
+    @Override
+    public void resetHeading(){
+        pigeon.setYaw(0);
+    }
 }
