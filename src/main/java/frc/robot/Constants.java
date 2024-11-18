@@ -72,7 +72,6 @@ public final class Constants {
     }
 
     public static class DriveConstants {
-
         public static Measure<Velocity<Distance>> kMaxTransSpeed = FeetPerSecond.of(3); // This is the maximum translational speed allowed by the rules
         public static Measure<Velocity<Angle>> kMaxRotSpeed = RotationsPerSecond.of(1); // This is the maximum rotational speed allowed by the rules
         public static class Physical {
@@ -82,7 +81,6 @@ public final class Constants {
         }
 
         public static class ModuleConstants {
-
             public static enum Corner {
                 FrontLeft("FrontLeftModule"),
                 FrontRight("FrontRightModule"),
@@ -98,7 +96,6 @@ public final class Constants {
             
             /** Constants that are common to all swerve modules */
             public static class Common {
-
                 public static final Measure<Distance> kWheelDiameter = Meter.of(0.1016);
                 public static final Measure<Velocity<Distance>> kMaxModuleSpeed = FeetPerSecond.of(14); // This is the top speed a module is physically capable of reaching
                 public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
@@ -132,7 +129,7 @@ public final class Constants {
                     public static final boolean turnMotorInverted = false;
                     public static final int kEncoderCPR = 4096;
                     public static final double kTurningEncoderDistancePerPulse =
-                        // Assumes the encoders are on a 1:1 reduction with the module shaft.
+                        //Assumes the encoders are on a 1:1 reduction with the module shaft.
                         (2 * Math.PI) / (double) kEncoderCPR;
 
                     public static class Control {
@@ -182,9 +179,7 @@ public final class Constants {
                 public static final int kAbsoluteEncoderPort = 22;
                 public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(0.078369140625)); //3.863 - Math.PI/2
                 public static final boolean invertDriveMotor = false;
-            }
-
-            
+            }    
         }
 
         public static class GyroConstants {
@@ -209,17 +204,14 @@ public final class Constants {
         public static final int kMotorPort0 = -1;
         public static final int kMotorPort1 = -1;
 
-        public static final Measure<Velocity<Distance>> kVelocityConversionFactor = MetersPerSecond.of(1); //Placeholder
-        public static final Measure<Distance> kPositionConversionFactor = Meter.of(1); //Placeholder
-
+        public static final double kVelocityConversionFactor = 1/7.75; //Gear ratio htt;s://wcproducts.com/collections/gearboxes/products/wcp-single-stage-gearbox
+        public static final double kPositionConversionFactor = 1/7.75; //Gear ratio
         public static class Electrical {
-
             public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
             public static final Measure<Current> kCurrentLimit = Amps.of(40);
         }
 
         public static class Control {
-
             //PID Constants
             public static final double kP = 0.4;
             public static final double kI = 0.0;
@@ -230,7 +222,6 @@ public final class Constants {
             public static final Measure<Voltage> kG = Volts.of(0); //Gravity gain
             public static final Measure<Per<Voltage,Velocity<Distance>>> kV = VoltsPerMeterPerSecond.of(0); //Velocity Gain
             public static final Measure<Per<Voltage,Velocity<Velocity<Distance>>>> kA = VoltsPerMeterPerSecondSquared.of(0); //Acceleration Gain
-
         }
 
         public static class PositionControl {

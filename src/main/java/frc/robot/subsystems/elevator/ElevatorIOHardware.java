@@ -54,8 +54,8 @@ public class ElevatorIOHardware implements ElevatorIO {
 
         m_encoder.setPosition(0.0);
 
-        m_encoder.setPositionConversionFactor(kPositionConversionFactor.in(Meters));
-        m_encoder.setVelocityConversionFactor(kVelocityConversionFactor.in(MetersPerSecond));
+        m_encoder.setPositionConversionFactor(kPositionConversionFactor);
+        m_encoder.setVelocityConversionFactor(kVelocityConversionFactor);
         
         m_encoder.setMeasurementPeriod(10);
         m_encoder.setAverageDepth(2);
