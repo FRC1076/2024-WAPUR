@@ -10,19 +10,21 @@ import edu.wpi.first.units.Current;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
 import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.FeetPerSecond;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meter;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
+import edu.wpi.first.units.Per;
 import static frc.robot.utils.units.Units.RadiansPerSecondSquared;
+import static edu.wpi.first.units.Units.VoltsPerMeterPerSecond;
+import static edu.wpi.first.units.Units.VoltsPerMeterPerSecondSquared;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -215,6 +217,41 @@ public final class Constants {
 
         public static final Measure<Current> kCurrentLimit = Amps.of(40);
         public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
+    }
+
+    public static class ElevatorConstants {
+        public static final int kMotorPort0 = -1;
+        public static final int kMotorPort1 = -1;
+
+        public static final Measure<Velocity<Distance>> kVelocityConversionFactor = MetersPerSecond.of(1); //Placeholder
+        public static final Measure<Distance> kPositionConversionFactor = Meter.of(1); //Placeholder
+
+        public static class Electrical {
+
+            public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
+            public static final Measure<Current> kCurrentLimit = Amps.of(40);
+        }
+
+        public static class Control {
+
+            //PID Constants
+            public static final double kP = 0.4;
+            public static final double kI = 0.0;
+            public static final double kD = 0.0;
+
+            //Feedforward Constants
+            public static final Measure<Voltage> kS = Volts.of(0); //Static gain
+            public static final Measure<Voltage> kG = Volts.of(0); //Gravity gain
+            public static final Measure<Per<Voltage,Velocity<Distance>>> kV = VoltsPerMeterPerSecond.of(0); //Velocity Gain
+            public static final Measure<Per<Voltage,Velocity<Velocity<Distance>>>> kA = VoltsPerMeterPerSecondSquared.of(0); //Acceleration Gain
+
+        }
+
+        public static class PositionControl {
+            public static final double kP = 0.4;
+            public static final double kI = 0.0;
+            public static final double kD = 0.0;
+        }
     }
 
     public static class AutoConstants {
