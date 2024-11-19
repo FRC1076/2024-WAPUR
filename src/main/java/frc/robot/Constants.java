@@ -73,8 +73,8 @@ public final class Constants {
         public static Measure<Velocity<Distance>> kMaxTransSpeed = FeetPerSecond.of(3); // This is the maximum translational speed allowed by the rules
         public static Measure<Velocity<Angle>> kMaxRotSpeed = RotationsPerSecond.of(1); // This is the maximum rotational speed allowed by the rules
         public static class Physical {
-            public static Measure<Distance> kWheelBase = Inches.of(23.5);
-            public static Measure<Distance> kTrackWidth= Inches.of(23.5);
+            public static Measure<Distance> kWheelBase = Inches.of(27.5);
+            public static Measure<Distance> kTrackWidth= Inches.of(19.5);
             public static Measure<Distance> kDriveBaseRadius = Inches.of(Math.hypot(kWheelBase.in(Inches), kTrackWidth.in(Inches)));
         }
 
