@@ -204,6 +204,11 @@ public final class Constants {
         public static final int kMotorPort0 = -1;
         public static final int kMotorPort1 = -1;
 
+        //Heights measured in meters
+        public static final double heightOne = 0;
+        public static final double heightTwo = 0.38;
+        public static final double heightThree = 0.76;
+
         public static final double kVelocityConversionFactor = 1/7.75; //Gear ratio htt;s://wcproducts.com/collections/gearboxes/products/wcp-single-stage-gearbox
         public static final double kPositionConversionFactor = 1/7.75; //Gear ratio
         public static class Electrical {

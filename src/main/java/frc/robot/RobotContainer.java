@@ -14,12 +14,15 @@ import frc.robot.Constants.DriveConstants.ModuleConstants.Corner;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.intake.RunIntake;
+import frc.robot.commands.elevator.setElevatorPosition;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.drive.DriveClosedLoopTeleop;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.GyroIOHardware;
 import frc.robot.subsystems.drive.ModuleIOHardware;
+import frc.robot.subsystems.elevator.ElevatorIOHardware;
+import frc.robot.subsystems.elevator.ElevatorSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake.IntakeIOHardware;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -27,6 +30,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.DriverStation;
+
+import static frc.robot.Constants.ElevatorConstants.heightOne;
+import static frc.robot.Constants.ElevatorConstants.heightThree;
+import static frc.robot.Constants.ElevatorConstants.heightTwo;
+
 import edu.wpi.first.math.MathUtil;
 
 
@@ -47,9 +55,9 @@ public class RobotContainer {
         new ModuleIOHardware(Corner.RearRight)
     );
 
-    private final IntakeSubsystem m_intake = new IntakeSubsystem(
-        new IntakeIOHardware()
-    ); //Change later to actual subsystem
+    private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem(new ElevatorIOHardware());
+
+    private final IntakeSubsystem m_intake = new IntakeSubsystem(new IntakeIOHardware()); 
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController m_driverController =
@@ -100,7 +108,11 @@ public class RobotContainer {
         ).onTrue(new InstantCommand(
             () -> m_DriveSubsystem.resetHeading()
         ));
-        
+
+        //Elevator controls
+        m_operatorController.a().onTrue(new setElevatorPosition(heightOne, m_ElevatorSubsystem));
+        m_operatorController.b().onTrue(new setElevatorPosition(heightTwo, m_ElevatorSubsystem));
+        m_operatorController.y().onTrue(new setElevatorPosition(heightThree, m_ElevatorSubsystem));
     }
 
     /**
