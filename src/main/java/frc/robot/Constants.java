@@ -213,7 +213,7 @@ public final class Constants {
 
         public static class Control {
             //PID Constants
-            public static final double kP = 0.4;
+            public static final double kP = 0.004;
             public static final double kI = 0.0;
             public static final double kD = 0.0;
 
