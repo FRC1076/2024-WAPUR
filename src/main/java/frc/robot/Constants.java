@@ -77,8 +77,8 @@ public final class Constants {
             }
 
             public static class PIDTolerance {
-                public static final double kPosition = 0.0;
-                public static final double kVelocity = 0.0;
+                public static final Measure<Angle> kPosition = Units.Degrees.of(5);
+                public static final Measure<Velocity<Angle>> kVelocity = Units.DegreesPerSecond.of(3);
             }
         }
     }
@@ -231,7 +231,5 @@ public final class Constants {
                 public static final double kD = 0;
             }
         }
-
-        
     }
 }
