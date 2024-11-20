@@ -103,14 +103,14 @@ public final class Constants {
 
                     public static final double gearRatio = 6.75;
                     public static final Measure<Distance> positionConversionFactor = Meter.of((1/gearRatio) * Inches.of(4*Math.PI).in(Meter)); //gear ratio, circumference of the wheel, in -> m
-                    public static final Measure<Velocity<Distance>> velocityConversionFactor = MetersPerSecond.of((1/gearRatio) * Inches.of(4*Math.PI).in(Meter) * 60); //gear ratio, circumference of the wheel, in -> m, mintues -> seconds
+                    public static final Measure<Velocity<Distance>> velocityConversionFactor = MetersPerSecond.of((1/gearRatio) * Inches.of(4*Math.PI).in(Meter) / 60); //gear ratio, circumference of the wheel, in -> m, mintues -> seconds
                     public static final Measure<Current> kCurrentLimit = Amps.of(60);
 
                     public static class Control {
                         //PID Constants
-                        public static final double kP = 0.01;
+                        public static final double kP = 0.25;
                         public static final double kI = 0;
-                        public static final double kD = 0;
+                        public static final double kD = 0.012;
 
                         //Simple Motor FeedForward Constants
                         public static final double kS = 0;
