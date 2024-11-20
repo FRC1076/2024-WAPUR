@@ -82,7 +82,7 @@ public class RobotContainer {
         new Trigger(m_exampleSubsystem::exampleCondition)
             .onTrue(new ExampleCommand(m_exampleSubsystem));
         
-        m_operatorController.leftTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunIntake(m_intake));
+        m_driverController.leftTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunIntake(m_intake));
 
         m_DriveSubsystem.setDefaultCommand(
             new DriveClosedLoopTeleop(
