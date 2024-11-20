@@ -59,7 +59,7 @@ public final class Constants {
          * before compile time. Please ensure that currentMode is set to 0 (real)
          * before pushing any changes to github.
          */
-        public static final Mode currentMode = Mode.REAL;
+        public static final Mode currentMode = Mode.SIM;
 
         public static enum Mode {
             REAL,

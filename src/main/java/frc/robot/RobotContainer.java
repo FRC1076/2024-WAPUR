@@ -20,6 +20,7 @@ import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.GyroIOHardware;
 import frc.robot.subsystems.drive.ModuleIOHardware;
+import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake.IntakeIOHardware;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,6 +29,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.math.MathUtil;
+import frc.robot.Constants.Akit;
 
 
 /**
@@ -39,13 +41,10 @@ import edu.wpi.first.math.MathUtil;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-    private final DriveSubsystem m_DriveSubsystem = new DriveSubsystem(
-        new GyroIOHardware(),
-        new ModuleIOHardware(Corner.FrontLeft),
-        new ModuleIOHardware(Corner.FrontRight),
-        new ModuleIOHardware(Corner.RearLeft),
-        new ModuleIOHardware(Corner.RearRight)
-    );
+    private DriveSubsystem m_DriveSubsystem;
+    
+
+    
 
     private final IntakeSubsystem m_intake = new IntakeSubsystem(
         new IntakeIOHardware()
@@ -63,6 +62,28 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        switch (Akit.currentMode){
+        case REAL -> {
+            m_DriveSubsystem = 
+            new DriveSubsystem(
+                new GyroIOHardware(),
+                new ModuleIOHardware(Corner.FrontLeft),
+                new ModuleIOHardware(Corner.FrontRight),
+                new ModuleIOHardware(Corner.RearLeft),
+                new ModuleIOHardware(Corner.RearRight)
+            );
+        }
+        case SIM -> {
+            m_DriveSubsystem = 
+            new DriveSubsystem(
+                new GyroIOHardware(),
+                new ModuleIOSim(),
+                new ModuleIOSim(),
+                new ModuleIOSim(),
+                new ModuleIOSim()
+            );
+        }
+    }
         // Configure the trigger bindings
         configureBindings();
     }
