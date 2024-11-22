@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.3941701073492981,
+        "x": 3.5339388934764657,
         "y": 0.4887159372419495
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.9990173410404628,
-        "y": 0.4887159372419495
+        "x": 3.0009909165978534,
+        "y": 0.8353137902559876
       },
       "isLocked": false,
-      "linkedName": "Test"
+      "linkedName": "BCRATE"
     },
     {
       "anchor": {
-        "x": 3.5339388934764657,
-        "y": 0.4887159372419495
+        "x": 3.53,
+        "y": 1.7391866226259294
       },
       "prevControl": {
-        "x": 2.908703550784476,
-        "y": 0.4819199009083411
+        "x": 3.4116102394715115,
+        "y": 1.4877332782824124
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BSHOOT"
     }
   ],
   "rotationTargets": [],
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": null,
   "previewStartingState": {
-    "rotation": 90.0,
+    "rotation": -90.0,
     "velocity": 0
   },
   "useDefaultConstraints": true
