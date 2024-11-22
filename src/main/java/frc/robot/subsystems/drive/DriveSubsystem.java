@@ -33,7 +33,6 @@ public class DriveSubsystem extends SubsystemBase {
     private GyroIOInputsAutoLogged gyroInputs = new GyroIOInputsAutoLogged();
     private SwerveDriveKinematics kinematics = new SwerveDriveKinematics(getModuleTranslations());
     private Rotation2d gyroRotation = new Rotation2d();
-    private double simGyroYaw = 0.0;
     private SwerveDrivePoseEstimator estimator = new SwerveDrivePoseEstimator(
         kinematics, 
         gyroRotation, 
@@ -94,6 +93,14 @@ public class DriveSubsystem extends SubsystemBase {
         return positions;
     }
 
+    public SwerveModulePosition[] getModuleDeltaPositions() {
+        SwerveModulePosition[] positions = new SwerveModulePosition[4];
+        for (int i = 0; i < 4; i++) {
+            positions[i] = this.modules[i].getSwerveDeltaPosition();
+        }
+        return positions;
+    }
+
     /** Drives based on the given CHASSIS-ORIENTED ChassisSpeeds object */
     public void drive(ChassisSpeeds speeds, boolean isOpenLoop){
         ChassisSpeeds discreteSpeeds = ChassisSpeeds.discretize(speeds, 0.02);
@@ -129,14 +136,6 @@ public class DriveSubsystem extends SubsystemBase {
         return estimator.getEstimatedPosition();
     }
 
-    @AutoLogOutput(key = "Odometry/Sim")
-    public Pose2d getSimPose(){
-        return new Pose2d(
-            estimator.getEstimatedPosition().getTranslation(),
-            Rotation2d.fromRadians(simGyroYaw)
-            );
-    }
-
     /** Returns the current odometry rotation. */
     public Rotation2d getRotation() {
         return getPose().getRotation();
@@ -149,16 +148,14 @@ public class DriveSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        //Used to simulate gyro
+        gyroIO.deriveGyro(getModuleDeltaPositions(), kinematics);
         //Logs to advantageKit and runs periodic routines on modules
         gyroIO.updateInputs(gyroInputs);
         Logger.processInputs("Drive/Gyro", gyroInputs);
         for (var module : modules) {
             module.periodic();
         }
-
-        ChassisSpeeds derivedSpeeds = kinematics.toChassisSpeeds(modules[0].getState(), modules[1].getState(), modules[2].getState(), modules[3].getState());
-        //Finds simulated gyro based on states
-        simGyroYaw += 0.02 * derivedSpeeds.omegaRadiansPerSecond;
 
         // Updates GyroRotation
         gyroRotation = gyroInputs.yawPosition;

@@ -24,6 +24,9 @@ public class Module {
     Corner ModuleID;
     ModuleIOInputsAutoLogged inputs = new ModuleIOInputsAutoLogged();
 
+    double lastPosition = 0.0;
+    Rotation2d lastAngle = new Rotation2d();
+
     /** Creates a new Module. */
     public Module(ModuleIO io,Corner ModuleID) {
         this.io = io;
@@ -108,6 +111,11 @@ public class Module {
         return new SwerveModulePosition(getPosition(),getAngle());
     }
 
+    /**Returns the change in swerve module position */
+    public SwerveModulePosition getSwerveDeltaPosition() {
+        return new SwerveModulePosition(getPositionMeters() - lastPosition, getAngle().minus(lastAngle));
+    }
+
     /**Updates relative turn encoder with value from absolute encoder */
     public void updateTurnEncoder() {
         io.updateTurnEncoder();
@@ -115,6 +123,8 @@ public class Module {
     
     // Module is not a subsystem so this won't be default called
     public void periodic(){
+        lastPosition = inputs.drivePositionMeters;
+        lastAngle = inputs.turnPosition;
         io.updateInputs(inputs);
         Logger.processInputs("Drive/" + ModuleID.label,inputs);
         io.periodic();

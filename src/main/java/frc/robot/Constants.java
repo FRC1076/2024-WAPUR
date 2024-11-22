@@ -68,6 +68,10 @@ public final class Constants {
         }
     }
 
+    public static class Sim {
+        public static final double refreshRateSeconds = 0.02;
+    }
+
     public static class DriveConstants {
 
         public static Measure<Velocity<Distance>> kMaxTransSpeed = FeetPerSecond.of(3); // This is the maximum translational speed allowed by the rules

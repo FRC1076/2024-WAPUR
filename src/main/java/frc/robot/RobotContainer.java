@@ -19,6 +19,7 @@ import frc.robot.commands.drive.DriveClosedLoopTeleop;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.GyroIOHardware;
+import frc.robot.subsystems.drive.GyroIOSim;
 import frc.robot.subsystems.drive.ModuleIOHardware;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.intake.IntakeSubsystem;
@@ -76,7 +77,7 @@ public class RobotContainer {
         case SIM -> {
             m_DriveSubsystem = 
             new DriveSubsystem(
-                new GyroIOHardware(),
+                new GyroIOSim(),
                 new ModuleIOSim(),
                 new ModuleIOSim(),
                 new ModuleIOSim(),

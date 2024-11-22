@@ -37,8 +37,10 @@ import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 public class ModuleIOSim implements ModuleIO {
     
     //Need to implement constants
-    private final DCMotorSim m_driveSim = new DCMotorSim(DCMotor.getNEO(1), 6.75, 0.025);
-    private final DCMotorSim m_turnSim = new DCMotorSim(DCMotor.getNEO(1), 12.8, 0.004);
+    // private final DCMotorSim m_driveSim = new DCMotorSim(DCMotor.getNEO(1), 6.75, 0.025);
+    // private final DCMotorSim m_turnSim = new DCMotorSim(DCMotor.getNEO(1), 12.8, 0.004);
+    private final DCMotorSim m_driveSim = new DCMotorSim(DCMotor.getNEO(1), 1, 0.025);
+    private final DCMotorSim m_turnSim = new DCMotorSim(DCMotor.getNEO(1), 1, 0.004);
     private double turnSetpoint = 0;
     private double driveVoltage = 0;
     private double turnVoltage = 0;

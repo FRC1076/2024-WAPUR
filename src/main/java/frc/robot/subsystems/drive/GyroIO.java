@@ -5,7 +5,11 @@ import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Velocity;
 import static edu.wpi.first.units.Units.*;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import org.littletonrobotics.junction.AutoLog;
+
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
 
 public interface GyroIO {
     @AutoLog
@@ -16,6 +20,8 @@ public interface GyroIO {
     }
 
     public default void updateInputs(GyroIOInputs inputs) {}
+
+    public default void deriveGyro(SwerveModulePosition[] swerveModuleDeltaPositions, SwerveDriveKinematics kinematics) {}
 
     public default void resetHeading() {}
 }
