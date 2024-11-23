@@ -1,34 +1,32 @@
 package frc.robot.subsystems.drive;
 
-import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.CANSparkMax;
+import com.ctre.phoenix6.BaseStatusSignal;
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.CANcoderConfiguration;
+import com.ctre.phoenix6.hardware.CANcoder;
+import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.SparkPIDController.ArbFFUnits;
 
-import static edu.wpi.first.units.Units.*;
-import static frc.robot.utils.units.Units.*;
-import com.ctre.phoenix6.hardware.CANcoder;
-import com.ctre.phoenix6.configs.CANcoderConfiguration;
-import com.ctre.phoenix6.configs.MagnetSensorConfigs;
-import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
-import com.ctre.phoenix6.signals.SensorDirectionValue;
-import com.ctre.phoenix6.BaseStatusSignal;
-import com.ctre.phoenix6.StatusSignal;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.DriveConstants.ModuleConstants.FrontLeftModule;
-import frc.robot.Constants.DriveConstants.ModuleConstants.FrontRightModule;
-import frc.robot.Constants.DriveConstants.ModuleConstants.RearRightModule;
-import frc.robot.Constants.DriveConstants.ModuleConstants.RearLeftModule;
+import static edu.wpi.first.units.Units.Amps;
+import static edu.wpi.first.units.Units.Meter;
+import static edu.wpi.first.units.Units.MetersPerSecond;
+import static edu.wpi.first.units.Units.Radian;
+import static edu.wpi.first.units.Units.Radians;
+import static edu.wpi.first.units.Units.RadiansPerSecond;
+import static edu.wpi.first.units.Units.Rotations;
 import frc.robot.Constants.DriveConstants.ModuleConstants;
 import frc.robot.Constants.DriveConstants.ModuleConstants.Common;
+import frc.robot.Constants.DriveConstants.ModuleConstants.FrontLeftModule;
+import frc.robot.Constants.DriveConstants.ModuleConstants.FrontRightModule;
+import frc.robot.Constants.DriveConstants.ModuleConstants.RearLeftModule;
+import frc.robot.Constants.DriveConstants.ModuleConstants.RearRightModule;
 
 
 /* IO for a Spark Max operating in brushless mode */
@@ -141,6 +139,7 @@ public class ModuleIOHardware implements ModuleIO {
         m_driveEncoder.setPosition(0.0);
         m_driveEncoder.setPositionConversionFactor(Common.Drive.positionConversionFactor.in(Meter));
         m_driveEncoder.setVelocityConversionFactor(Common.Drive.velocityConversionFactor.in(MetersPerSecond));
+         System.out.println(m_driveEncoder.getVelocityConversionFactor());
         m_driveEncoder.setMeasurementPeriod(10);
         m_driveEncoder.setAverageDepth(2);
 
@@ -201,6 +200,7 @@ public class ModuleIOHardware implements ModuleIO {
 
     @Override 
     public void setDriveVelocity(double velocityMetersPerSecond) {
+
         m_drivePIDController.setReference(
             velocityMetersPerSecond,
             ControlType.kVelocity,
