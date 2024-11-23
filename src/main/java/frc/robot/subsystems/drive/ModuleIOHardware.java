@@ -139,7 +139,7 @@ public class ModuleIOHardware implements ModuleIO {
         m_driveEncoder.setPosition(0.0);
         m_driveEncoder.setPositionConversionFactor(Common.Drive.positionConversionFactor.in(Meter));
         m_driveEncoder.setVelocityConversionFactor(Common.Drive.velocityConversionFactor.in(MetersPerSecond));
-         System.out.println(m_driveEncoder.getVelocityConversionFactor());
+        //System.out.println(m_driveEncoder.getVelocityConversionFactor());
         m_driveEncoder.setMeasurementPeriod(10);
         m_driveEncoder.setAverageDepth(2);
 
