@@ -15,11 +15,18 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.intake.RunIntake;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.drive.DriveClosedLoopTeleop;
+import frc.robot.commands.grabber.GrabberEject;
+import frc.robot.commands.grabber.GrabberIntake;
+import frc.robot.commands.grabber.GrabberStop;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.GyroIOHardware;
 import frc.robot.subsystems.drive.ModuleIOHardware;
+import frc.robot.subsystems.grabber.GrabberIOHardware;
+import frc.robot.subsystems.grabber.GrabberSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake.IntakeIOHardware;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -47,9 +54,13 @@ public class RobotContainer {
         new ModuleIOHardware(Corner.RearRight)
     );
 
+    private final GrabberSubsystem m_grabber = new GrabberSubsystem(
+        new GrabberIOHardware()
+    );
+
     private final IntakeSubsystem m_intake = new IntakeSubsystem(
         new IntakeIOHardware()
-    ); //Change later to actual subsystem
+    );
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController m_driverController =
@@ -84,6 +95,19 @@ public class RobotContainer {
         
         m_operatorController.leftTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunIntake(m_intake));
 
+        //Grabber
+        new Trigger(() -> m_operatorController.getRightY() < -0.7)
+            .onTrue(
+                new SequentialCommandGroup(
+                    new GrabberEject(m_grabber), 
+                    new WaitCommand(2),
+                    new GrabberStop(m_grabber)));
+
+        new Trigger(() -> m_operatorController.getRightY() > 0.7)
+            .onTrue(
+                new GrabberIntake(m_grabber)
+            );
+
         m_DriveSubsystem.setDefaultCommand(
             new DriveClosedLoopTeleop(
                 () -> MathUtil.applyDeadband(m_driverController.getLeftY(), Driver.kControllerDeadband),
@@ -92,7 +116,7 @@ public class RobotContainer {
                 m_DriveSubsystem)
         );
 
-        
+
 
         // Reset Heading of swerve
         m_driverController.leftTrigger(Driver.kControllerTriggerThreshold).and(

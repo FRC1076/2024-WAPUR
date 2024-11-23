@@ -16,5 +16,11 @@ public class GrabberIntake extends Command {
         m_subsystem.runVolts(4.5);
     }
 
+    @Override
+    public boolean isFinished() {
+        return true;
+    }
+
+
     
 }

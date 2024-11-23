@@ -16,5 +16,10 @@ public class GrabberStop extends Command {
         m_subsystem.stop();
     }
 
+    @Override 
+    public boolean isFinished() {
+        return true;
+    }
+
 
 }

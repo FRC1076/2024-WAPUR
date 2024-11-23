@@ -17,7 +17,7 @@ public class GrabberEject extends Command {
     }
 
     @Override
-    public void end(boolean interrupted) {
-        m_subsystem.stop();
+    public boolean isFinished() {
+        return true;
     }
 }
