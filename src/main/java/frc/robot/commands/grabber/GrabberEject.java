@@ -13,7 +13,7 @@ public class GrabberEject extends Command {
 
     @Override
     public void initialize() {
-        m_subsystem.runVolts(4.5);
+        m_subsystem.runVolts(10);
     }
 
     @Override
