@@ -31,6 +31,8 @@ import frc.robot.Constants.DriveConstants.ModuleConstants.RearLeftModule;
 import frc.robot.Constants.DriveConstants.ModuleConstants;
 import frc.robot.Constants.DriveConstants.ModuleConstants.Common;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+import edu.wpi.first.math.controller.PIDController;
+import org.littletonrobotics.junction.Logger;;
 
 
 /* IO for a Spark Max operating in brushless mode */
@@ -44,10 +46,14 @@ public class ModuleIOSim implements ModuleIO {
     private double turnSetpoint = 0;
     private double driveVoltage = 0;
     private double turnVoltage = 0;
+
+    private final PIDController m_turnPIDController = new PIDController(0.02, 0, 0);
     
 
     // Take in parameters to specify exact module
-    public ModuleIOSim(){}
+    public ModuleIOSim(){
+        m_turnPIDController.enableContinuousInput(-Math.PI, Math.PI);
+    }
 
     @Override
     public void updateInputs(ModuleIOInputs inputs){
@@ -59,7 +65,9 @@ public class ModuleIOSim implements ModuleIO {
         inputs.drivePositionMeters = m_driveSim.getAngularPositionRotations() * Common.Drive.positionConversionFactor.in(Meter);
         inputs.driveVelocityMetersPerSec = m_driveSim.getAngularVelocityRPM() * Common.Drive.velocityConversionFactor.in(MetersPerSecond);
 
-        inputs.turnPosition = Rotation2d.fromRadians(m_turnSim.getAngularPositionRad()); // does this need a % 2*Math.PI
+        //double wrappedTurnPosition = m_turnSim.getAngularPositionRad()
+
+        inputs.turnPosition = Rotation2d.fromRadians(m_turnSim.getAngularPositionRad());
         inputs.turnVelocityRadPerSec = m_turnSim.getAngularVelocityRadPerSec();
         inputs.turnAbsolutePosition =Rotation2d.fromRadians(m_turnSim.getAngularPositionRad());
     
@@ -101,8 +109,11 @@ public class ModuleIOSim implements ModuleIO {
 
     @Override
     public void setTurnPosition(double positionRadians) {
-        m_turnSim.setState(positionRadians, 0);
         turnSetpoint = positionRadians;
+        double wrappedPosition = m_turnSim.getAngularPositionRad() % (2 * Math.PI);
+        if(Math.abs(wrappedPosition) > Math.PI) wrappedPosition = ((2 * Math.PI) - Math.abs(wrappedPosition)) * Math.signum(-wrappedPosition); 
+        Logger.recordOutput("TEST", wrappedPosition);
+        setTurnVoltage(m_turnPIDController.calculate(m_turnSim.getAngularPositionRad(), positionRadians));
     }
 
     @Override

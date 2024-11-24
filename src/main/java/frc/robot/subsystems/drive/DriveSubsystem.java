@@ -149,7 +149,7 @@ public class DriveSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         //Used to simulate gyro
-        gyroIO.deriveGyro(getModuleDeltaPositions(), kinematics);
+        gyroIO.deriveGyro(getModuleStates(), kinematics);
         //Logs to advantageKit and runs periodic routines on modules
         gyroIO.updateInputs(gyroInputs);
         Logger.processInputs("Drive/Gyro", gyroInputs);

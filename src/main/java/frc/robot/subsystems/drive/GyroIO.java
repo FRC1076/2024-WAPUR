@@ -10,6 +10,7 @@ import org.littletonrobotics.junction.AutoLog;
 
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 public interface GyroIO {
     @AutoLog
@@ -21,7 +22,7 @@ public interface GyroIO {
 
     public default void updateInputs(GyroIOInputs inputs) {}
 
-    public default void deriveGyro(SwerveModulePosition[] swerveModuleDeltaPositions, SwerveDriveKinematics kinematics) {}
+    public default void deriveGyro(SwerveModuleState[] swerveModuleState, SwerveDriveKinematics kinematics) {}
 
     public default void resetHeading() {}
 }

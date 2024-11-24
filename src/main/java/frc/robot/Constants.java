@@ -109,7 +109,7 @@ public final class Constants {
 
                     public static final double gearRatio = 6.75;
                     public static final Measure<Distance> positionConversionFactor = Meter.of((1/gearRatio) * Inches.of(4*Math.PI).in(Meter)); //gear ratio, circumference of the wheel, in -> m
-                    public static final Measure<Velocity<Distance>> velocityConversionFactor = MetersPerSecond.of((1/gearRatio) * Inches.of(4*Math.PI).in(Meter) * 60); //gear ratio, circumference of the wheel, in -> m, mintues -> seconds
+                    public static final Measure<Velocity<Distance>> velocityConversionFactor = MetersPerSecond.of((1/gearRatio) * Inches.of(4*Math.PI).in(Meter) / 60); //gear ratio, circumference of the wheel, in -> m, mintues -> seconds
                     public static final Measure<Current> kCurrentLimit = Amps.of(60);
 
                     public static class Control {

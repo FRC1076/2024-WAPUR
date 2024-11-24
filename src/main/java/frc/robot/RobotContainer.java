@@ -108,9 +108,9 @@ public class RobotContainer {
 
         m_DriveSubsystem.setDefaultCommand(
             new DriveClosedLoopTeleop(
-                () -> MathUtil.applyDeadband(m_driverController.getLeftY(), Driver.kControllerDeadband),
-                () -> MathUtil.applyDeadband(m_driverController.getLeftX(), Driver.kControllerDeadband), 
-                () -> MathUtil.applyDeadband(m_driverController.getRightX(), Driver.kControllerDeadband), 
+                () -> MathUtil.applyDeadband(-m_driverController.getLeftY(), Driver.kControllerDeadband),
+                () -> MathUtil.applyDeadband(-m_driverController.getLeftX(), Driver.kControllerDeadband), 
+                () -> MathUtil.applyDeadband(-m_driverController.getRightX(), Driver.kControllerDeadband), 
                 m_DriveSubsystem)
         );
 
