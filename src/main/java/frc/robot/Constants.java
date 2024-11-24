@@ -10,16 +10,14 @@ import edu.wpi.first.units.Current;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
 import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.FeetPerSecond;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meter;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
@@ -114,9 +112,9 @@ public final class Constants {
 
                     public static class Control {
                         //PID Constants
-                        public static final double kP = 0;
+                        public static final double kP = 0.24;
                         public static final double kI = 0;
-                        public static final double kD = 0;
+                        public static final double kD = 0.012;
 
                         //Simple Motor FeedForward Constants
                         public static final double kS = 0;
@@ -157,7 +155,7 @@ public final class Constants {
                 public static final int kDriveMotorPort = 3; // drive and turn motors may be flipped
                 public static final int kTurnMotorPort = 13;
                 public static final int kAbsoluteEncoderPort = 23;
-                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(-0.429931640625)); //2.295 - Math.PI/2
+                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(-0.429931640625 + 0.5)); //2.295 - Math.PI/2
                 public static final boolean invertDriveMotor = false;
             }
 
@@ -165,7 +163,7 @@ public final class Constants {
                 public static final int kDriveMotorPort = 4;
                 public static final int kTurnMotorPort = 14;
                 public static final int kAbsoluteEncoderPort = 24;
-                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(-0.403564453125)); //0.781
+                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(-0.403564453125 + 0.5)); //0.781
                 public static final boolean invertDriveMotor = false;
             }
 
@@ -173,7 +171,7 @@ public final class Constants {
                 public static final int kDriveMotorPort = 1;
                 public static final int kTurnMotorPort = 11;
                 public static final int kAbsoluteEncoderPort = 21; 
-                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(0.4765625)); //5.134
+                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(0.4765625 + 0.5)); //5.134
                 public static final boolean invertDriveMotor = false;
             }
 
@@ -181,7 +179,7 @@ public final class Constants {
                 public static final int kDriveMotorPort = 2;
                 public static final int kTurnMotorPort = 12;
                 public static final int kAbsoluteEncoderPort = 22;
-                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(0.078369140625)); //3.863 - Math.PI/2
+                public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(0.078369140625 + 0.5)); //3.863 - Math.PI/2
                 public static final boolean invertDriveMotor = false;
             }
 
@@ -190,7 +188,7 @@ public final class Constants {
 
         public static class GyroConstants {
             
-            public static final int kGyroPort = -1;
+            public static final int kGyroPort = 9;
             
             public static class Signal {
                 public static final double kYawUpdateFrequencyHz = 100;

@@ -185,7 +185,7 @@ public class DriveSubsystem extends SubsystemBase {
 
     /** Calibrates all relative turn encoders with values from absolute encoders */
     public void calibrateTurnEncoders() {
-        System.out.println("Calibrating Turn Encoders");
+        //System.out.println("Calibrating Turn Encoders");
         for (Module module : modules){
             module.updateTurnEncoder();
         }

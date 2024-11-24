@@ -29,8 +29,13 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.DriverStation;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.math.MathUtil;
 import frc.robot.Constants.Akit;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 /**
@@ -61,6 +66,8 @@ public class RobotContainer {
     private final CommandXboxController m_operatorController = 
         new CommandXboxController(OIConstants.Operator.kControllerPort);
 
+    private final SendableChooser<Command> m_autoChooser;
+
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         switch (Akit.currentMode){
@@ -87,6 +94,9 @@ public class RobotContainer {
     }
         // Configure the trigger bindings
         configureBindings();
+
+        m_autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData(m_autoChooser);
     }
 
     /**
@@ -104,7 +114,7 @@ public class RobotContainer {
         new Trigger(m_exampleSubsystem::exampleCondition)
             .onTrue(new ExampleCommand(m_exampleSubsystem));
         
-        m_operatorController.leftTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunIntake(m_intake));
+        m_driverController.leftTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunIntake(m_intake));
 
         m_DriveSubsystem.setDefaultCommand(
             new DriveClosedLoopTeleop(
@@ -131,7 +141,6 @@ public class RobotContainer {
     * @return the command to run in autonomous
     */
     public Command getAutonomousCommand() {
-        // An example command will be run in autonomous
-        return Autos.exampleAuto(m_exampleSubsystem);
+        return m_autoChooser.getSelected();
     }
 }
