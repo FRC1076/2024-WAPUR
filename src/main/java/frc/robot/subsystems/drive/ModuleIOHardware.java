@@ -49,6 +49,7 @@ public class ModuleIOHardware implements ModuleIO {
     private final Rotation2d absoluteEncoderOffset;
 
     private double turnSetpoint = 0.0;
+    private double driveSetpoint = 0.0;
 
     // Units should be in radians/sec
     private final SimpleMotorFeedforward m_driveFFController = 
@@ -176,7 +177,7 @@ public class ModuleIOHardware implements ModuleIO {
         inputs.turnCurrentAmps = m_turnMotor.getOutputCurrent();
 
         inputs.turnSetpoint = turnSetpoint;
-
+        inputs.driveSetpoint = driveSetpoint;
     }
 
     /** 
@@ -207,6 +208,7 @@ public class ModuleIOHardware implements ModuleIO {
             0,
             m_driveFFController.calculate(velocityMetersPerSecond),
             ArbFFUnits.kVoltage);
+        driveSetpoint = velocityMetersPerSecond;
     }
 
     @Override

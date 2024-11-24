@@ -32,6 +32,7 @@ import frc.robot.Constants.DriveConstants.ModuleConstants;
 import frc.robot.Constants.DriveConstants.ModuleConstants.Common;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import org.littletonrobotics.junction.Logger;;
 
 
@@ -41,13 +42,17 @@ public class ModuleIOSim implements ModuleIO {
     //Need to implement constants
     // private final DCMotorSim m_driveSim = new DCMotorSim(DCMotor.getNEO(1), 6.75, 0.025);
     // private final DCMotorSim m_turnSim = new DCMotorSim(DCMotor.getNEO(1), 12.8, 0.004);
-    private final DCMotorSim m_driveSim = new DCMotorSim(DCMotor.getNEO(1), 1, 0.025);
-    private final DCMotorSim m_turnSim = new DCMotorSim(DCMotor.getNEO(1), 1, 0.004);
+    private final DCMotorSim m_driveSim = new DCMotorSim(DCMotor.getNEO(1), 1, 0.01);
+    private final DCMotorSim m_turnSim = new DCMotorSim(DCMotor.getNEO(1), 12.8, 0.004);
     private double turnSetpoint = 0;
+    private double driveSetpoint = 0;
     private double driveVoltage = 0;
     private double turnVoltage = 0;
 
-    private final PIDController m_turnPIDController = new PIDController(0.02, 0, 0);
+    private final PIDController m_turnPIDController = new PIDController(0.4, 0, 0);
+
+    private final PIDController m_drivePIDController = new PIDController(2.4, 0, 0);
+    private final SimpleMotorFeedforward m_driveFFController = new SimpleMotorFeedforward(0, 2.78, 0);
     
 
     // Take in parameters to specify exact module
@@ -69,7 +74,7 @@ public class ModuleIOSim implements ModuleIO {
 
         inputs.turnPosition = Rotation2d.fromRadians(m_turnSim.getAngularPositionRad());
         inputs.turnVelocityRadPerSec = m_turnSim.getAngularVelocityRadPerSec();
-        inputs.turnAbsolutePosition =Rotation2d.fromRadians(m_turnSim.getAngularPositionRad());
+        inputs.turnAbsolutePosition = Rotation2d.fromRadians(m_turnSim.getAngularPositionRad());
     
         inputs.driveAppliedVolts = driveVoltage;
         inputs.turnAppliedVolts = turnVoltage;
@@ -78,6 +83,7 @@ public class ModuleIOSim implements ModuleIO {
         inputs.turnCurrentAmps = m_turnSim.getCurrentDrawAmps();
 
         inputs.turnSetpoint = turnSetpoint;
+        inputs.driveSetpoint = driveSetpoint;
     }
 
     /** 
@@ -104,7 +110,13 @@ public class ModuleIOSim implements ModuleIO {
 
     @Override 
     public void setDriveVelocity(double velocityMetersPerSecond) {
-        return;
+        driveSetpoint = velocityMetersPerSecond;
+        setDriveVoltage(
+            m_drivePIDController.calculate(
+                m_driveSim.getAngularVelocityRPM() * Common.Drive.velocityConversionFactor.in(MetersPerSecond), 
+                velocityMetersPerSecond) 
+                + m_driveFFController.calculate(velocityMetersPerSecond)
+        );
     }
 
     @Override

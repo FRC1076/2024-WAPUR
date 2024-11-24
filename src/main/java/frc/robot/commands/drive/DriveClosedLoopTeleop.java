@@ -28,15 +28,14 @@ public class DriveClosedLoopTeleop extends Command {
     @Override
     public void execute() {
         ChassisSpeeds speeds = new ChassisSpeeds(
-            FeetPerSecond.of(xTransSpeedSupplier.getAsDouble() * 14),
-            FeetPerSecond.of(yTransSpeedSupplier.getAsDouble() * 14),
+            FeetPerSecond.of(xTransSpeedSupplier.getAsDouble() * 3),
+            FeetPerSecond.of(yTransSpeedSupplier.getAsDouble() * 3),
             kMaxRotSpeed.times(omegaSupplier.getAsDouble())
         );
         m_subsystem.driveFO(
             speeds,
-            true
+            false
         );
-        //CHANGE BACK TO FALSE IT IS SUPPOSED TO BE FALSE FOR CLOSED LOOP THIS IS TRUE JUST FOR TESTING
     }
 
     @Override
