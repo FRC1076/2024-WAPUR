@@ -49,9 +49,9 @@ public class ModuleIOSim implements ModuleIO {
     private double driveVoltage = 0;
     private double turnVoltage = 0;
 
-    private final PIDController m_turnPIDController = new PIDController(0.4, 0, 0);
+    private final PIDController m_turnPIDController = new PIDController(2, 0, 0);
 
-    private final PIDController m_drivePIDController = new PIDController(2.4, 0, 0);
+    private final PIDController m_drivePIDController = new PIDController(22, 0, 0);
     private final SimpleMotorFeedforward m_driveFFController = new SimpleMotorFeedforward(0, 2.78, 0);
     
 
