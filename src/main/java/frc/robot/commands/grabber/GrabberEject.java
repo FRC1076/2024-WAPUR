@@ -13,11 +13,11 @@ public class GrabberEject extends Command {
 
     @Override
     public void initialize() {
-        m_subsystem.runVolts(10);
+        m_subsystem.runVolts(2);
     }
 
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
 }

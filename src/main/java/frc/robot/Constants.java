@@ -203,7 +203,7 @@ public final class Constants {
     }
 
     public static class GrabberConstants {
-        public static final int kMotorPort = 17;
+        public static final int kMotorPort = 10;
         
         public static final Measure<Current> kCurrentLimit = Amps.of(40); 
         public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
