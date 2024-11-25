@@ -13,7 +13,7 @@ public class GrabberIntake extends Command {
     
     @Override
     public void initialize() {
-        m_subsystem.runVolts(-2);
+        m_subsystem.runVolts(-4);
     }
 
     @Override
@@ -23,7 +23,7 @@ public class GrabberIntake extends Command {
 
     @Override
     public boolean isFinished() {
-        return true;
+        return false;
     }
 
 
