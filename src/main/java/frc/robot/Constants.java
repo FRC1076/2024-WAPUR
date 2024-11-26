@@ -210,6 +210,14 @@ public final class Constants {
         public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
     }
 
+    public static class ShooterConstants {
+        // Which motor port? CHANGE!!! 
+        public static final int kMotorPort = -1;
+
+        public static final Measure<Current> kCurrentLimit = Amps.of(40); 
+        public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
+    }
+
     public static class AutoConstants {
         public static class Control {
             public static class Translation {

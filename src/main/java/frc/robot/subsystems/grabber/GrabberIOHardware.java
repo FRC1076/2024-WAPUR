@@ -8,7 +8,7 @@ public class GrabberIOHardware implements GrabberIO{
     private final CANSparkMax m_Motor;
 
     public GrabberIOHardware() {
-        //motor port constant is currently unknown. Change when known.
+        // motor port constant is currently unknown. Change when known.
         m_Motor = new CANSparkMax(GrabberConstants.kMotorPort, CANSparkMax.MotorType.kBrushless);
     }
 
