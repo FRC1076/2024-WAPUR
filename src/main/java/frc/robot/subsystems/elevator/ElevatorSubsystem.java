@@ -16,6 +16,14 @@ public class ElevatorSubsystem extends SubsystemBase {
         this.io = io;
     }
 
+    public void setPosition(double positionMeters) {
+        io.setPosition(positionMeters);
+    }
+
+    public void setPosition(Measure<Distance> positionMeters) {
+        io.setPosition(positionMeters);
+    }
+
     public void setVelocity(double velocityMetersPerSecond){
         io.setVelocity(velocityMetersPerSecond);
     }

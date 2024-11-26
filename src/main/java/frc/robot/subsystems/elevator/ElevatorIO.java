@@ -20,6 +20,10 @@ public interface ElevatorIO {
     }
 
     public default void updateInputs(ElevatorIOInputs inputs) {}
+
+    public default void setPosition(double positionMeters) {}
+
+    public default void setPosition(Measure<Distance> positionMeters) {}
     
     public default void setVelocity(double velocityMetersPerSecond) {}
 

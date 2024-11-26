@@ -77,18 +77,29 @@ public class ElevatorIOHardware implements ElevatorIO {
 
     @Override
     public void setVoltage(double volts){
-        m_leadMotor.setVoltage(volts);
+        if((m_encoder.getPosition() < ElevatorConstants.minHeightMeters && volts < 0) || (m_encoder.getPosition() > ElevatorConstants.maxHeightMeters && volts > 0)) {
+            m_leadMotor.setVoltage(0); //Maybe set to kG instead?
+        } else 
+            m_leadMotor.setVoltage(volts);
+        }
     }
 
     @Override
-    public void setVelocity(double velocityMetersPerSecond){
+    public void setPosition(double positionMeters){
+        
+
         m_PIDController.setReference(
-            velocityMetersPerSecond,
-            ControlType.kVelocity,
+            positionMeters,
+            ControlType.kPosition,
             0,
-            FFController.calculate(velocityMetersPerSecond),
+            FFController.calculate(positionMeters),
             ArbFFUnits.kVoltage
         );
+    }
+
+    @Override
+    public void setVelocity(double velocity){
+        setVoltage(velocity + FFController.calculate(velocity)); //This probably doesn't work. It's for manual control of the elevator
     }
 
     @Override
