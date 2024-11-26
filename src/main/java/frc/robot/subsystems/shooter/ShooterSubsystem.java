@@ -1,10 +1,9 @@
 package frc.robot.subsystems.shooter;
 
-import static edu.wpi.first.units.Units.Volts;
-
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.units.Measure;
+import static edu.wpi.first.units.Units.Volts;
 import edu.wpi.first.units.Voltage;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -31,7 +30,7 @@ public class ShooterSubsystem extends SubsystemBase{
     @Override
     public void periodic() {
         io.updateInputs(inputs);
-        Logger.processInputs("Grabber", inputs);
+        Logger.processInputs("Shooter", inputs);
     }
     
 }
