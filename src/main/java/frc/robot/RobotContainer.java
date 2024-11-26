@@ -90,8 +90,8 @@ public class RobotContainer {
         new Trigger(m_exampleSubsystem::exampleCondition)
             .onTrue(new ExampleCommand(m_exampleSubsystem));
         
-        m_operatorController.leftTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunIntake(m_intake));
-
+        //m_operatorController.leftTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunIntake(m_intake));
+        /*
         m_DriveSubsystem.setDefaultCommand(
             new DriveClosedLoopTeleop(
                 () -> MathUtil.applyDeadband(m_driverController.getLeftY(), Driver.kControllerDeadband),
@@ -108,7 +108,7 @@ public class RobotContainer {
         ).onTrue(new InstantCommand(
             () -> m_DriveSubsystem.resetHeading()
         ));
-
+        */
         //Elevator controls
         m_operatorController.a().onTrue(new setElevatorPosition(heightOne, m_ElevatorSubsystem));
         m_operatorController.b().onTrue(new setElevatorPosition(heightTwo, m_ElevatorSubsystem));

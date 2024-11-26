@@ -201,8 +201,8 @@ public final class Constants {
     }
 
     public static class ElevatorConstants {
-        public static final int kMotorPort0 = -1;
-        public static final int kMotorPort1 = -1;
+        public static final int kMotorPort0 = 15;
+        public static final int kMotorPort1 = 60;
 
         //Heights measured in meters
         public static final double heightOne = 0;
