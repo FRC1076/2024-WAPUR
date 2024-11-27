@@ -226,8 +226,8 @@ public final class Constants {
             public static final double kD = 0.0;
 
             //Feedforward Constants
-            public static final Measure<Voltage> kS = Volts.of(0); //Static gain
-            public static final Measure<Voltage> kG = Volts.of(0); //Gravity gain
+            public static final Measure<Voltage> kS = Volts.of(0); //Static gain (voltage)
+            public static final Measure<Voltage> kG = Volts.of(0); //Gravity gain (voltage)
             public static final Measure<Per<Voltage,Velocity<Distance>>> kV = VoltsPerMeterPerSecond.of(0); //Velocity Gain
             public static final Measure<Per<Voltage,Velocity<Velocity<Distance>>>> kA = VoltsPerMeterPerSecondSquared.of(0); //Acceleration Gain
         }

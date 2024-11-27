@@ -17,6 +17,7 @@ import static frc.robot.Constants.ElevatorConstants.kMotorPort0;
 import static frc.robot.Constants.ElevatorConstants.kMotorPort1;
 import static frc.robot.Constants.ElevatorConstants.kPositionConversionFactor;
 import static frc.robot.Constants.ElevatorConstants.kVelocityConversionFactor;
+import static frc.robot.Constants.ElevatorConstants.*;
 import static frc.robot.Constants.ElevatorConstants.Electrical.*;
 import static edu.wpi.first.units.Units.*;
 
@@ -77,7 +78,7 @@ public class ElevatorIOHardware implements ElevatorIO {
 
     @Override
     public void setVoltage(double volts){
-        if((m_encoder.getPosition() < ElevatorConstants.minHeightMeters && volts < 0) || (m_encoder.getPosition() > ElevatorConstants.maxHeightMeters && volts > 0)) {
+        if((m_encoder.getPosition() < minHeightMeters && volts < 0) || (m_encoder.getPosition() > maxHeightMeters && volts > 0)) {
             m_leadMotor.setVoltage(0); //Maybe set to kG instead?
         } else 
             m_leadMotor.setVoltage(volts);
@@ -86,20 +87,24 @@ public class ElevatorIOHardware implements ElevatorIO {
 
     @Override
     public void setPosition(double positionMeters){
-        
-
         m_PIDController.setReference(
             positionMeters,
             ControlType.kPosition,
             0,
-            FFController.calculate(positionMeters),
+            FFController.calculate(0),
             ArbFFUnits.kVoltage
         );
     }
 
     @Override
-    public void setVelocity(double velocity){
-        setVoltage(velocity + FFController.calculate(velocity)); //This probably doesn't work. It's for manual control of the elevator
+    public void setVelocity(double velocityMetersPerSecond){
+        m_PIDController.setReference(
+            velocityMetersPerSecond,
+            ControlType.kVelocity,
+            0,
+            FFController.calculate(velocityMetersPerSecond),
+            ArbFFUnits.kVoltage
+        ); //CONVERSION FACTOR IS NOT IMPLEMENTED, DO NOT USE
     }
 
     @Override
