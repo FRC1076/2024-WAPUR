@@ -9,7 +9,7 @@ import static edu.wpi.first.units.Units.*;
 import edu.wpi.first.math.geometry.Rotation2d;
 public interface ElevatorIO {
     @AutoLog
-    public static class ElevatorIOInputs{
+    public static class ElevatorIOInputs {
 
         public double appliedVolts = 0;
         public double leadCurrentAmps = 0;

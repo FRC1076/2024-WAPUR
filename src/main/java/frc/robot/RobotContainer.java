@@ -34,7 +34,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import static frc.robot.Constants.ElevatorConstants.heightOne;
 import static frc.robot.Constants.ElevatorConstants.heightThree;
 import static frc.robot.Constants.ElevatorConstants.heightTwo;
-import static frc
 
 import edu.wpi.first.math.MathUtil;
 
