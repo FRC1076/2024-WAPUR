@@ -46,6 +46,7 @@ import edu.wpi.first.math.MathUtil;
  */
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
+    /*
     private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
     private final DriveSubsystem m_DriveSubsystem = new DriveSubsystem(
         new GyroIOHardware(),
@@ -54,10 +55,10 @@ public class RobotContainer {
         new ModuleIOHardware(Corner.RearLeft),
         new ModuleIOHardware(Corner.RearRight)
     );
-
+    */
     private final ElevatorSubsystem m_ElevatorSubsystem = new ElevatorSubsystem(new ElevatorIOHardware());
 
-    private final IntakeSubsystem m_intake = new IntakeSubsystem(new IntakeIOHardware()); 
+    //private final IntakeSubsystem m_intake = new IntakeSubsystem(new IntakeIOHardware()); 
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController m_driverController =
@@ -87,10 +88,13 @@ public class RobotContainer {
     */
     private void configureBindings() {
         
+        /* 
         new Trigger(m_exampleSubsystem::exampleCondition)
             .onTrue(new ExampleCommand(m_exampleSubsystem));
-        
+        */
+
         //m_operatorController.leftTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunIntake(m_intake));
+        
         /*
         m_DriveSubsystem.setDefaultCommand(
             new DriveClosedLoopTeleop(
