@@ -6,8 +6,8 @@ import java.util.function.DoubleSupplier;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import static frc.robot.Constants.ElevatorConstants.PositionControl.*;
 
-public class setElevatorPosition extends PIDCommand {
-    public setElevatorPosition(double setpointMeters, ElevatorSubsystem elevator){
+public class SetElevatorPosition extends PIDCommand {
+    public SetElevatorPosition(double setpointMeters, ElevatorSubsystem elevator){
         super(
             new PIDController(kP,kI,kD), 
             elevator::getPositionMeters, 

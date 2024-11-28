@@ -15,6 +15,7 @@ import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.FeetPerSecond;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meter;
+import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
@@ -212,8 +213,9 @@ public final class Constants {
         public static final double minHeightMeters = 0;
         public static final double maxHeightMeters = 1.016; //Temporary
 
-        public static final double kVelocityConversionFactor = 1/7.75; //Gear ratio htt;s://wcproducts.com/collections/gearboxes/products/wcp-single-stage-gearbox
-        public static final double kPositionConversionFactor = 1/7.75; //Gear ratio
+        //htt;s://wcproducts.com/collections/gearboxes/products/wcp-single-stage-gearbox
+        public static final double kVelocityConversionFactor = 1/7.75 * 22 * Inches.of(1/4).in(Meters) / 60; //Gear ratio & chain pitch & rpm -> m/s
+        public static final double kPositionConversionFactor = 1/7.75 * 22 * Inches.of(1/4).in(Meters); //Gear ratio & chain pitch
         public static class Electrical {
             public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
             public static final Measure<Current> kCurrentLimit = Amps.of(40);
