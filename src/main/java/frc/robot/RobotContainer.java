@@ -31,9 +31,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.DriverStation;
 
-import static frc.robot.Constants.ElevatorConstants.heightOne;
-import static frc.robot.Constants.ElevatorConstants.heightThree;
-import static frc.robot.Constants.ElevatorConstants.heightTwo;
+import static frc.robot.Constants.ElevatorConstants.floorHeight;
+import static frc.robot.Constants.ElevatorConstants.rowTwoHeight;
+import static frc.robot.Constants.ElevatorConstants.rowThreeHeight;
 
 import edu.wpi.first.math.MathUtil;
 
@@ -110,9 +110,9 @@ public class RobotContainer {
         ));
 
         //Elevator controls
-        m_operatorController.a().onTrue(new SetElevatorPosition(heightOne, m_ElevatorSubsystem));
-        m_operatorController.b().onTrue(new SetElevatorPosition(heightTwo, m_ElevatorSubsystem));
-        m_operatorController.y().onTrue(new SetElevatorPosition(heightThree, m_ElevatorSubsystem));
+        m_operatorController.a().onTrue(new SetElevatorPosition(floorHeight, m_ElevatorSubsystem));
+        m_operatorController.b().onTrue(new SetElevatorPosition(rowTwoHeight, m_ElevatorSubsystem));
+        m_operatorController.y().onTrue(new SetElevatorPosition(rowThreeHeight, m_ElevatorSubsystem));
     }
 
     /**
