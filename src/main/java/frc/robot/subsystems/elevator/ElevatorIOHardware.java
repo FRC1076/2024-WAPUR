@@ -79,7 +79,7 @@ public class ElevatorIOHardware implements ElevatorIO {
     @Override
     public void setVoltage(double volts){
         if((m_encoder.getPosition() < minHeightMeters && volts < 0) || (m_encoder.getPosition() > maxHeightMeters && volts > 0)) {
-            m_leadMotor.setVoltage(0); //Maybe set to kG instead?
+            m_leadMotor.setVoltage(FFController.calculate(0)); //Maybe set to kG instead?
         } else {
             m_leadMotor.setVoltage(volts);
         }

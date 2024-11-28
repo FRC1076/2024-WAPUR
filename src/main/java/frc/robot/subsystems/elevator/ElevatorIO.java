@@ -23,7 +23,9 @@ public interface ElevatorIO {
 
     public default void setPosition(double positionMeters) {}
 
-    public default void setPosition(Measure<Distance> positionMeters) {}
+    public default void setPosition(Measure<Distance> positionMeters) {
+        setPosition(positionMeters.in(Meters));
+    }
     
     public default void setVelocity(double velocityMetersPerSecond) {}
 
