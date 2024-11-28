@@ -14,7 +14,6 @@ import frc.robot.Constants.DriveConstants.ModuleConstants.Corner;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.intake.RunIntake;
-import frc.robot.commands.elevator.SetElevatorPosition;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.drive.DriveClosedLoopTeleop;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -110,9 +109,9 @@ public class RobotContainer {
         ));
 
         //Elevator controls
-        m_operatorController.a().onTrue(new SetElevatorPosition(floorHeight, m_ElevatorSubsystem));
-        m_operatorController.b().onTrue(new SetElevatorPosition(rowTwoHeight, m_ElevatorSubsystem));
-        m_operatorController.y().onTrue(new SetElevatorPosition(rowThreeHeight, m_ElevatorSubsystem));
+        m_operatorController.a().onTrue(new InstantCommand(() -> m_ElevatorSubsystem.setPosition(floorHeight), m_ElevatorSubsystem));
+        m_operatorController.b().onTrue(new InstantCommand(() -> m_ElevatorSubsystem.setPosition(rowTwoHeight), m_ElevatorSubsystem));
+        m_operatorController.y().onTrue(new InstantCommand(() -> m_ElevatorSubsystem.setPosition(rowThreeHeight), m_ElevatorSubsystem));
     }
 
     /**
