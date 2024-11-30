@@ -9,6 +9,8 @@ import edu.wpi.first.units.Angle;
 import edu.wpi.first.units.Current;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
+import edu.wpi.first.units.Per;
+
 import static edu.wpi.first.units.Units.Amps;
 import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.DegreesPerSecond;
@@ -105,14 +107,14 @@ public final class Constants {
 
                     public static final double gearRatio = 6.75;
                     public static final Measure<Distance> positionConversionFactor = Meter.of((1/gearRatio) * Inches.of(4*Math.PI).in(Meter)); //gear ratio, circumference of the wheel, in -> m
-                    public static final Measure<Velocity<Distance>> velocityConversionFactor = MetersPerSecond.of((1/gearRatio) * Inches.of(4*Math.PI).in(Meter) * 60); //gear ratio, circumference of the wheel, in -> m, mintues -> seconds
+                    public static final Measure<Velocity<Distance>> velocityConversionFactor = MetersPerSecond.of((1/gearRatio) * Inches.of(4*Math.PI).in(Meter) / 60); //gear ratio, circumference of the wheel, in -> m, mintues -> seconds
                     public static final Measure<Current> kCurrentLimit = Amps.of(60);
 
                     public static class Control {
                         //PID Constants
-                        public static final double kP = 0;
+                        public static final double kP = 0.2;
                         public static final double kI = 0;
-                        public static final double kD = 0;
+                        public static final double kD = 0.012;
 
                         //Simple Motor FeedForward Constants
                         public static final double kS = 0;
@@ -217,6 +219,46 @@ public final class Constants {
         public static final Measure<Current> kCurrentLimit = Amps.of(40); 
         public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
     }
+
+    public static class ElevatorConstants {
+        public static final int kMotorPort0 = -1;
+        public static final int kMotorPort1 = -1;
+
+        //Heights measured in meters
+        public static final Measure<Distance> heightOne = Meter.of(0);
+        public static final Measure<Distance> heightTwo = Meter.of(0.38);
+        public static final Measure<Distance> heightThree = Meter.of(0.76);
+
+        public static final Measure<Distance> minHeight = Meter.of(0);
+        public static final Measure<Distance> maxHeight = Meter.of(1.016); //Temporary
+
+        // TODO: Change conversion factors to convert between linear and angular values
+        public static final double kVelocityConversionFactor = 1/7.75; //Gear ratio https://wcproducts.com/collections/gearboxes/products/wcp-single-stage-gearbox
+        public static final double kPositionConversionFactor = 1/7.75; //Gear ratio
+
+        public static class Electrical {
+            public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
+            public static final Measure<Current> kCurrentLimit = Amps.of(40);
+        }
+
+        public static class Control {
+            //PID Constants
+            public static final double kP = 0.004;
+            public static final double kI = 0.0;
+            public static final double kD = 0.0;
+
+            //Feedforward Constants
+            public static final double kS = 0; //Static gain (Voltage)
+            public static final double kG = 0; //Gravity gain (Voltage)
+            public static final double kV = 0; //Velocity Gain (Volts Per Meter per Second)
+            public static final double kA = 0; //Acceleration Gain (Volts Per Meter Per Second Squared)
+        }
+
+        public static class PositionControl {
+            public static final double kP = 0.4;
+            public static final double kI = 0.0;
+            public static final double kD = 0.0;
+        }
 
     public static class AutoConstants {
         public static class Control {

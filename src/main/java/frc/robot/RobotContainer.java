@@ -14,6 +14,7 @@ import frc.robot.Constants.DriveConstants.ModuleConstants.Corner;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.intake.RunIntake;
+import frc.robot.commands.shooter.RunShooter;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.drive.DriveClosedLoopTeleop;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -21,6 +22,8 @@ import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.GyroIOHardware;
 import frc.robot.subsystems.drive.ModuleIOHardware;
 import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.shooter.ShooterIOHardware;
+import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.intake.IntakeIOHardware;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -50,6 +53,10 @@ public class RobotContainer {
     private final IntakeSubsystem m_intake = new IntakeSubsystem(
         new IntakeIOHardware()
     ); //Change later to actual subsystem
+
+    private final ShooterSubsystem m_shooter = new ShooterSubsystem(
+        new ShooterIOHardware()
+    );
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController m_driverController =
@@ -83,6 +90,7 @@ public class RobotContainer {
             .onTrue(new ExampleCommand(m_exampleSubsystem));
         
         m_operatorController.leftTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunIntake(m_intake));
+        m_operatorController.rightTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunShooter(m_shooter));
 
         m_DriveSubsystem.setDefaultCommand(
             new DriveClosedLoopTeleop(
