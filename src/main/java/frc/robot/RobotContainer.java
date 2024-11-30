@@ -16,6 +16,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.intake.RunIntake;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.drive.DriveClosedLoopTeleop;
+import frc.robot.commands.elevator.SetElevatorVelocity;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.GyroIOHardware;
@@ -97,6 +98,13 @@ public class RobotContainer {
                 () -> MathUtil.applyDeadband(m_driverController.getLeftX(), Driver.kControllerDeadband), 
                 () -> MathUtil.applyDeadband(m_driverController.getRightX(), Driver.kControllerDeadband), 
                 m_DriveSubsystem)
+        );
+
+        m_ElevatorSubsystem.setDefaultCommand(
+            new SetElevatorVelocity(
+                m_ElevatorSubsystem, 
+                () -> MathUtil.applyDeadband(m_operatorController.getLeftY(), Operator.kControllerDeadband) * Operator.kElevatorManualSpeedLimit
+            )
         );
 
         // Reset Heading of swerve

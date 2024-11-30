@@ -47,6 +47,7 @@ public final class Constants {
             public static final int kControllerPort = 1;
             public static final double kControllerDeadband = 0.15;
             public static final double kControllerTriggerThreshold = 0.7;
+            public static final double kElevatorManualSpeedLimit = 0.5; //Speed limit for elevator manual velocity control (m/s)
         }
     }
 
