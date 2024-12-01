@@ -32,6 +32,10 @@ public class ElevatorSubsystem extends SubsystemBase {
         io.setVelocity(velocity);
     }
 
+    public void setVoltage(double volts){
+        io.setVoltage(volts);
+    }
+
     /** Returns position of the elevator, as a Measure<Distance> */
     public Measure<Distance> getPosition(){
         return Meters.of(inputs.elevatorHeightMeters);

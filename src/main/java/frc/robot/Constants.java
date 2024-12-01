@@ -203,8 +203,11 @@ public final class Constants {
     }
 
     public static class ElevatorConstants {
-        public static final int kMotorPort0 = -1;
-        public static final int kMotorPort1 = -1;
+        public static final int kMotorPort0 = 6;
+        public static final int kMotorPort1 = 17;
+
+        public static final boolean leadMotorInverted = false;
+        public static final boolean followMotorInverted = false;
 
         //Heights measured in meters
         public static final double floorHeight = 0;
@@ -212,11 +215,11 @@ public final class Constants {
         public static final double rowThreeHeight = 0.76;
 
         public static final double minHeightMeters = 0;
-        public static final double maxHeightMeters = 1.016; //Temporary
+        public static final double maxHeightMeters = 1000000000000.0; //Temporary
 
-        //htt;s://wcproducts.com/collections/gearboxes/products/wcp-single-stage-gearbox
-        public static final double kVelocityConversionFactor = 1/7.75 * 22 * Inches.of(1/4).in(Meters) / 60; //Gear ratio & chain pitch & rpm -> m/s
-        public static final double kPositionConversionFactor = 1/7.75 * 22 * Inches.of(1/4).in(Meters); //Gear ratio & chain pitch
+        //htt;s://wcproducts.com/collections/gearboxes/products/wcp-single-stage-gearbox  Inches.of(0.25).in(Meters)
+        public static final double kVelocityConversionFactor = (1/7.75) * 22 * 0.00635 / 60.0; //Gear ratio & chain pitch & rpm -> m/s
+        public static final double kPositionConversionFactor = (1/7.75) * 22 * 0.00635 * 1.5; //Gear ratio & chain pitch
         public static class Electrical {
             public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
             public static final Measure<Current> kCurrentLimit = Amps.of(40);
@@ -224,14 +227,14 @@ public final class Constants {
 
         public static class Control {
             //PID Constants
-            public static final double kP = 0.004;
+            public static final double kP = 0.0;
             public static final double kI = 0.0;
             public static final double kD = 0.0;
 
             //Feedforward Constants
             public static final Measure<Voltage> kS = Volts.of(0); //Static gain (voltage)
             public static final Measure<Voltage> kG = Volts.of(0); //Gravity gain (voltage)
-            public static final Measure<Per<Voltage,Velocity<Distance>>> kV = VoltsPerMeterPerSecond.of(0); //Velocity Gain
+            public static final Measure<Per<Voltage,Velocity<Distance>>> kV = VoltsPerMeterPerSecond.of(1); //Velocity Gain
             public static final Measure<Per<Voltage,Velocity<Velocity<Distance>>>> kA = VoltsPerMeterPerSecondSquared.of(0); //Acceleration Gain
         }
 
