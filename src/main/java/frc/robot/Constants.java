@@ -218,8 +218,8 @@ public final class Constants {
         public static final double maxHeightMeters = 1000000000000.0; //Temporary
 
         //htt;s://wcproducts.com/collections/gearboxes/products/wcp-single-stage-gearbox  Inches.of(0.25).in(Meters)
-        public static final double kVelocityConversionFactor = (1/7.75) * 22 * 0.00635 / 60.0; //Gear ratio & chain pitch & rpm -> m/s
-        public static final double kPositionConversionFactor = (1/7.75) * 22 * 0.00635 * 1.5; //Gear ratio & chain pitch
+        public static final double kVelocityConversionFactor = (11/60.0) * 22 * 0.00635 / 60.0; //Gear ratio & chain pitch & rpm -> m/s
+        public static final double kPositionConversionFactor = (11/60.0) * 22 * 0.00635; //Gear ratio & chain pitch
         public static class Electrical {
             public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
             public static final Measure<Current> kCurrentLimit = Amps.of(40);
