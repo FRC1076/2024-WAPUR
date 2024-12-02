@@ -17,15 +17,19 @@ import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.FeetPerSecond;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meter;
+import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
+import edu.wpi.first.units.Per;
 import static frc.robot.utils.units.Units.RadiansPerSecondSquared;
+import static edu.wpi.first.units.Units.VoltsPerMeterPerSecond;
+import static edu.wpi.first.units.Units.VoltsPerMeterPerSecondSquared;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -45,6 +49,7 @@ public final class Constants {
             public static final int kControllerPort = 1;
             public static final double kControllerDeadband = 0.15;
             public static final double kControllerTriggerThreshold = 0.7;
+            public static final double kElevatorManualSpeedLimit = 0.5; //Speed limit for elevator manual velocity control (m/s)
         }
     }
 
@@ -71,7 +76,6 @@ public final class Constants {
     }
 
     public static class DriveConstants {
-
         public static Measure<Velocity<Distance>> kMaxTransSpeed = FeetPerSecond.of(3); // This is the maximum translational speed allowed by the rules
         public static Measure<Velocity<Angle>> kMaxRotSpeed = RotationsPerSecond.of(1); // This is the maximum rotational speed allowed by the rules
         public static class Physical {
@@ -81,7 +85,6 @@ public final class Constants {
         }
 
         public static class ModuleConstants {
-
             public static enum Corner {
                 FrontLeft("FrontLeftModule"),
                 FrontRight("FrontRightModule"),
@@ -97,7 +100,6 @@ public final class Constants {
             
             /** Constants that are common to all swerve modules */
             public static class Common {
-
                 public static final Measure<Distance> kWheelDiameter = Meter.of(0.1016);
                 public static final Measure<Velocity<Distance>> kMaxModuleSpeed = FeetPerSecond.of(14); // This is the top speed a module is physically capable of reaching
                 public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
@@ -131,7 +133,7 @@ public final class Constants {
                     public static final boolean turnMotorInverted = false;
                     public static final int kEncoderCPR = 4096;
                     public static final double kTurningEncoderDistancePerPulse =
-                        // Assumes the encoders are on a 1:1 reduction with the module shaft.
+                        //Assumes the encoders are on a 1:1 reduction with the module shaft.
                         (2 * Math.PI) / (double) kEncoderCPR;
 
                     public static class Control {
@@ -181,9 +183,7 @@ public final class Constants {
                 public static final int kAbsoluteEncoderPort = 22;
                 public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(0.078369140625)); //3.863 - Math.PI/2
                 public static final boolean invertDriveMotor = false;
-            }
-
-            
+            }    
         }
 
         public static class GyroConstants {
@@ -221,21 +221,23 @@ public final class Constants {
     }
 
     public static class ElevatorConstants {
-        public static final int kMotorPort0 = -1;
-        public static final int kMotorPort1 = -1;
+        public static final int kMotorPort0 = 6;
+        public static final int kMotorPort1 = 17;
+
+        public static final boolean leadMotorInverted = false;
+        public static final boolean followMotorInverted = false;
 
         //Heights measured in meters
-        public static final Measure<Distance> heightOne = Meter.of(0);
-        public static final Measure<Distance> heightTwo = Meter.of(0.38);
-        public static final Measure<Distance> heightThree = Meter.of(0.76);
+        public static final double floorHeight = 0;
+        public static final double rowTwoHeight = 0.38;
+        public static final double rowThreeHeight = 0.76;
 
-        public static final Measure<Distance> minHeight = Meter.of(0);
-        public static final Measure<Distance> maxHeight = Meter.of(1.016); //Temporary
+        public static final double minHeightMeters = 0;
+        public static final double maxHeightMeters = 1000000000000.0; //Temporary
 
-        // TODO: Change conversion factors to convert between linear and angular values
-        public static final double kVelocityConversionFactor = 1/7.75; //Gear ratio https://wcproducts.com/collections/gearboxes/products/wcp-single-stage-gearbox
-        public static final double kPositionConversionFactor = 1/7.75; //Gear ratio
-
+        //htt;s://wcproducts.com/collections/gearboxes/products/wcp-single-stage-gearbox  Inches.of(0.25).in(Meters)
+        public static final double kVelocityConversionFactor = (11/60.0) * 22 * 0.00635 / 60.0; //Gear ratio & chain pitch & rpm -> m/s
+        public static final double kPositionConversionFactor = (11/60.0) * 22 * 0.00635; //Gear ratio & chain pitch
         public static class Electrical {
             public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
             public static final Measure<Current> kCurrentLimit = Amps.of(40);
@@ -243,15 +245,15 @@ public final class Constants {
 
         public static class Control {
             //PID Constants
-            public static final double kP = 0.004;
+            public static final double kP = 0.0;
             public static final double kI = 0.0;
             public static final double kD = 0.0;
 
             //Feedforward Constants
-            public static final double kS = 0; //Static gain (Voltage)
-            public static final double kG = 0; //Gravity gain (Voltage)
-            public static final double kV = 0; //Velocity Gain (Volts Per Meter per Second)
-            public static final double kA = 0; //Acceleration Gain (Volts Per Meter Per Second Squared)
+            public static final Measure<Voltage> kS = Volts.of(0); //Static gain (voltage)
+            public static final Measure<Voltage> kG = Volts.of(0); //Gravity gain (voltage)
+            public static final Measure<Per<Voltage,Velocity<Distance>>> kV = VoltsPerMeterPerSecond.of(1); //Velocity Gain
+            public static final Measure<Per<Voltage,Velocity<Velocity<Distance>>>> kA = VoltsPerMeterPerSecondSquared.of(0); //Acceleration Gain
         }
 
         public static class PositionControl {
@@ -259,6 +261,7 @@ public final class Constants {
             public static final double kI = 0.0;
             public static final double kD = 0.0;
         }
+    }
 
     public static class AutoConstants {
         public static class Control {
