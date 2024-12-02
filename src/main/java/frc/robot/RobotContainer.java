@@ -4,13 +4,16 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.DriveConstants.ModuleConstants.Corner;
 import frc.robot.Constants.OIConstants.Driver;
 import frc.robot.Constants.OIConstants.Operator;
-import frc.robot.Constants.DriveConstants.ModuleConstants.Corner;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.intake.RunIntake;
@@ -43,6 +46,12 @@ import static frc.robot.Constants.ElevatorConstants.rowTwoHeight;
 import static frc.robot.Constants.ElevatorConstants.rowThreeHeight;
 
 import edu.wpi.first.math.MathUtil;
+import frc.robot.commands.grabber.GrabberEject;
+import frc.robot.commands.grabber.GrabberIntake;
+import frc.robot.commands.grabber.GrabberStop;
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.grabber.GrabberIOHardware;
+import frc.robot.subsystems.grabber.GrabberSubsystem;
 
 
 /**
@@ -115,6 +124,19 @@ public class RobotContainer {
         m_operatorController.b().onTrue(new InstantCommand(() -> m_elevator.setPosition(rowTwoHeight), m_elevator));
         m_operatorController.y().onTrue(new InstantCommand(() -> m_elevator.setPosition(rowThreeHeight), m_elevator));
 
+        //Grabber
+        new Trigger(() -> m_operatorController.getRightY() < -0.7)
+            .onTrue(
+                new SequentialCommandGroup(
+                    new GrabberEject(m_grabber), 
+                    new WaitCommand(2),
+                    new GrabberStop(m_grabber)));
+
+        new Trigger(() -> m_operatorController.getRightY() > 0.7)
+            .whileTrue(
+                new GrabberIntake(m_grabber)
+            );
+        
         m_DriveSubsystem.setDefaultCommand(
             new DriveClosedLoopTeleop(
                 () -> MathUtil.applyDeadband(m_driverController.getLeftY(), Driver.kControllerDeadband),
@@ -124,6 +146,7 @@ public class RobotContainer {
         );
          
         // Reset Heading of swerve
+        
         m_driverController.leftTrigger(Driver.kControllerTriggerThreshold).and(
             m_driverController.rightTrigger(Driver.kControllerTriggerThreshold).and(
                 m_driverController.x()
