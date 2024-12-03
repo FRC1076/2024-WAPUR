@@ -107,24 +107,29 @@ public class RobotContainer {
     * joysticks}.
     */
     private void configureBindings() {
-        
+        //Example
         new Trigger(m_exampleSubsystem::exampleCondition)
             .onTrue(new ExampleCommand(m_exampleSubsystem));
         
+        //Intake
         m_operatorController.leftTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunIntake(m_intake));
+        
+        //Shooter
         m_operatorController.rightTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunShooter(m_shooter));
 
-         m_elevator.setDefaultCommand(
+        //Elevator Joystick Control
+        m_elevator.setDefaultCommand(
             new SetElevatorVelocity(
                 m_elevator, 
                 () -> MathUtil.applyDeadband(-m_operatorController.getLeftY(), Operator.kControllerDeadband) * Operator.kElevatorManualSpeedLimit
             )
         );
 
+        //Elevator Presets
         m_operatorController.b().onTrue(new InstantCommand(() -> m_elevator.setPosition(rowTwoHeight), m_elevator));
         m_operatorController.y().onTrue(new InstantCommand(() -> m_elevator.setPosition(rowThreeHeight), m_elevator));
 
-        //Grabber
+        //Grabber Eject
         new Trigger(() -> m_operatorController.getRightY() < -0.7)
             .onTrue(
                 new SequentialCommandGroup(
@@ -132,6 +137,7 @@ public class RobotContainer {
                     new WaitCommand(2),
                     new GrabberStop(m_grabber)));
 
+        //Grabber Intake
         new Trigger(() -> m_operatorController.getRightY() > 0.7)
             .whileTrue(
                 new GrabberIntake(m_grabber)
@@ -146,7 +152,6 @@ public class RobotContainer {
         );
          
         // Reset Heading of swerve
-        
         m_driverController.leftTrigger(Driver.kControllerTriggerThreshold).and(
             m_driverController.rightTrigger(Driver.kControllerTriggerThreshold).and(
                 m_driverController.x()
