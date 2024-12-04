@@ -4,33 +4,54 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.DriveConstants.ModuleConstants.Corner;
 import frc.robot.Constants.OIConstants.Driver;
 import frc.robot.Constants.OIConstants.Operator;
-import frc.robot.Constants.DriveConstants.ModuleConstants.Corner;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.intake.RunIntake;
 import frc.robot.commands.shooter.RunShooter;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.drive.DriveClosedLoopTeleop;
+import frc.robot.commands.elevator.SetElevatorVelocity;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.GyroIOHardware;
 import frc.robot.subsystems.drive.ModuleIOHardware;
+import frc.robot.subsystems.elevator.ElevatorIOHardware;
+import frc.robot.subsystems.elevator.ElevatorSubsystem;
+import frc.robot.subsystems.grabber.GrabberIO;
+import frc.robot.subsystems.grabber.GrabberIOHardware;
+import frc.robot.subsystems.grabber.GrabberSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.ShooterIOHardware;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
 import frc.robot.subsystems.intake.IntakeIOHardware;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.DriverStation;
+
+import static frc.robot.Constants.ElevatorConstants.floorHeight;
+import static frc.robot.Constants.ElevatorConstants.rowTwoHeight;
+import static frc.robot.Constants.ElevatorConstants.rowThreeHeight;
+
 import edu.wpi.first.math.MathUtil;
+import frc.robot.commands.grabber.GrabberEject;
+import frc.robot.commands.grabber.GrabberIntake;
+import frc.robot.commands.grabber.GrabberStop;
+import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.grabber.GrabberIOHardware;
+import frc.robot.subsystems.grabber.GrabberSubsystem;
 
 
 /**
@@ -42,6 +63,7 @@ import edu.wpi.first.math.MathUtil;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+    
     private final DriveSubsystem m_DriveSubsystem = new DriveSubsystem(
         new GyroIOHardware(),
         new ModuleIOHardware(Corner.FrontLeft),
@@ -50,13 +72,13 @@ public class RobotContainer {
         new ModuleIOHardware(Corner.RearRight)
     );
 
-    private final IntakeSubsystem m_intake = new IntakeSubsystem(
-        new IntakeIOHardware()
-    ); //Change later to actual subsystem
+    private final ElevatorSubsystem m_elevator = new ElevatorSubsystem(new ElevatorIOHardware());
 
-    private final ShooterSubsystem m_shooter = new ShooterSubsystem(
-        new ShooterIOHardware()
-    );
+    private final GrabberSubsystem m_grabber = new GrabberSubsystem(new GrabberIOHardware());
+
+    private final IntakeSubsystem m_intake = new IntakeSubsystem(new IntakeIOHardware()); 
+
+    private final ShooterSubsystem m_shooter = new ShooterSubsystem(new ShooterIOHardware());
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController m_driverController =
@@ -85,13 +107,42 @@ public class RobotContainer {
     * joysticks}.
     */
     private void configureBindings() {
-        
+        //Example
         new Trigger(m_exampleSubsystem::exampleCondition)
             .onTrue(new ExampleCommand(m_exampleSubsystem));
         
+        //Intake
         m_operatorController.leftTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunIntake(m_intake));
+        
+        //Shooter
         m_operatorController.rightTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunShooter(m_shooter));
 
+        //Elevator Joystick Control
+        m_elevator.setDefaultCommand(
+            new SetElevatorVelocity(
+                m_elevator, 
+                () -> MathUtil.applyDeadband(-m_operatorController.getLeftY(), Operator.kControllerDeadband) * Operator.kElevatorManualSpeedLimit
+            )
+        );
+
+        //Elevator Presets
+        m_operatorController.b().onTrue(new InstantCommand(() -> m_elevator.setPosition(rowTwoHeight), m_elevator));
+        m_operatorController.y().onTrue(new InstantCommand(() -> m_elevator.setPosition(rowThreeHeight), m_elevator));
+
+        //Grabber Eject
+        new Trigger(() -> m_operatorController.getRightY() < -0.7)
+            .onTrue(
+                new SequentialCommandGroup(
+                    new GrabberEject(m_grabber), 
+                    new WaitCommand(2),
+                    new GrabberStop(m_grabber)));
+
+        //Grabber Intake
+        new Trigger(() -> m_operatorController.getRightY() > 0.7)
+            .whileTrue(
+                new GrabberIntake(m_grabber)
+            );
+        
         m_DriveSubsystem.setDefaultCommand(
             new DriveClosedLoopTeleop(
                 () -> MathUtil.applyDeadband(m_driverController.getLeftY(), Driver.kControllerDeadband),
@@ -99,7 +150,7 @@ public class RobotContainer {
                 () -> MathUtil.applyDeadband(m_driverController.getRightX(), Driver.kControllerDeadband), 
                 m_DriveSubsystem)
         );
-
+         
         // Reset Heading of swerve
         m_driverController.leftTrigger(Driver.kControllerTriggerThreshold).and(
             m_driverController.rightTrigger(Driver.kControllerTriggerThreshold).and(
@@ -108,7 +159,6 @@ public class RobotContainer {
         ).onTrue(new InstantCommand(
             () -> m_DriveSubsystem.resetHeading()
         ));
-        
     }
 
     /**

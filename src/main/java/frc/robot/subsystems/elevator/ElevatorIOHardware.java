@@ -19,6 +19,7 @@ import static frc.robot.Constants.ElevatorConstants.kPositionConversionFactor;
 import static frc.robot.Constants.ElevatorConstants.kVelocityConversionFactor;
 import static frc.robot.Constants.ElevatorConstants.*;
 import static frc.robot.Constants.ElevatorConstants.Electrical.*;
+import frc.robot.Constants.ElevatorConstants;
 import static edu.wpi.first.units.Units.*;
 
 public class ElevatorIOHardware implements ElevatorIO {
@@ -30,10 +31,10 @@ public class ElevatorIOHardware implements ElevatorIO {
     private SparkPIDController m_PIDController;
 
     private ElevatorFeedforward FFController = new ElevatorFeedforward(
-        kS, 
-        kG,
-        kV, 
-        kA
+        kS.in(Volts), 
+        kG.in(Volts),
+        kV.in(VoltsPerMeterPerSecond), 
+        kA.in(VoltsPerMeterPerSecondSquared)
     );
 
     public ElevatorIOHardware() {
@@ -45,6 +46,9 @@ public class ElevatorIOHardware implements ElevatorIO {
 
         m_leadMotor.restoreFactoryDefaults();
         m_followMotor.restoreFactoryDefaults();
+
+        m_leadMotor.setInverted(ElevatorConstants.leadMotorInverted);
+        m_followMotor.setInverted(ElevatorConstants.followMotorInverted);
 
         m_encoder = m_leadMotor.getEncoder();
         m_PIDController = m_leadMotor.getPIDController();
@@ -72,13 +76,13 @@ public class ElevatorIOHardware implements ElevatorIO {
         m_leadMotor.burnFlash();
         m_followMotor.burnFlash();
 
-        m_followMotor.follow(m_leadMotor);
+        m_followMotor.follow(m_leadMotor, ElevatorConstants.leadMotorInverted != ElevatorConstants.followMotorInverted);
         
     }
 
     @Override
     public void setVoltage(double volts){
-        if((m_encoder.getPosition() < minHeight.in(Meter) && volts < 0) || (m_encoder.getPosition() > maxHeight.in(Meter) && volts > 0)) {
+        if((m_encoder.getPosition() < minHeightMeters && volts < 0) || (m_encoder.getPosition() > maxHeightMeters && volts > 0)) {
             m_leadMotor.setVoltage(0); //Maybe set to kG instead?
         } else {
             m_leadMotor.setVoltage(volts);
