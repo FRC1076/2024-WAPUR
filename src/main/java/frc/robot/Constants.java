@@ -39,7 +39,7 @@ public final class Constants {
             public static final int kControllerPort = 0;
             public static final double kControllerDeadband = 0.15;
             public static final double kControllerTriggerThreshold = 0.7;
-            public static final double kRotClutchFactor = Double.MAX_VALUE;
+            public static final double kRotClutchFactor = 0.5;
         }
         public static class Operator{
             public static final int kControllerPort = 1;
