@@ -10,26 +10,21 @@ import edu.wpi.first.units.Current;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
 import edu.wpi.first.units.Per;
-
 import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.Degrees;
-import static edu.wpi.first.units.Units.DegreesPerSecond;
 import static edu.wpi.first.units.Units.FeetPerSecond;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meter;
-import static edu.wpi.first.units.Units.Meters;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
-import edu.wpi.first.units.Velocity;
-import edu.wpi.first.units.Voltage;
-import edu.wpi.first.units.Per;
-import static frc.robot.utils.units.Units.RadiansPerSecondSquared;
 import static edu.wpi.first.units.Units.VoltsPerMeterPerSecond;
 import static edu.wpi.first.units.Units.VoltsPerMeterPerSecondSquared;
+import edu.wpi.first.units.Velocity;
+import edu.wpi.first.units.Voltage;
+import static frc.robot.utils.units.Units.RadiansPerSecondSquared;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -44,6 +39,7 @@ public final class Constants {
             public static final int kControllerPort = 0;
             public static final double kControllerDeadband = 0.15;
             public static final double kControllerTriggerThreshold = 0.7;
+            public static final double kRotClutchFactor = Double.MAX_VALUE;
         }
         public static class Operator{
             public static final int kControllerPort = 1;
