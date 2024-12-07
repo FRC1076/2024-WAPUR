@@ -39,6 +39,15 @@ import static edu.wpi.first.units.Units.VoltsPerMeterPerSecondSquared;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    public static class GameConstants {
+        public static final String kTeamColorBlue = "BLUE";
+        public static final String kTeamColorRed = "RED";
+        public static String teamColor = kTeamColorBlue; // "BLUE", "RED"
+
+        public static final String kStartLeftSide = "LEFT";
+        public static final String kStartRightSide = "RIGHT";
+        public static String startPosition = kStartLeftSide; // "LEFT", "RIGHT"
+    }
     public static class OIConstants {
         public static class Driver{
             public static final int kControllerPort = 0;
