@@ -1,0 +1,69 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.5339388934764657,
+        "y": 0.4887159372419495
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.824386363636364,
+        "y": 1.8331534090909094
+      },
+      "isLocked": false,
+      "linkedName": "BCRATE"
+    },
+    {
+      "anchor": {
+        "x": 4.95,
+        "y": 1.8331534090909094
+      },
+      "prevControl": {
+        "x": 4.594613636363637,
+        "y": 1.8238011363636355
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "BSHOOT"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.4,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "Shoot",
+      "waypointRelativePos": 0.4,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": []
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 1.524,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": {
+    "rotation": -90.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

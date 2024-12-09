@@ -53,6 +53,11 @@ import frc.robot.commands.grabber.GrabberStop;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.grabber.GrabberIOHardware;
 import frc.robot.subsystems.grabber.GrabberSubsystem;
+import com.pathplanner.lib.auto.AutoBuilder;
+
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;;
 
 
 /**
@@ -91,10 +96,15 @@ public class RobotContainer {
     private final CommandXboxController m_operatorController = 
         new CommandXboxController(OIConstants.Operator.kControllerPort);
 
+    private final SendableChooser<Command> m_autoChooser;
+
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
         // Configure the trigger bindings
         configureBindings();
+
+        m_autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData(m_autoChooser);
     }
 
     /**
@@ -162,9 +172,9 @@ public class RobotContainer {
         
         m_DriveSubsystem.setDefaultCommand(
             new DriveClosedLoopTeleop(
-                () -> MathUtil.applyDeadband(m_driverController.getLeftY(), Driver.kControllerDeadband),
-                () -> MathUtil.applyDeadband(m_driverController.getLeftX(), Driver.kControllerDeadband), 
-                () -> MathUtil.applyDeadband(m_driverController.getRightX(), Driver.kControllerDeadband), 
+                () -> MathUtil.applyDeadband(-m_driverController.getLeftY(), Driver.kControllerDeadband),
+                () -> MathUtil.applyDeadband(-m_driverController.getLeftX(), Driver.kControllerDeadband), 
+                () -> MathUtil.applyDeadband(-m_driverController.getRightX(), Driver.kControllerDeadband), 
                 m_DriveSubsystem)
         );
          
@@ -184,7 +194,6 @@ public class RobotContainer {
     * @return the command to run in autonomous
     */
     public Command getAutonomousCommand() {
-        // An example command will be run in autonomous
-        return Autos.exampleAuto(m_exampleSubsystem);
+        return m_autoChooser.getSelected();
     }
 }
