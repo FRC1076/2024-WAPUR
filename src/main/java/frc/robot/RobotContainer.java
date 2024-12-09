@@ -4,20 +4,22 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OIConstants;
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants.ModuleConstants.Corner;
+import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.OIConstants.Driver;
 import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.drive.DriveClosedLoopTeleop;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.GyroIOHardware;
 import frc.robot.subsystems.drive.ModuleIOHardware;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj.DriverStation;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -62,9 +64,9 @@ public class RobotContainer {
 
         m_DriveSubsystem.setDefaultCommand(
             new DriveClosedLoopTeleop(
-                () -> m_driverController.getLeftY(),
-                () -> m_driverController.getLeftX(), 
-                () -> m_driverController.getRightX(), 
+                () -> MathUtil.applyDeadband(m_driverController.getLeftY(), Driver.kControllerDeadband),
+                () -> MathUtil.applyDeadband(m_driverController.getLeftX(), Driver.kControllerDeadband), 
+                () -> MathUtil.applyDeadband(m_driverController.getRightX() * (m_driverController.leftBumper().and(m_driverController.rightBumper()).getAsBoolean() ? Driver.kRotClutchFactor : 1), Driver.kControllerDeadband), 
                 m_DriveSubsystem)
         );
 

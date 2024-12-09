@@ -10,15 +10,14 @@ import edu.wpi.first.units.Current;
 import edu.wpi.first.units.Distance;
 import edu.wpi.first.units.Measure;
 import static edu.wpi.first.units.Units.Amps;
-import static edu.wpi.first.units.Units.Degrees;
 import static edu.wpi.first.units.Units.FeetPerSecond;
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meter;
 import static edu.wpi.first.units.Units.MetersPerSecond;
 import static edu.wpi.first.units.Units.Radians;
 import static edu.wpi.first.units.Units.RadiansPerSecond;
-import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Rotations;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 import edu.wpi.first.units.Velocity;
 import edu.wpi.first.units.Voltage;
@@ -33,10 +32,11 @@ import static frc.robot.utils.units.Units.RadiansPerSecondSquared;
  */
 public final class Constants {
     public static class OIConstants {
-        public static class Driver{
+        public static class Driver {
             public static final int kControllerPort = 0;
             public static final double kControllerDeadband = 0.15;
             public static final double kControllerTriggerThreshold = 0.7;
+            public static final double kRotClutchFactor = 0.5;
         }
         public static class Operator{
             public static final int kControllerPort = 1;
@@ -120,7 +120,7 @@ public final class Constants {
 
                     public static final double gearRatio = 6.75;
                     public static final Measure<Distance> positionConversionFactor = Meter.of((1/gearRatio) * Inches.of(4*Math.PI).in(Meter)); //gear ratio, circumference of the wheel, in -> m
-                    public static final Measure<Velocity<Distance>> velocityConversionFactor = MetersPerSecond.of((1/gearRatio) * Inches.of(4*Math.PI).in(Meter) * 60); //gear ratio, circumference of the wheel, in -> m, mintues -> seconds
+                    public static final Measure<Velocity<Distance>> velocityConversionFactor = MetersPerSecond.of((1/gearRatio) * Inches.of(4*Math.PI).in(Meter) / 60); //gear ratio, circumference of the wheel, in -> m, mintues -> seconds
                     public static final Measure<Current> kCurrentLimit = Amps.of(60);
 
                     public static class Control {
@@ -201,7 +201,7 @@ public final class Constants {
 
         public static class GyroConstants {
             
-            public static final int kGyroPort = -1;
+            public static final int kGyroPort = 9;
             
             public static class Signal {
                 public static final double kYawUpdateFrequencyHz = 100;
