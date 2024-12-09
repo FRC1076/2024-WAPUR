@@ -19,6 +19,7 @@ import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.intake.RunIntake;
 import frc.robot.commands.shooter.RunShooter;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.commands.drive.DriveClosedLoopTeleop;
 import frc.robot.commands.elevator.SetElevatorVelocity;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -111,11 +112,24 @@ public class RobotContainer {
         new Trigger(m_exampleSubsystem::exampleCondition)
             .onTrue(new ExampleCommand(m_exampleSubsystem));
         
-        //Intake
+        //Intake Pickleballs
         m_operatorController.leftTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunIntake(m_intake));
         
         //Shooter
         m_operatorController.rightTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunShooter(m_shooter));
+        
+        //For when we use the shooter with the servo
+        /*
+        m_operatorController.rightTrigger(Operator.kControllerTriggerThreshold).whileTrue(
+            new ParallelCommandGroup(
+                new RunShooter(m_shooter),
+                new SequentialCommandGroup(
+                    new WaitCommand(2),
+                    new OpenServo(m_servo)
+                )
+            )
+        );
+         */
 
         //Elevator Joystick Control
         m_elevator.setDefaultCommand(
@@ -126,21 +140,24 @@ public class RobotContainer {
         );
 
         //Elevator Presets
+        m_operatorController.a().onTrue(new InstantCommand(() -> m_elevator.setPosition(floorHeight), m_elevator));
         m_operatorController.b().onTrue(new InstantCommand(() -> m_elevator.setPosition(rowTwoHeight), m_elevator));
         m_operatorController.y().onTrue(new InstantCommand(() -> m_elevator.setPosition(rowThreeHeight), m_elevator));
 
         //Grabber Eject
-        new Trigger(() -> m_operatorController.getRightY() < -0.7)
+        m_operatorController.rightBumper()
             .onTrue(
-                new SequentialCommandGroup(
-                    new GrabberEject(m_grabber), 
-                    new WaitCommand(2),
-                    new GrabberStop(m_grabber)));
+                new GrabberEject(m_grabber)
+            ).onFalse(
+                new GrabberStop(m_grabber)
+            );
 
         //Grabber Intake
-        new Trigger(() -> m_operatorController.getRightY() > 0.7)
-            .whileTrue(
+        m_operatorController.leftBumper()
+            .onTrue(
                 new GrabberIntake(m_grabber)
+            ).onFalse(
+                new GrabberStop(m_grabber)
             );
         
         m_DriveSubsystem.setDefaultCommand(
