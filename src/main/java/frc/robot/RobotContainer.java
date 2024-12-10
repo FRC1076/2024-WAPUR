@@ -70,14 +70,6 @@ public class RobotContainer {
         new ModuleIOHardware(Corner.RearRight)
     );
 
-    private final ElevatorSubsystem m_elevator = new ElevatorSubsystem(new ElevatorIOHardware());
-
-    private final GrabberSubsystem m_grabber = new GrabberSubsystem(new GrabberIOHardware());
-
-    private final IntakeSubsystem m_intake = new IntakeSubsystem(new IntakeIOHardware()); 
-
-    private final ShooterSubsystem m_shooter = new ShooterSubsystem(new ShooterIOHardware());
-
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final CommandXboxController m_driverController =
         new CommandXboxController(OIConstants.Driver.kControllerPort);
