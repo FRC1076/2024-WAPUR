@@ -41,10 +41,13 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj.DriverStation;
+
 import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;import frc.robot.commands.shooter.StopShooter;
+;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.ShooterIOHardware;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
@@ -116,7 +119,22 @@ public class RobotContainer {
         m_operatorController.leftTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunIntake(m_intake));
         
         //Shooter
-        m_operatorController.rightTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunShooter(m_shooter));
+
+        //There is a delay to stopping the shooter because the servo may have a delay; I (Jesse Kane) am good at spelling.
+        m_operatorController.rightTrigger(Operator.kControllerTriggerThreshold).onTrue(
+            new SequentialCommandGroup(
+                new RunShooter(m_shooter),
+                new WaitCommand(1.0),
+                new InstantCommand(() -> m_shooter.setServoAngleDeg(0), m_shooter),
+            )
+        ).onFalse(
+            new SequentialCommandGroup(
+                new InstantCommand(() -> m_shooter.setServoAngleDeg(90), m_shooter),
+                new WaitCommand(1.0),
+                new StopShooter(m_shooter)
+            )
+
+        )
 
         //Elevator Joystick Control
         m_elevator.setDefaultCommand(
@@ -161,6 +179,8 @@ public class RobotContainer {
         ).onTrue(new InstantCommand(
             () -> m_DriveSubsystem.resetHeading()
         ));
+
+
     }
 
     /**

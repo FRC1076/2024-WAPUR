@@ -24,6 +24,10 @@ public class ShooterSubsystem extends SubsystemBase{
         runVolts(voltage.in(Volts));
     }
 
+    public void setServoAngleDeg(double degrees) {
+        this.io.setServoAngleDeg(degrees);
+    }
+
     public void stop() {
         runVolts(0);
     }

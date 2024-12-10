@@ -11,6 +11,9 @@ public interface ShooterIO {
     public static class ShooterIOInputs {
         public double motorAppliedVoltage = 0;
         public double motorCurrent = 0;
+        public double servoAppliedVoltage = 0;
+        public double servoCurrent = 0;
+        public double servoAngle;
     }
 
     public default void updateInputs(ShooterIOInputs inputs) {}
@@ -20,4 +23,6 @@ public interface ShooterIO {
     public default void runVolts(Measure<Voltage> voltage) {
         runVolts(voltage.in(Volts));
     }
+
+    public default void setServoAngleDeg(double degrees) {}
 }
