@@ -35,7 +35,7 @@ import static frc.robot.utils.units.Units.RadiansPerSecondSquared;
  */
 public final class Constants {
     public static class OIConstants {
-        public static class Driver{
+        public static class Driver {
             public static final int kControllerPort = 0;
             public static final double kControllerDeadband = 0.15;
             public static final double kControllerTriggerThreshold = 0.7;

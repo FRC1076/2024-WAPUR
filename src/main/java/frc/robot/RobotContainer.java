@@ -19,7 +19,6 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OIConstants.Driver;
 import frc.robot.Constants.OIConstants.Operator;
 import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.drive.DriveClosedLoopTeleop;
 import frc.robot.commands.elevator.SetElevatorVelocity;
 import frc.robot.commands.grabber.GrabberEject;
@@ -111,76 +110,22 @@ public class RobotContainer {
     * joysticks}.
     */
     private void configureBindings() {
-        //Example
-        new Trigger(m_exampleSubsystem::exampleCondition)
-            .onTrue(new ExampleCommand(m_exampleSubsystem));
-        
-        //Intake
-        m_operatorController.leftTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunIntake(m_intake));
-        
-        //Shooter
 
-        //There is a delay to stopping the shooter because the servo may have a delay; I (Jesse Kane) am good at spelling.
-        m_operatorController.rightTrigger(Operator.kControllerTriggerThreshold).onTrue(
-            new SequentialCommandGroup(
-                new RunShooter(m_shooter),
-                new WaitCommand(1.0),
-                new InstantCommand(() -> m_shooter.setServoAngleDeg(0), m_shooter),
-            )
-        ).onFalse(
-            new SequentialCommandGroup(
-                new InstantCommand(() -> m_shooter.setServoAngleDeg(90), m_shooter),
-                new WaitCommand(1.0),
-                new StopShooter(m_shooter)
-            )
-
-        )
-
-        //Elevator Joystick Control
-        m_elevator.setDefaultCommand(
-            new SetElevatorVelocity(
-                m_elevator, 
-                () -> MathUtil.applyDeadband(-m_operatorController.getLeftY(), Operator.kControllerDeadband) * Operator.kElevatorManualSpeedLimit
-            )
-        );
-
-        //Elevator Presets
-        m_operatorController.b().onTrue(new InstantCommand(() -> m_elevator.setPosition(rowTwoHeight), m_elevator));
-        m_operatorController.y().onTrue(new InstantCommand(() -> m_elevator.setPosition(rowThreeHeight), m_elevator));
-
-        //Grabber Eject
-        new Trigger(() -> m_operatorController.getRightY() < -0.7)
-            .onTrue(
-                new SequentialCommandGroup(
-                    new GrabberEject(m_grabber), 
-                    new WaitCommand(2),
-                    new GrabberStop(m_grabber)));
-
-        //Grabber Intake
-        new Trigger(() -> m_operatorController.getRightY() > 0.7)
-            .whileTrue(
-                new GrabberIntake(m_grabber)
-            );
-        
-        //Driver Clutch
         m_DriveSubsystem.setDefaultCommand(
             new DriveClosedLoopTeleop(
                 () -> MathUtil.applyDeadband(m_driverController.getLeftY(), Driver.kControllerDeadband),
-                () -> MathUtil.applyDeadband(m_driverController.getLeftX(), Driver.kControllerDeadband), 
+                () -> MathUtil.applyDeadband(m_driverController.getLeftX(), Driver.kControllerDeadband),
                 () -> MathUtil.applyDeadband(m_driverController.getRightX() * (m_driverController.leftBumper().and(m_driverController.rightBumper()).getAsBoolean() ? Driver.kRotClutchFactor : 1), Driver.kControllerDeadband), 
                 m_DriveSubsystem)
         );
-         
-        // Reset Heading of swerve
-        m_driverController.leftTrigger(Driver.kControllerTriggerThreshold).and(
-            m_driverController.rightTrigger(Driver.kControllerTriggerThreshold).and(
-                m_driverController.x()
+
+        dsEnabledTrigger.onTrue(
+            new InstantCommand(
+                m_DriveSubsystem::calibrateTurnEncoders,
+                m_DriveSubsystem
             )
-        ).onTrue(new InstantCommand(
-            () -> m_DriveSubsystem.resetHeading()
-        ));
-
-
+        );
+        
     }
 
     /**
