@@ -5,6 +5,7 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.Pigeon2Configuration;
 import com.ctre.phoenix6.hardware.Pigeon2;
+
 import static edu.wpi.first.units.Units.RadiansPerSecond;
 import frc.robot.Constants.DriveConstants.GyroConstants;
 
@@ -27,5 +28,10 @@ public class GyroIOHardware implements GyroIO {
         inputs.connected = BaseStatusSignal.refreshAll(yaw,yawVelocity).equals(StatusCode.OK);
         inputs.yawPosition = pigeon.getRotation2d();
         inputs.yawVelocity = RadiansPerSecond.of(pigeon.getAngularVelocityZWorld().getValueAsDouble());
+    }
+
+    @Override
+    public void resetHeading(){
+        pigeon.setYaw(0);
     }
 }

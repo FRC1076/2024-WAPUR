@@ -5,6 +5,7 @@ import static frc.robot.Constants.DriveConstants.Physical;
 import static edu.wpi.first.units.Units.*;
 import frc.robot.subsystems.drive.Module;
 import frc.robot.Constants.DriveConstants.ModuleConstants.Corner;
+import frc.robot.Constants.DriveConstants.Physical;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants.ModuleConstants;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -183,6 +184,10 @@ public class DriveSubsystem extends SubsystemBase {
 
     public void resetPose(Pose2d pose){
         estimator.resetPosition(gyroRotation, getModulePositions(), pose);
+    }
+
+    public void resetHeading(){
+        this.gyroIO.resetHeading();
     }
 
     
