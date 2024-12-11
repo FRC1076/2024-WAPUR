@@ -1,8 +1,7 @@
 package frc.robot;
 
-import frc.robot.Constants.GameConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.GameConstants;
 
 public class Elastic {
     private SendableChooser<String> teamChooser;

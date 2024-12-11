@@ -4,8 +4,11 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -19,7 +22,6 @@ import static frc.robot.Constants.ElevatorConstants.rowTwoHeight;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OIConstants.Driver;
 import frc.robot.Constants.OIConstants.Operator;
-import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.drive.DriveClosedLoopTeleop;
 import frc.robot.commands.elevator.SetElevatorVelocity;
@@ -28,6 +30,7 @@ import frc.robot.commands.grabber.GrabberIntake;
 import frc.robot.commands.grabber.GrabberStop;
 import frc.robot.commands.intake.RunIntake;
 import frc.robot.commands.shooter.RunShooter;
+import frc.robot.commands.shooter.StopShooter;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.drive.DriveSubsystem;
 import frc.robot.subsystems.drive.GyroIOHardware;
@@ -37,18 +40,6 @@ import frc.robot.subsystems.elevator.ElevatorSubsystem;
 import frc.robot.subsystems.grabber.GrabberIOHardware;
 import frc.robot.subsystems.grabber.GrabberSubsystem;
 import frc.robot.subsystems.intake.IntakeIOHardware;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
-import edu.wpi.first.wpilibj.DriverStation;
-
-import com.pathplanner.lib.auto.AutoBuilder;
-
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;import frc.robot.commands.shooter.StopShooter;
-;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.ShooterIOHardware;
 import frc.robot.subsystems.shooter.ShooterSubsystem;
@@ -126,7 +117,7 @@ public class RobotContainer {
             new SequentialCommandGroup(
                 new RunShooter(m_shooter),
                 new WaitCommand(1.0),
-                new InstantCommand(() -> m_shooter.setServoAngleDeg(0), m_shooter),
+                new InstantCommand(() -> m_shooter.setServoAngleDeg(0), m_shooter)
             )
         ).onFalse(
             new SequentialCommandGroup(
@@ -135,7 +126,7 @@ public class RobotContainer {
                 new StopShooter(m_shooter)
             )
 
-        )
+        );
 
         //Elevator Joystick Control
         m_elevator.setDefaultCommand(
