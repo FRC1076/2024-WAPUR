@@ -159,32 +159,32 @@ public final class Constants {
             }
 
             public static class FrontLeftModule {
-                public static final int kDriveMotorPort = 3; // drive and turn motors may be flipped
-                public static final int kTurnMotorPort = 13;
+                public static final int kDriveMotorPort = 3; //CAN ID Updated
+                public static final int kTurnMotorPort = 13; //CAN ID Updated
                 public static final int kAbsoluteEncoderPort = 23;
                 public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(-0.429931640625 + 0.5)); //2.295 - Math.PI/2
                 public static final boolean invertDriveMotor = false;
             }
 
             public static class FrontRightModule {
-                public static final int kDriveMotorPort = 4;
-                public static final int kTurnMotorPort = 14;
+                public static final int kDriveMotorPort = 4; //CAN ID updated
+                public static final int kTurnMotorPort = 14; //CAN ID updated
                 public static final int kAbsoluteEncoderPort = 24;
                 public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(-0.403564453125 + 0.5)); //0.781
                 public static final boolean invertDriveMotor = false;
             }
 
             public static class RearRightModule {
-                public static final int kDriveMotorPort = 1;
-                public static final int kTurnMotorPort = 11;
+                public static final int kDriveMotorPort = 1; //CAN ID updated
+                public static final int kTurnMotorPort = 11; //CAN ID updated
                 public static final int kAbsoluteEncoderPort = 21; 
                 public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(0.4765625 + 0.5)); //5.134
                 public static final boolean invertDriveMotor = false;
             }
 
             public static class RearLeftModule {
-                public static final int kDriveMotorPort = 2;
-                public static final int kTurnMotorPort = 12;
+                public static final int kDriveMotorPort = 2; //CAN ID Updated
+                public static final int kTurnMotorPort = 12; //CAN ID Updated
                 public static final int kAbsoluteEncoderPort = 22;
                 public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(0.078369140625 + 0.5)); //3.863 - Math.PI/2
                 public static final boolean invertDriveMotor = false;
@@ -203,31 +203,30 @@ public final class Constants {
     }
 
     public static class IntakeConstants {
-        public static final int kMotorPort = 51;
+        public static final int kMotorPort = 51; //CAN ID updated
 
         public static final Measure<Current> kCurrentLimit = Amps.of(40);
         public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
     }
 
     public static class GrabberConstants {
-        public static final int kMotorPort = 10;
+        public static final int kMotorPort = 33; //CAN ID updated
         
         public static final Measure<Current> kCurrentLimit = Amps.of(40); 
         public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
     }
 
     public static class ShooterConstants {
-        // Which motor port? CHANGE!!! 
-        public static final int kMotorPort = -1;
-        public static final int kServoPort = 0;
+        public static final int kMotorPort = 52; //CAN ID Updated
+        public static final int kServoPort = 0; //Connected directly to RIO
 
         public static final Measure<Current> kCurrentLimit = Amps.of(40); 
         public static final Measure<Voltage> kVoltageCompensation = Volts.of(12);
     }
 
     public static class ElevatorConstants {
-        public static final int kMotorPort0 = 6;
-        public static final int kMotorPort1 = 17;
+        public static final int kMotorPort0 = 31; //CAN ID updated
+        public static final int kMotorPort1 = 32; //CAN ID updated
 
         public static final boolean leadMotorInverted = false;
         public static final boolean followMotorInverted = false;
