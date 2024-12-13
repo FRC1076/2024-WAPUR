@@ -157,9 +157,9 @@ public class RobotContainer {
         //Driver Clutch
         m_DriveSubsystem.setDefaultCommand(
             new DriveClosedLoopTeleop(
-                () -> MathUtil.applyDeadband(m_driverController.getLeftY(), Driver.kControllerDeadband),
-                () -> MathUtil.applyDeadband(m_driverController.getLeftX(), Driver.kControllerDeadband), 
-                () -> MathUtil.applyDeadband(m_driverController.getRightX() * (m_driverController.leftBumper().and(m_driverController.rightBumper()).getAsBoolean() ? Driver.kRotClutchFactor : 1), Driver.kControllerDeadband), 
+                () -> MathUtil.applyDeadband(-m_driverController.getLeftY(), Driver.kControllerDeadband),
+                () -> MathUtil.applyDeadband(-m_driverController.getLeftX(), Driver.kControllerDeadband), 
+                () -> MathUtil.applyDeadband(-m_driverController.getRightX() * (m_driverController.leftBumper().and(m_driverController.rightBumper()).getAsBoolean() ? Driver.kRotClutchFactor : 1), Driver.kControllerDeadband), 
                 m_DriveSubsystem)
         );
          

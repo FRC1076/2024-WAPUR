@@ -159,33 +159,33 @@ public final class Constants {
             }
 
             public static class FrontLeftModule {
-                public static final int kDriveMotorPort = 3; //CAN ID Updated
-                public static final int kTurnMotorPort = 13; //CAN ID Updated
-                public static final int kAbsoluteEncoderPort = 23;
+                public static final int kDriveMotorPort = 1; //CAN ID Updated
+                public static final int kTurnMotorPort = 11; //CAN ID Updated
+                public static final int kAbsoluteEncoderPort = 21;
                 public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(-0.429931640625 + 0.5)); //2.295 - Math.PI/2
                 public static final boolean invertDriveMotor = false;
             }
 
             public static class FrontRightModule {
-                public static final int kDriveMotorPort = 4; //CAN ID updated
-                public static final int kTurnMotorPort = 14; //CAN ID updated
-                public static final int kAbsoluteEncoderPort = 24;
+                public static final int kDriveMotorPort = 2; //CAN ID updated
+                public static final int kTurnMotorPort = 12; //CAN ID updated
+                public static final int kAbsoluteEncoderPort = 22;
                 public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(-0.403564453125 + 0.5)); //0.781
                 public static final boolean invertDriveMotor = false;
             }
 
             public static class RearRightModule {
-                public static final int kDriveMotorPort = 1; //CAN ID updated
-                public static final int kTurnMotorPort = 11; //CAN ID updated
-                public static final int kAbsoluteEncoderPort = 21; 
+                public static final int kDriveMotorPort = 3; //CAN ID updated
+                public static final int kTurnMotorPort = 13; //CAN ID updated
+                public static final int kAbsoluteEncoderPort = 23; 
                 public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(0.4765625 + 0.5)); //5.134
                 public static final boolean invertDriveMotor = false;
             }
 
             public static class RearLeftModule {
-                public static final int kDriveMotorPort = 2; //CAN ID Updated
-                public static final int kTurnMotorPort = 12; //CAN ID Updated
-                public static final int kAbsoluteEncoderPort = 22;
+                public static final int kDriveMotorPort = 4; //CAN ID Updated
+                public static final int kTurnMotorPort = 14; //CAN ID Updated
+                public static final int kAbsoluteEncoderPort = 24;
                 public static final Rotation2d kAbsoluteEncoderOffset = new Rotation2d(Rotations.of(0.078369140625 + 0.5)); //3.863 - Math.PI/2
                 public static final boolean invertDriveMotor = false;
             }    
