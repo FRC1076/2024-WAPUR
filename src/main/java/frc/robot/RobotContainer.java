@@ -117,7 +117,7 @@ public class RobotContainer {
             new SequentialCommandGroup(
                 new RunShooter(m_shooter),
                 new WaitCommand(1.0),
-                new InstantCommand(() -> m_shooter.setServoAngleDeg(0), m_shooter)
+                new InstantCommand(() -> m_shooter.setServoAngleDeg(180), m_shooter)
             )
         ).onFalse(
             new SequentialCommandGroup(
@@ -141,7 +141,7 @@ public class RobotContainer {
         m_operatorController.y().onTrue(new InstantCommand(() -> m_elevator.setPosition(rowThreeHeight), m_elevator));
 
         //Grabber Eject
-        new Trigger(() -> m_operatorController.getRightY() < -0.7)
+        m_operatorController.rightBumper()
             .onTrue(
                 new SequentialCommandGroup(
                     new GrabberEject(m_grabber), 
@@ -149,7 +149,7 @@ public class RobotContainer {
                     new GrabberStop(m_grabber)));
 
         //Grabber Intake
-        new Trigger(() -> m_operatorController.getRightY() > 0.7)
+        m_operatorController.leftBumper()
             .whileTrue(
                 new GrabberIntake(m_grabber)
             );
