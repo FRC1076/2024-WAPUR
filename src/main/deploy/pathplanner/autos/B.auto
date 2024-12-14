@@ -22,6 +22,12 @@
           "data": {
             "pathName": "BCRATE-BSHOOT"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "startShoot"
+          }
         }
       ]
     }

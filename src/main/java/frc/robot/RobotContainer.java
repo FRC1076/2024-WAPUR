@@ -104,7 +104,7 @@ public class RobotContainer {
                 new StopShooter(m_shooter),
                 new RunCommand(() -> m_shooter.setServoAngleDeg(180))
             ));
-        NamedCommands.registerCommand("raiseElevator", new InstantCommand(() -> m_elevator.setPosition(autonHeight)));
+        NamedCommands.registerCommand("raiseElevator", new RunCommand(() -> m_elevator.setPosition(autonHeight)));
 
         // Configure the trigger bindings
         configureBindings();
@@ -153,15 +153,17 @@ public class RobotContainer {
 
         //Elevator Joystick Control
         m_elevator.setDefaultCommand(
-            new SetElevatorVelocity(
+            /*new SetElevatorVelocity(
                 m_elevator, 
                 () -> MathUtil.applyDeadband(-m_operatorController.getLeftY(), Operator.kControllerDeadband) * Operator.kElevatorManualSpeedLimit
-            )
+            )*/
+            new RunCommand(() -> m_elevator.setVoltage(MathUtil.applyDeadband(-m_operatorController.getLeftY() * 6, Driver.kControllerDeadband)), m_elevator)
         );
 
         //Elevator Presets
-        m_operatorController.b().onTrue(new InstantCommand(() -> m_elevator.setPosition(midHeight), m_elevator));
-        m_operatorController.y().onTrue(new InstantCommand(() -> m_elevator.setPosition(highHeight), m_elevator));
+        m_operatorController.a().whileTrue(new RunCommand(() -> m_elevator.setPosition(lowHeight), m_elevator));
+        m_operatorController.b().whileTrue(new RunCommand(() -> m_elevator.setPosition(midHeight), m_elevator));
+        m_operatorController.y().whileTrue(new RunCommand(() -> m_elevator.setPosition(highHeight), m_elevator));
 
         //Grabber Eject
         m_operatorController.rightBumper()

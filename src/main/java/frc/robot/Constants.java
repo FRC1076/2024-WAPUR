@@ -233,12 +233,12 @@ public final class Constants {
 
         //Heights measured in meters
         public static final double lowHeight = 0;
-        public static final double autonHeight = 0.15;
-        public static final double midHeight = 0.38;
-        public static final double highHeight = 0.76;
+        public static final double autonHeight = 0.25;
+        public static final double midHeight = 0.42;
+        public static final double highHeight = 0.84;
 
-        public static final double minHeightMeters = 0;
-        public static final double maxHeightMeters = 1; //Temporary
+        //public static final double minHeightMeters = 0;
+        //public static final double maxHeightMeters = 0.85; //Temporary
 
         //htt;s://wcproducts.com/collections/gearboxes/products/wcp-single-stage-gearbox  Inches.of(0.25).in(Meters)
         public static final double kVelocityConversionFactor = (11/60.0) * 22 * 0.00635 / 60.0; //Gear ratio & chain pitch & rpm -> m/s
@@ -250,14 +250,14 @@ public final class Constants {
 
         public static class Control {
             //PID Constants
-            public static final double kP = 0.01;
+            public static final double kP = 8;
             public static final double kI = 0.0;
             public static final double kD = 0.0;
 
             //Feedforward Constants
             public static final Measure<Voltage> kS = Volts.of(0); //Static gain (voltage)
-            public static final Measure<Voltage> kG = Volts.of(0.55); //Gravity gain (voltage)
-            public static final Measure<Per<Voltage,Velocity<Distance>>> kV = VoltsPerMeterPerSecond.of(6); //Velocity Gain
+            public static final Measure<Voltage> kG = Volts.of(0.6); //Gravity gain (voltage)
+            public static final Measure<Per<Voltage,Velocity<Distance>>> kV = VoltsPerMeterPerSecond.of(12); //Velocity Gain
             public static final Measure<Per<Voltage,Velocity<Velocity<Distance>>>> kA = VoltsPerMeterPerSecondSquared.of(0); //Acceleration Gain
         }
 

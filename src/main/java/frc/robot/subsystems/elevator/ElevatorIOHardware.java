@@ -57,10 +57,10 @@ public class ElevatorIOHardware implements ElevatorIO {
         m_PIDController.setI(kI);
         m_PIDController.setD(kD);
 
-        m_encoder.setPosition(0.0);
-
         m_encoder.setPositionConversionFactor(kPositionConversionFactor);
         m_encoder.setVelocityConversionFactor(kVelocityConversionFactor);
+
+        m_encoder.setPosition(0);
         
         m_encoder.setMeasurementPeriod(10);
         m_encoder.setAverageDepth(2);
@@ -82,11 +82,7 @@ public class ElevatorIOHardware implements ElevatorIO {
 
     @Override
     public void setVoltage(double volts){
-        if((m_encoder.getPosition() < minHeightMeters && volts < 0) || (m_encoder.getPosition() > maxHeightMeters && volts > 0)) {
-            m_leadMotor.setVoltage(0); //Maybe set to kG instead?
-        } else {
-            m_leadMotor.setVoltage(volts);
-        }
+        m_leadMotor.setVoltage(volts + kG.in(Volts));
     }
 
     @Override
