@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -113,20 +115,22 @@ public class RobotContainer {
         //Shooter
 
         //There is a delay to stopping the shooter because the servo may have a delay; I (Jesse Kane) am good at spelling.
-        m_operatorController.rightTrigger(Operator.kControllerTriggerThreshold).onTrue(
-            new SequentialCommandGroup(
+        m_operatorController.rightTrigger(Operator.kControllerTriggerThreshold).whileTrue(
+            new ParallelCommandGroup(
                 new RunShooter(m_shooter),
-                new WaitCommand(1.0),
-                new InstantCommand(() -> m_shooter.setServoAngleDeg(180), m_shooter)
+                new SequentialCommandGroup(
+                    new WaitCommand(1.0),
+                    new RunCommand(() -> m_shooter.setServoAngleDeg(90))
+                )
             )
-        ).onFalse(
-            new SequentialCommandGroup(
-                new InstantCommand(() -> m_shooter.setServoAngleDeg(90), m_shooter),
-                new WaitCommand(1.0),
-                new StopShooter(m_shooter)
+        ).whileFalse(
+            new ParallelCommandGroup(
+                new StopShooter(m_shooter),
+                new RunCommand(() -> m_shooter.setServoAngleDeg(180))
             )
-
         );
+        /*m_operatorController.rightTrigger(Operator.kControllerTriggerThreshold).whileTrue(new RunCommand(() -> m_shooter.setServoAngleDeg(90), m_shooter))
+                            .whileFalse(new RunCommand(() -> m_shooter.setServoAngleDeg(180)));*/
 
         //Elevator Joystick Control
         m_elevator.setDefaultCommand(
@@ -142,16 +146,20 @@ public class RobotContainer {
 
         //Grabber Eject
         m_operatorController.rightBumper()
-            .onTrue(
-                new SequentialCommandGroup(
-                    new GrabberEject(m_grabber), 
-                    new WaitCommand(2),
-                    new GrabberStop(m_grabber)));
+            .whileTrue(
+                new GrabberEject(m_grabber)
+            ).
+            onFalse(
+                new GrabberStop(m_grabber)
+            );
 
         //Grabber Intake
         m_operatorController.leftBumper()
             .whileTrue(
                 new GrabberIntake(m_grabber)
+            ).
+            onFalse(
+                new GrabberStop(m_grabber)
             );
         
         //Driver Clutch

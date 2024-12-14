@@ -21,7 +21,7 @@ public class ShooterIOHardware implements ShooterIO{
 
     @Override
     public void setServoAngleDeg(double degrees) {
-        m_Indexer.setAngle(degrees);
+        m_Indexer.set(degrees / 180);
     }
 
     @Override
