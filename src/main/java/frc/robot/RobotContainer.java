@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -19,8 +20,10 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants.ModuleConstants.Corner;
-import static frc.robot.Constants.ElevatorConstants.rowThreeHeight;
-import static frc.robot.Constants.ElevatorConstants.rowTwoHeight;
+import static frc.robot.Constants.ElevatorConstants.autonHeight;
+import static frc.robot.Constants.ElevatorConstants.lowHeight;
+import static frc.robot.Constants.ElevatorConstants.midHeight;
+import static frc.robot.Constants.ElevatorConstants.highHeight;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OIConstants.Driver;
 import frc.robot.Constants.OIConstants.Operator;
@@ -87,6 +90,22 @@ public class RobotContainer {
 
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer() {
+        
+        NamedCommands.registerCommand("startShoot", 
+            new ParallelCommandGroup(
+                new RunShooter(m_shooter),
+                new SequentialCommandGroup(
+                    new WaitCommand(1.0),
+                    new RunCommand(() -> m_shooter.setServoAngleDeg(90))
+                )
+            ));
+        NamedCommands.registerCommand("stopShoot", 
+            new ParallelCommandGroup(
+                new StopShooter(m_shooter),
+                new RunCommand(() -> m_shooter.setServoAngleDeg(180))
+            ));
+        NamedCommands.registerCommand("raiseElevator", new InstantCommand(() -> m_elevator.setPosition(autonHeight)));
+
         // Configure the trigger bindings
         configureBindings();
 
@@ -141,8 +160,8 @@ public class RobotContainer {
         );
 
         //Elevator Presets
-        m_operatorController.b().onTrue(new InstantCommand(() -> m_elevator.setPosition(rowTwoHeight), m_elevator));
-        m_operatorController.y().onTrue(new InstantCommand(() -> m_elevator.setPosition(rowThreeHeight), m_elevator));
+        m_operatorController.b().onTrue(new InstantCommand(() -> m_elevator.setPosition(midHeight), m_elevator));
+        m_operatorController.y().onTrue(new InstantCommand(() -> m_elevator.setPosition(highHeight), m_elevator));
 
         //Grabber Eject
         m_operatorController.rightBumper()

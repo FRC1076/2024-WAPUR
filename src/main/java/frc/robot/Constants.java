@@ -232,12 +232,13 @@ public final class Constants {
         public static final boolean followMotorInverted = false;
 
         //Heights measured in meters
-        public static final double floorHeight = 0;
-        public static final double rowTwoHeight = 0.38;
-        public static final double rowThreeHeight = 0.76;
+        public static final double lowHeight = 0;
+        public static final double autonHeight = 0.15;
+        public static final double midHeight = 0.38;
+        public static final double highHeight = 0.76;
 
         public static final double minHeightMeters = 0;
-        public static final double maxHeightMeters = 1000000000000.0; //Temporary
+        public static final double maxHeightMeters = 1; //Temporary
 
         //htt;s://wcproducts.com/collections/gearboxes/products/wcp-single-stage-gearbox  Inches.of(0.25).in(Meters)
         public static final double kVelocityConversionFactor = (11/60.0) * 22 * 0.00635 / 60.0; //Gear ratio & chain pitch & rpm -> m/s
