@@ -17,6 +17,8 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.DriveConstants.ModuleConstants.Corner;
+
+import static frc.robot.Constants.ElevatorConstants.floorHeight;
 import static frc.robot.Constants.ElevatorConstants.rowThreeHeight;
 import static frc.robot.Constants.ElevatorConstants.rowTwoHeight;
 import frc.robot.Constants.OIConstants;
@@ -137,6 +139,7 @@ public class RobotContainer {
         );
 
         //Elevator Presets
+        m_operatorController.a().onTrue(new InstantCommand(() -> m_elevator.setPosition(floorHeight), m_elevator));
         m_operatorController.b().onTrue(new InstantCommand(() -> m_elevator.setPosition(rowTwoHeight), m_elevator));
         m_operatorController.y().onTrue(new InstantCommand(() -> m_elevator.setPosition(rowThreeHeight), m_elevator));
 
@@ -147,6 +150,13 @@ public class RobotContainer {
                     new GrabberEject(m_grabber), 
                     new WaitCommand(2),
                     new GrabberStop(m_grabber)));
+
+        //Grabber Stop
+        m_operatorController.rightBumper().and(
+            m_operatorController.leftBumper()
+        ).onTrue(
+            new GrabberStop(m_grabber)
+        );
 
         //Grabber Intake
         m_operatorController.leftBumper()
