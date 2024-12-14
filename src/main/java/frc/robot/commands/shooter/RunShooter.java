@@ -13,7 +13,7 @@ public class RunShooter extends Command {
 
     @Override
     public void initialize(){
-        m_subsystem.runVolts(-8);
+        m_subsystem.runVolts(-10);
     }
 
     @Override

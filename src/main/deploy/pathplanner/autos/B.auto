@@ -12,21 +12,41 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "BSTART-BCRATE"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "BCRATE-BSHOOT"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "startShoot"
+            "commands": [
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "BSTART-BCRATE"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "BCRATE-BSHOOT"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "startShoot"
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "raiseElevator"
+                }
+              }
+            ]
           }
         }
       ]
