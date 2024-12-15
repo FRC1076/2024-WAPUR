@@ -97,7 +97,7 @@ public class RobotContainer {
             new ParallelCommandGroup(
                 new RunShooter(m_shooter),
                 new SequentialCommandGroup(
-                    new WaitCommand(1.0),
+                    new WaitCommand(0.5),
                     new RunCommand(() -> m_shooter.setServoAngleDeg(90))
                 )
             ));
