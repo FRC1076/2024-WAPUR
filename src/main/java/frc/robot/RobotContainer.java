@@ -159,7 +159,7 @@ public class RobotContainer {
                 m_elevator, 
                 () -> MathUtil.applyDeadband(-m_operatorController.getLeftY(), Operator.kControllerDeadband) * Operator.kElevatorManualSpeedLimit
             )*/
-            new RunCommand(() -> m_elevator.setVoltage(MathUtil.applyDeadband(-m_operatorController.getLeftY() * 6, Driver.kControllerDeadband)), m_elevator)
+            new RunCommand(() -> m_elevator.setVoltage(MathUtil.applyDeadband(-m_operatorController.getLeftY() * 3, Driver.kControllerDeadband)), m_elevator)
         );
 
         //Elevator Presets
