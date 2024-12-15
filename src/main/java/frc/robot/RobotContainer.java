@@ -24,6 +24,8 @@ import static frc.robot.Constants.ElevatorConstants.autonHeight;
 import static frc.robot.Constants.ElevatorConstants.lowHeight;
 import static frc.robot.Constants.ElevatorConstants.midHeight;
 import static frc.robot.Constants.ElevatorConstants.highHeight;
+
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.Constants.OIConstants.Driver;
 import frc.robot.Constants.OIConstants.Operator;
@@ -188,7 +190,31 @@ public class RobotContainer {
             new DriveClosedLoopTeleop(
                 () -> MathUtil.applyDeadband(-m_driverController.getLeftY(), Driver.kControllerDeadband),
                 () -> MathUtil.applyDeadband(-m_driverController.getLeftX(), Driver.kControllerDeadband), 
-                () -> MathUtil.applyDeadband(-m_driverController.getRightX() * (m_driverController.leftBumper().and(m_driverController.rightBumper()).getAsBoolean() ? Driver.kRotClutchFactor : 1), Driver.kControllerDeadband), 
+                () -> MathUtil.applyDeadband(-m_driverController.getRightX(), Driver.kControllerDeadband), 
+                m_DriveSubsystem)
+        );
+
+        m_driverController.leftBumper().whileTrue(
+            new DriveClosedLoopTeleop(
+                () -> {return MathUtil.applyDeadband(-m_driverController.getLeftY(), Driver.kControllerDeadband) * DriveConstants.kDoubleClutchTranslation;},
+                () -> {return MathUtil.applyDeadband(-m_driverController.getLeftX(), Driver.kControllerDeadband) * DriveConstants.kDoubleClutchTranslation;}, 
+                () -> {return MathUtil.applyDeadband(-m_driverController.getRightX(), Driver.kControllerDeadband) * DriveConstants.kDoubleClutchRotation;}, 
+                m_DriveSubsystem)
+        );
+
+        m_driverController.rightBumper().whileTrue(
+            new DriveClosedLoopTeleop(
+                () -> {return MathUtil.applyDeadband(-m_driverController.getLeftY(), Driver.kControllerDeadband) * DriveConstants.kSingleClutchTranslation;},
+                () -> {return MathUtil.applyDeadband(-m_driverController.getLeftX(), Driver.kControllerDeadband) * DriveConstants.kSingleClutchTranslation;}, 
+                () -> {return MathUtil.applyDeadband(-m_driverController.getRightX(), Driver.kControllerDeadband) * DriveConstants.kSingleClutchRotation;}, 
+                m_DriveSubsystem)
+        );
+
+        m_driverController.rightTrigger().whileTrue(
+            new DriveClosedLoopTeleop(
+                () -> MathUtil.applyDeadband(-m_driverController.getLeftY(), Driver.kControllerDeadband),
+                () -> MathUtil.applyDeadband(-m_driverController.getLeftX(), Driver.kControllerDeadband), 
+                () -> {return MathUtil.applyDeadband(-m_driverController.getRightX(), Driver.kControllerDeadband) * DriveConstants.kSingleClutchRotation;}, 
                 m_DriveSubsystem)
         );
          

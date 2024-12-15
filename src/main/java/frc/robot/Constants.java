@@ -81,8 +81,15 @@ public final class Constants {
     }
 
     public static class DriveConstants {
-        public static Measure<Velocity<Distance>> kMaxTransSpeed = FeetPerSecond.of(3); // This is the maximum translational speed allowed by the rules
+        public static Measure<Velocity<Distance>> kMaxTransSpeed = FeetPerSecond.of(5); // This is the maximum translational speed allowed by the rules
         public static Measure<Velocity<Angle>> kMaxRotSpeed = RotationsPerSecond.of(1); // This is the maximum rotational speed allowed by the rules
+        
+        public static double kSingleClutchTranslation = 0.5;
+        public static double kSingleClutchRotation = 0.5;
+
+        public static double kDoubleClutchTranslation = 0.3;
+        public static double kDoubleClutchRotation = 0.35;
+
         public static class Physical {
             public static Measure<Distance> kWheelBase = Inches.of(27.5);
             public static Measure<Distance> kTrackWidth= Inches.of(19.5);
