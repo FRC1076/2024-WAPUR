@@ -25,7 +25,7 @@ public class ShooterSubsystem extends SubsystemBase{
     }
 
     public void setServoAngleDeg(double degrees) {
-        System.out.println(degrees);
+        //System.out.println(degrees);
         this.io.setServoAngleDeg(degrees);
     }
 

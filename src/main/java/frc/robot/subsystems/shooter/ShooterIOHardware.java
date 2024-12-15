@@ -28,5 +28,6 @@ public class ShooterIOHardware implements ShooterIO{
     public void updateInputs(ShooterIOInputs inputs) {
         inputs.motorAppliedVoltage = m_Motor.getAppliedOutput() * m_Motor.getBusVoltage();
         inputs.motorCurrent = m_Motor.getOutputCurrent();
+        inputs.servoAngle = m_Indexer.getAngle();
     }
 }

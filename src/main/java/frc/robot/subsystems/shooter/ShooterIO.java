@@ -11,9 +11,7 @@ public interface ShooterIO {
     public static class ShooterIOInputs {
         public double motorAppliedVoltage = 0;
         public double motorCurrent = 0;
-        public double servoAppliedVoltage = 0;
-        public double servoCurrent = 0;
-        public double servoAngle;
+        public double servoAngle = 0;
     }
 
     public default void updateInputs(ShooterIOInputs inputs) {}
