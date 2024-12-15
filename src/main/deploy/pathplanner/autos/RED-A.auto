@@ -16,30 +16,37 @@
           "data": {
             "commands": [
               {
-                "type": "path",
+                "type": "sequential",
                 "data": {
-                  "pathName": "RED-ASTART-ACRATE"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "RED-ACRATE-ASHOOT"
+                  "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "RED-ASTART-ACRATE"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "RED-ACRATE-ASHOOT"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "startShoot"
+                      }
+                    }
+                  ]
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "startShoot"
+                  "name": "raiseElevator"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "raiseElevator"
           }
         }
       ]

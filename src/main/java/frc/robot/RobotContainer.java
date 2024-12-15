@@ -106,7 +106,7 @@ public class RobotContainer {
                 new StopShooter(m_shooter),
                 new RunCommand(() -> m_shooter.setServoAngleDeg(180))
             ));
-        NamedCommands.registerCommand("raiseElevator", new RunCommand(() -> m_elevator.setPosition(autonHeight)));
+        NamedCommands.registerCommand("raiseElevator", new RunCommand(() -> m_elevator.setPosition(autonHeight), m_elevator));
 
         // Configure the trigger bindings
         configureBindings();
