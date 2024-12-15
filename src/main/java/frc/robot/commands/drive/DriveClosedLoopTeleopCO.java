@@ -30,7 +30,7 @@ public class DriveClosedLoopTeleopCO extends Command {
         ChassisSpeeds speeds = new ChassisSpeeds(
             FeetPerSecond.of(xTransSpeedSupplier.getAsDouble() * 5),
             FeetPerSecond.of(yTransSpeedSupplier.getAsDouble() * 5),
-            kMaxRotSpeed.times(omegaSupplier.getAsDouble())
+            kMaxRotSpeed.times(omegaSupplier.getAsDouble() * 0.5)
         );
         m_subsystem.drive(
             speeds,

@@ -240,7 +240,7 @@ public final class Constants {
 
         //Heights measured in meters
         public static final double lowHeight = 0;
-        public static final double autonHeight = 0.4;
+        public static final double autonHeight = 0.2;
         public static final double midHeight = 0.42;
         public static final double highHeight = 0.84;
 

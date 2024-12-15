@@ -31,6 +31,7 @@ import frc.robot.Constants.OIConstants.Driver;
 import frc.robot.Constants.OIConstants.Operator;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.commands.drive.DriveClosedLoopTeleop;
+import frc.robot.commands.drive.DriveClosedLoopTeleopCO;
 import frc.robot.commands.elevator.SetElevatorVelocity;
 import frc.robot.commands.grabber.GrabberEject;
 import frc.robot.commands.grabber.GrabberIntake;
@@ -144,7 +145,8 @@ public class RobotContainer {
                     new RunCommand(() -> m_shooter.setServoAngleDeg(90))
                 )
             )
-        ).whileFalse(
+        );
+        m_operatorController.rightTrigger(Operator.kControllerTriggerThreshold).whileFalse(
             new ParallelCommandGroup(
                 new StopShooter(m_shooter),
                 new RunCommand(() -> m_shooter.setServoAngleDeg(180))
@@ -212,6 +214,14 @@ public class RobotContainer {
 
         m_driverController.rightTrigger().whileTrue(
             new DriveClosedLoopTeleop(
+                () -> MathUtil.applyDeadband(-m_driverController.getLeftY(), Driver.kControllerDeadband),
+                () -> MathUtil.applyDeadband(-m_driverController.getLeftX(), Driver.kControllerDeadband), 
+                () -> {return MathUtil.applyDeadband(-m_driverController.getRightX(), Driver.kControllerDeadband) * DriveConstants.kSingleClutchRotation;}, 
+                m_DriveSubsystem)
+        );
+
+        m_driverController.leftTrigger().whileTrue(
+            new DriveClosedLoopTeleopCO(
                 () -> MathUtil.applyDeadband(-m_driverController.getLeftY(), Driver.kControllerDeadband),
                 () -> MathUtil.applyDeadband(-m_driverController.getLeftX(), Driver.kControllerDeadband), 
                 () -> {return MathUtil.applyDeadband(-m_driverController.getRightX(), Driver.kControllerDeadband) * DriveConstants.kSingleClutchRotation;}, 
