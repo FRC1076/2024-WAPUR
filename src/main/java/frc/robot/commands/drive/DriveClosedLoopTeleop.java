@@ -44,6 +44,6 @@ public class DriveClosedLoopTeleop extends Command {
     }
 
     public double scaleSpeed(double speed){
-        return speed / Math.sqrt(Math.pow(xTransSpeedSupplier.getAsDouble(), 2) + Math.pow(yTransSpeedSupplier.getAsDouble(), 2));
+        return speed / Math.max(Math.sqrt(Math.pow(xTransSpeedSupplier.getAsDouble(), 2) + Math.pow(yTransSpeedSupplier.getAsDouble(), 2)), 1);
     }
 }
