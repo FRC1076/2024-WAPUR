@@ -28,8 +28,8 @@ public class DriveClosedLoopTeleop extends Command {
     @Override
     public void execute() {
         ChassisSpeeds speeds = new ChassisSpeeds(
-            FeetPerSecond.of(xTransSpeedSupplier.getAsDouble() * 5),
-            FeetPerSecond.of(yTransSpeedSupplier.getAsDouble() * 5),
+            FeetPerSecond.of(scaleSpeed(xTransSpeedSupplier.getAsDouble()) * 5),
+            FeetPerSecond.of(scaleSpeed(yTransSpeedSupplier.getAsDouble()) * 5),
             kMaxRotSpeed.times(omegaSupplier.getAsDouble() * 0.5)
         );
         m_subsystem.driveFO(
@@ -43,5 +43,7 @@ public class DriveClosedLoopTeleop extends Command {
         m_subsystem.stop();
     }
 
-
+    public double scaleSpeed(double speed){
+        return speed / Math.sqrt(Math.pow(xTransSpeedSupplier.getAsDouble(), 2) + Math.pow(yTransSpeedSupplier.getAsDouble(), 2));
+    }
 }
