@@ -33,6 +33,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.Constants.Akit;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -123,6 +125,8 @@ public class RobotContainer {
                 () -> MathUtil.applyDeadband(-m_driverController.getRightX(), Driver.kControllerDeadband), 
                 m_DriveSubsystem)
         );
+
+        m_driverController.a().whileTrue(m_DriveSubsystem.teleopPathfind(new Pose2d(5.843, 4.090, Rotation2d.fromDegrees(0))));
 
         // Reset Heading of swerve
         m_driverController.leftTrigger(Driver.kControllerTriggerThreshold).and(

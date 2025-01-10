@@ -1,16 +1,20 @@
 package frc.robot.subsystems.drive;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.math.util.Units;
 import static frc.robot.Constants.DriveConstants.Physical;
 import static edu.wpi.first.units.Units.*;
 import frc.robot.subsystems.drive.Module;
 import frc.robot.Constants.DriveConstants.ModuleConstants.Corner;
+import frc.robot.Constants.DriveConstants.Physical;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants.ModuleConstants;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+import com.pathplanner.lib.path.PathConstraints;
 
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -129,6 +133,15 @@ public class DriveSubsystem extends SubsystemBase {
     public void driveFO(ChassisSpeeds speeds, boolean isOpenLoop) {
         ChassisSpeeds COSpeeds = ChassisSpeeds.fromFieldRelativeSpeeds(speeds, gyroRotation);
         drive(COSpeeds,isOpenLoop);
+    }
+
+    public Command teleopPathfind(Pose2d targetPose){
+        return AutoBuilder.pathfindToPose(
+        targetPose,
+        new PathConstraints(1.524, 4, Units.degreesToRadians(540), Units.degreesToRadians(720)),
+        0.0, // Goal end velocity in meters/sec
+        0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
+);
     }
 
     @AutoLogOutput(key = "Odometry/Robot")
